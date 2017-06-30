@@ -80,4 +80,5 @@ Route::get('/api/get-all-sites', array('uses' => 'HomeController@showGetSites', 
 Route::post('api/post-save-sites', array('uses' => 'HomeController@addSaveSites', 'as' => 'addSaveSites'));
 Route::post('api/post-save-urls', array('uses' => 'HomeController@addSaveUrl', 'as' => 'addSaveUrl'));
 Route::post('api/post-delete-urls', array('uses' => 'HomeController@deleteUrlSites', 'as' => 'deleteUrlSites'));
-Route::get('api/delete-url/{su_seq}', array('uses' => 'HomeController@deleteUrl', 'as' => 'deleteUrl'));
+Route::get('api/delete-url/{su_seq}', array('uses' => 'HomeController@deleteUrl', 'as' => 'deleteUrl'));   
+// geof geof geof
