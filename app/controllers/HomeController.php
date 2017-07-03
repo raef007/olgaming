@@ -22,15 +22,43 @@ class HomeController extends BaseController {
     
     public function showGetSites()
 	{
+        $limit      = 3;
         $all_sites  = DB::table('SITE')->get();
         
         foreach($all_sites as $site) {
             $site->site_urls = DB::table('SITE_URL')
                 ->where('site_id', $site->site_id)
                 ->get();
+            
+            $site->url_count    = count($site->site_urls);
+            $site->offset       = 0;
+            $site->limit        = $limit;
+            $site->max_page     = floor($site->url_count / $site->limit);
+            
+            if (0 == ($site->url_count % $site->limit)) {
+                $site->max_page     = $site->max_page - 1;
+            }
+            
+            for ($count = 0; $count <= $site->max_page; $count++) {
+                $site->pages[]  = $count;
+            }
         }
         
-        return json_encode($all_sites);
+        $page_info              = new stdClass();
+        $page_info->url_count   = count($all_sites);
+        $page_info->offset      = 0;
+        $page_info->limit       = $limit;
+        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        
+        if (0 == ($page_info->url_count % $page_info->limit)) {
+            $page_info->max_page    = $page_info->max_page - 1;
+        }
+        
+        for ($count = 0; $count <= $page_info->max_page; $count++) {
+            $page_info->pages[]  = $count;
+        }
+        
+        return json_encode([$all_sites, $page_info]);
 	}
     
     public function addSaveSites()
@@ -48,8 +76,6 @@ class HomeController extends BaseController {
             $data['reg_way']        = $site['reg_way'];
             
             $site_id                = $site_db->addUpdateRecord($data);
-
-            $url_upd                = array();
             
             foreach ($site['site_urls'] as $url) {
                 
@@ -59,18 +85,12 @@ class HomeController extends BaseController {
                 $data['page_of_manage'] = '';
                 
                 $site_url_id            = $site_url_db->addUpdateRecord($data);
-                
-                $url['su_seq']          = $site_url_id;
-                
-                $url_upd[]              = $url;
             }
-            
-            $site['site_id']        = $site_id;
-            $site['site_urls']      = $url_upd;
-            $site_upd[]             = $site;
         }
         
-        return json_encode($site_upd);
+        $data = $this->showGetSites();
+        
+        return $data;
     }
     
     public function addSaveUrl()
@@ -87,6 +107,8 @@ class HomeController extends BaseController {
         $data['page_of_manage'] = $post_data['page_of_manage'];
         
         $data['su_seq']         = $site_url_db->addUpdateRecord($data);
+        
+        $data = $this->showGetSites();
         
         return $data;
     }
@@ -128,6 +150,8 @@ class HomeController extends BaseController {
         $data           = 1;
         $site_url_db    = new SiteUrl();
         $site_url_db->deleteRecord($su_seq);
+        
+        $data = $this->showGetSites();
         
         return $data;
     }

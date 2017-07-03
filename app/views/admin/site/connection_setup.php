@@ -53,14 +53,14 @@
 												</tr>
 											</thead>
 											
-											<tbody ng-repeat = "site in sites track by $index">
-												<tr ng-repeat = "url in site.site_urls track by $index">
-													<td><input name = "site_check" ng-model = "sites[$parent.$index].site_urls[$index].del_check" ng-click = "changeActiveSite(sites[$parent.$index].site_urls[$index].del_check)" type="checkbox" value = "1"></td>
+											<tbody ng-repeat = "site in sites | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index">
+												<tr ng-repeat = "url in site.site_urls | limitTo:1 track by $index">
+													<td><input name = "site_check" ng-model = "url.del_check" ng-click = "changeActiveSite(url.del_check)" type="checkbox" value = "1"></td>
 													<td>{{ url.su_seq }}</td>
-													<td><input type="text" ng-model = "sites[$parent.$index].site_name" name = 'site_name' value=""></td>
-													<td><input type="text" ng-model = "sites[$parent.$index].site_urls[$index].site_url" name = 'site_url' value=""></td>
-													<input type = 'hidden' ng-model = "sites[$parent.$index].site_urls[$index].su_seq" name = 'su_seq' value=""></td>
-													<input type = 'hidden' ng-model = "sites[$parent.$index].site_id" name = 'site_id' value=""></td>
+													<td><input type="text" ng-model = "site.site_name" name = 'site_name' value=""></td>
+													<td><input type="text" ng-model = "url.site_url" name = 'site_url' value=""></td>
+													<input type = 'hidden' ng-model = "url.su_seq" name = 'su_seq' value=""></td>
+													<input type = 'hidden' ng-model = "site.site_id" name = 'site_id' value=""></td>
 													<td>
 														<select ng-model = "sites[$parent.$index].reg_way" name = 'reg_way'>
 															<option value = ''>추천코드가입</option>
@@ -79,6 +79,21 @@
 									<button class="btn btn-default btn2">취소하기</button>
 									<div class="clearfix"></div>
 								</div>
+                                
+                                <div class="text-center relative" style="left:-15%;">
+                                    <nav>
+                                        <ul class="pagination pagination-sm">
+                                            <li><a href="" aria-label="First" ng-click="setOffset(pag_inf, 0)">처음</a></li>
+                                            
+                                            <li><a href="" aria-label="Previous" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                            
+                                            <li ng-repeat = 'page in pag_inf.pages'><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+
+                                            <li><a href="" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                            <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
 							</form>
 							
 							<div class="h20"></div>
@@ -95,7 +110,7 @@
                                                     <tr>
                                                         <td>사이트</td>
                                                         <td>
-                                                            <select class="col-lg-12"  ng-model = "sel_site" ng-change = "changeActiveSite()" ng-options="site as site.site_name for site in sites">
+                                                            <select class="col-lg-12"  ng-model = "sel_site" ng-options="site as site.site_name for site in sites">
                                                             </select>
                                                         </td>
                                                     </tr>
@@ -132,46 +147,32 @@
 												<th>관리</th>
 											</thead>
 											<tbody>
-												<tr ng-repeat = "url in sel_site.site_urls track by $index">
+												<tr ng-repeat = "url in sel_site.site_urls | startFrom:sel_site.offset*sel_site.limit | limitTo:sel_site.limit track by $index">
 													<td>{{ url.su_seq }}</td>
 													<td>{{ url.site_url }}</td>
 													<td>{{ url.reg_date }}</td>
-													<td><button class="btn btn-default" ng-click = "deleteUrlForm($index)" ng-model = "sel_site.site_urls[$index].su_seq">삭제</button></td>
+													<td><button class="btn btn-default" ng-click = "deleteUrlForm(url)" ng-model = "url.su_seq">삭제</button></td>
 													<td><button class="btn btn-default">관리</button></td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
-                                    <!--
-									<div class="text-center relative" style="left:-15%;">
+                                    
+                                    <div class="text-center relative" style="left:-15%;">
 										<nav>
 											<ul class="pagination pagination-sm">
-												<li><a href="#" aria-label="First">처음</a></li>
-												<li class="disabled"><a href="#" aria-label="Previous"><i
-														class="fa fa-angle-left"></i></a></li>
-												<li class="active"><a href="#">1 <span
-														class="sr-only">(current)</span></a></li>
-												<li><a href="#">2</a></li>
-												<li><a href="#">3</a></li>
-												<li><a href="#">4</a></li>
-												<li><a href="#">5</a></li>
-												<li><a href="#" aria-label="Next"><i
-														class="fa fa-angle-right"></i></a></li>
-												<li><a href="#" aria-label="Last">마지막</a></li>
+												<li><a href="" aria-label="First" ng-click="setOffset(sel_site, 0)">처음</a></li>
+                                                
+												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+												
+                                                <li ng-repeat = 'page in sel_site.pages'><a href="" ng-click="setOffset(sel_site, page)">{{ page + 1 }}</a></li>
+
+                                                <li><a href="" ng-click="setOffset(sel_site, sel_site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.max_page)" aria-label="Last">마지막</a></li>
 											</ul>
 										</nav>
-
-										<div class="page-select-opt1" style="right: 10%;">
-											한 페이지에 <select name="selector1" id="selector1" class="">
-												<option>전체</option>
-												<option>10</option>
-												<option>25</option>
-												<option>50</option>
-												<option>100</option>
-											</select> 항목 보기
-										</div>
 									</div>
-                                    -->
+                                    
 								</div>
                                 
 							</div>
@@ -196,7 +197,6 @@
 								</div>
 
 								<div class="">
-									<!--<button class="btn btn-black btn-default" style="margin-left: 7%;">추가하기</button>-->
 									<button class="btn btn-default">삭제하기</button>
 								</div>
 								<div class="clearfix"></div>
@@ -216,7 +216,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat = "url in sites[$index].site_urls track by $index">
+										<tr ng-repeat = "url in sites[$index].site_urls | limitTo:1 track by $index">
 											<td><input type="checkbox"></td>
 											<td>{{ url.su_seq }}</td>
 											<td><input type="text" ng-model="sites[$parent.$index].site_name" readonly></td>
@@ -294,47 +294,32 @@
 												<th>관리</th>
 											</thead>
 											<tbody>
-												<tr ng-repeat = "url in site.site_urls track by $index">
+												<tr ng-repeat = "url in site.site_urls | startFrom:site.offset*site.limit | limitTo:site.limit track by $index">
 													<td>{{ url.su_seq }}</td>
 													<td>{{ url.site_url }}</td>
 													<td>{{ url.reg_date }}</td>
-													<td><button class="btn btn-default" ng-click = "deleteUrlFromSite($parent.$index, $index)">삭제</button></td>
+													<td><button class="btn btn-default" ng-click = "deleteUrlFromSite(url)">삭제</button></td>
 													<td><button class="btn btn-default">관리</button></td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
                                     
-                                    <!--
 									<div class="text-center relative" style="left:-15%;">
 										<nav>
 											<ul class="pagination pagination-sm">
-												<li><a href="#" aria-label="First">처음</a></li>
-												<li class="disabled"><a href="#" aria-label="Previous"><i
-														class="fa fa-angle-left"></i></a></li>
-												<li class="active"><a href="#">1 <span
-														class="sr-only">(current)</span></a></li>
-												<li><a href="#">2</a></li>
-												<li><a href="#">3</a></li>
-												<li><a href="#">4</a></li>
-												<li><a href="#">5</a></li>
-												<li><a href="#" aria-label="Next"><i
-														class="fa fa-angle-right"></i></a></li>
-												<li><a href="#" aria-label="Last">마지막</a></li>
+												<li><a href="" aria-label="First" ng-click="setOffset(site, 0)">처음</a></li>
+                                                
+												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+												
+                                                <li ng-repeat = 'page in site.pages'><a href="" ng-click="setOffset(site, page)">{{ page + 1 }}</a></li>
+
+                                                <li><a href="" ng-click="setOffset(site, site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
 											</ul>
 										</nav>
-
-										<div class="page-select-opt1" style="right: 10%;">
-											한 페이지에 <select name="selector1" id="selector1" class="">
-												<option>전체</option>
-												<option>10</option>
-												<option>25</option>
-												<option>50</option>
-												<option>100</option>
-											</select> 항목 보기
-										</div>
 									</div>
-                                    -->
+                                    
 								</div>
 							</div>
 						</div>

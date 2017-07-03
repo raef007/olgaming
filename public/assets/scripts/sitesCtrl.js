@@ -1,7 +1,10 @@
 angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
-	$http.get("api/get-all-sites")
+	
+    $http.get("api/get-all-sites")
 		.then(function success(srv_resp){
-			$scope.sites	= srv_resp.data;
+			$scope.sites	= srv_resp.data[0];
+			$scope.pag_inf	= srv_resp.data[1];
+            
 		}, function failed(srv_resp) {
 			$scope.sites	= [{}];
 		}
@@ -18,39 +21,49 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
 		sites.site_urls[0].su_seq	= '0';
         
 		$scope.sites.push(sites);
+        
+        $scope.pag_inf.url_count    = $scope.pag_inf.url_count + 1;
+        $scope.pag_inf.max_page     = Math.floor($scope.pag_inf.url_count / $scope.pag_inf.limit);
+        
+        if (0 == ($scope.pag_inf.url_count % $scope.pag_inf.limit)) {
+            $scope.pag_inf.max_page    = $scope.pag_inf.max_page - 1;
+        }
+        
+        for (count = 0; count <= $scope.pag_inf.max_page; count++) {
+            $scope.pag_inf.pages[count]  = count;
+        }
+        
+        $scope.setOffset($scope.pag_inf, $scope.pag_inf.max_page)
 	}
     
     $scope.saveSitesForm = function() {
 		$http.post("api/post-save-sites", $scope.sites)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data;
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
         );
 	}
     
-    $scope.changeActiveSite = function(site) {
-        
-    }
-    
     $scope.deleteSitesForm = function() {
         $http.post("api/post-delete-urls", $scope.sites)
             .then(function success(srv_resp){
-                console.log(srv_resp.data);
-                $scope.sites	= srv_resp.data;
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
         );
     }
     
-    $scope.deleteUrlForm = function(url_idx) {
-        console.log($scope.sel_site.site_urls[url_idx]);
+    $scope.deleteUrlForm = function(url) {
         
-        $http.get("api/delete-url/"+$scope.sel_site.site_urls[url_idx].su_seq)
+        $http.get("api/delete-url/"+url.su_seq)
             .then(function success(srv_resp) {
-                $scope.sel_site.site_urls.splice(url_idx, 1);
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -65,10 +78,8 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
         
         $http.post("api/post-save-urls", $scope.new_url)
             .then(function success(srv_resp){
-                $scope.sel_site.site_urls.push(srv_resp.data);
-                
-                $scope.new_url.site_url         = '';
-                $scope.new_url.page_of_manage   = '';
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -80,15 +91,13 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
     
     $scope.saveUrlToSite = function(site_idx) {
         
-        //$scope.tab_url[site_idx].site_id = $scope.sites[site_idx].site_id;
         $scope.tab_url[site_idx].site_id  = $scope.sites[site_idx].site_id;
         
         $http.post("api/post-save-urls", $scope.tab_url[site_idx])
             .then(function success(srv_resp){
-                $scope.sites[site_idx].site_urls.push(srv_resp.data);
-                
-                $scope.tab_url[site_idx].site_url         = '';
-                $scope.tab_url[site_idx].page_of_manage   = '';
+
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -96,17 +105,30 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
         );
     }
     
-    $scope.deleteUrlFromSite = function(parent_site, url_idx) {
-        console.log($scope.sites[parent_site].site_urls[url_idx]);
+    $scope.deleteUrlFromSite = function(site_url) {
         
-        $http.get("api/delete-url/"+$scope.sites[parent_site].site_urls[url_idx].su_seq)
+        $http.get("api/delete-url/"+site_url.su_seq)
             .then(function success(srv_resp) {
-                $scope.sites[parent_site].site_urls.splice(url_idx, 1);
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
         );
     }
     
+    $scope.setOffset = function(site, new_offset) {
+        site.offset = new_offset;
+    }
     
+});
+
+angular.module("vavaGaming").filter('startFrom', function() {
+    
+    return function(input, start) {
+        if (input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+    }
 });
