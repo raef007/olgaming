@@ -4,6 +4,7 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
 		.then(function success(srv_resp){
 			$scope.sites	= srv_resp.data[0];
 			$scope.pag_inf	= srv_resp.data[1];
+            $scope.sel_site = $scope.sites[0];
             
 		}, function failed(srv_resp) {
 			$scope.sites	= [{}];

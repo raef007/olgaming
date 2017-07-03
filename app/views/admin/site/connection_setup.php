@@ -83,14 +83,14 @@
                                 <div class="text-center relative" style="left:-15%;">
                                     <nav>
                                         <ul class="pagination pagination-sm">
-                                            <li><a href="" aria-label="First" ng-click="setOffset(pag_inf, 0)">처음</a></li>
+                                            <li><a href="" aria-label="First" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, 0)">처음</a></li>
                                             
-                                            <li><a href="" aria-label="Previous" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                            <li><a href="" aria-label="Previous" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
                                             
-                                            <li ng-repeat = 'page in pag_inf.pages'><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+                                            <li ng-repeat = 'page in pag_inf.pages' ng-class="(page === pag_inf.offset) ? 'active': ''"><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
 
-                                            <li><a href="" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                            <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
+                                            <li><a href="" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                            <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -165,7 +165,7 @@
                                                 
 												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
 												
-                                                <li ng-repeat = 'page in sel_site.pages'><a href="" ng-click="setOffset(sel_site, page)">{{ page + 1 }}</a></li>
+                                                <li ng-repeat = 'page in sel_site.pages' ng-class="(page === sel_site.offset) ? 'active': ''"><a href="" ng-click="setOffset(sel_site, page)">{{ page + 1 }}</a></li>
 
                                                 <li><a href="" ng-click="setOffset(sel_site, sel_site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
 												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.max_page)" aria-label="Last">마지막</a></li>
@@ -312,7 +312,7 @@
                                                 
 												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
 												
-                                                <li ng-repeat = 'page in site.pages'><a href="" ng-click="setOffset(site, page)">{{ page + 1 }}</a></li>
+                                                <li ng-repeat = 'page in site.pages' ng-class="(page === site.offset) ? 'active': ''"><a href="" ng-click="setOffset(site, page)">{{ page + 1 }}</a></li>
 
                                                 <li><a href="" ng-click="setOffset(site, site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
 												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
