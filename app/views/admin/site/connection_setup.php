@@ -55,14 +55,14 @@
 											
 											<tbody ng-repeat = "site in sites | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index">
 												<tr ng-repeat = "url in site.site_urls | limitTo:1 track by $index">
-													<td><input name = "site_check" ng-model = "url.del_check" ng-click = "changeActiveSite(url.del_check)" type="checkbox" value = "1"></td>
+													<td><input name = "site_check" ng-model = "url.del_check" type="checkbox" value = "1"></td>
 													<td>{{ url.su_seq }}</td>
 													<td><input type="text" ng-model = "site.site_name" name = 'site_name' value=""></td>
 													<td><input type="text" ng-model = "url.site_url" name = 'site_url' value=""></td>
 													<input type = 'hidden' ng-model = "url.su_seq" name = 'su_seq' value=""></td>
 													<input type = 'hidden' ng-model = "site.site_id" name = 'site_id' value=""></td>
 													<td>
-														<select ng-model = "sites[$parent.$index].reg_way" name = 'reg_way'>
+														<select ng-model = "site.reg_way" name = 'reg_way'>
 															<option value = ''>추천코드가입</option>
 															<option value = '0'>자유가입</option>
 															<option value = '1'>비공개</option>
@@ -79,6 +79,8 @@
 									<button class="btn btn-default btn2">취소하기</button>
 									<div class="clearfix"></div>
 								</div>
+                                
+                                <div class="h20"></div>
                                 
                                 <div class="text-center relative" style="left:-15%;">
                                     <nav>

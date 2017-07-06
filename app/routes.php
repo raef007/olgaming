@@ -17,13 +17,10 @@ Route::get('/', array('uses' => 'HomeController@showIndex', 'as' => 'showIndex')
 /*  Angular Route Mapping   */
 Route::get('/admin/main', array('uses' => 'AngularRouteController@showMain', 'as' => 'showMain'));
 
-
 //member
 Route::get('/member/membership_info', array('uses' => 'AngularRouteController@showMemberInfo', 'as' => 'showConnSetup'));
 Route::get('/member/membership_structure', array('uses' => 'AngularRouteController@showMemberStructure', 'as' => 'showConnSetup'));
 Route::get('/member/subscription_code', array('uses' => 'AngularRouteController@showSubscriptionCode', 'as' => 'showConnSetup'));
-
-
 
 //login //
 Route::get('/login/login_history', array('uses' => 'AngularRouteController@showLoginHistory', 'as' => 'showConnSetup'));
@@ -47,7 +44,6 @@ Route::get('/game/betting-list', array('uses' => 'AngularRouteController@showBet
 Route::get('/service/customer_center', array('uses' => 'AngularRouteController@showCustomerCenter', 'as' => 'showConnSetup'));
 Route::get('/service/notice_event', array('uses' => 'AngularRouteController@showNoticeEvent', 'as' => 'showConnSetup'));
 
-
 //site
 Route::get('/site/admin_settings', array('uses' => 'AngularRouteController@showSite', 'as' => 'showSite'));
 Route::get('/site/connection_setup', array('uses' => 'AngularRouteController@showConnSetup', 'as' => 'showConnSetup'));
@@ -56,14 +52,12 @@ Route::get('/site/account-settings', array('uses' => 'AngularRouteController@sho
 Route::get('/site/set_min_max_acc', array('uses' => 'AngularRouteController@showSetMinMaxAcc', 'as' => 'showConnSetup'));
 Route::get('/site/ratio_setting_by_event', array('uses' => 'AngularRouteController@showRatioSettingByEvent', 'as' => 'showConnSetup'));
 
-
 //Content
 Route::get('/content/banner-mng', array('uses' => 'AngularRouteController@showBannerManage', 'as' => 'showConnSetup'));
 Route::get('/content/popup-mng', array('uses' => 'AngularRouteController@showPopupManage', 'as' => 'showConnSetup'));
 Route::get('/content/faq-mng', array('uses' => 'AngularRouteController@showFaqManage', 'as' => 'showConnSetup'));
 
 //Statistics
-
 Route::get('/stats/stats_by_date', array('uses' => 'AngularRouteController@showStatisticsByDate', 'as' => 'showConnSetup'));
 Route::get('/stats/statistics_by_category', array('uses' => 'AngularRouteController@showStatisticsByCategory', 'as' => 'showConnSetup'));
 Route::get('/stats/foreign_company_stats', array('uses' => 'AngularRouteController@showForeignCompanyStatistics', 'as' => 'showConnSetup'));
@@ -76,8 +70,26 @@ Route::get('/stats/folder_distribution', array('uses' => 'AngularRouteController
 Route::get('/stats/mem_odds_stats', array('uses' => 'AngularRouteController@showMemberOddsStatistics', 'as' => 'showConnSetup'));
 
 /*  Sites API               */
-Route::get('/api/get-all-sites', array('uses' => 'HomeController@showGetSites', 'as' => 'showGetSites'));
-Route::post('api/post-save-sites', array('uses' => 'HomeController@addSaveSites', 'as' => 'addSaveSites'));
-Route::post('api/post-save-urls', array('uses' => 'HomeController@addSaveUrl', 'as' => 'addSaveUrl'));
-Route::post('api/post-delete-urls', array('uses' => 'HomeController@deleteUrlSites', 'as' => 'deleteUrlSites'));
-Route::get('api/delete-url/{su_seq}', array('uses' => 'HomeController@deleteUrl', 'as' => 'deleteUrl'));
+Route::get('sites/api/get-all-sites', array('uses' => 'SiteController@showGetSites', 'as' => 'showGetSites'));
+Route::post('sites/api/post-save-sites', array('uses' => 'SiteController@addSaveSites', 'as' => 'addSaveSites'));
+Route::post('sites/api/post-save-urls', array('uses' => 'SiteController@addSaveUrl', 'as' => 'addSaveUrl'));
+Route::post('sites/api/post-delete-urls', array('uses' => 'SiteController@deleteUrlSites', 'as' => 'deleteUrlSites'));
+Route::get('sites/api/delete-url/{su_seq}', array('uses' => 'SiteController@deleteUrl', 'as' => 'deleteUrl'));
+
+/*  Manage Sites API        */
+Route::get('mng-sites/api/get-all-sites', array('uses' => 'ManageSiteController@showGetManageSites', 'as' => 'showGetManageSites'));
+Route::post('mng-sites/api/post-save-site', array('uses' => 'ManageSiteController@addSaveManageSite', 'as' => 'addSaveManageSite'));
+Route::post('mng-sites/api/post-save-sites', array('uses' => 'ManageSiteController@addSaveManageSites', 'as' => 'addSaveManageSites'));
+Route::post('mng-sites/api/post-delete-sites', array('uses' => 'ManageSiteController@deleteMngSites', 'as' => 'deleteMngSites'));
+
+/*  Level Account API        */
+Route::get('lvl-acc/api/get-all-sites', array('uses' => 'LevelAccountController@showGetLevelAccounts', 'as' => 'showGetLevelAccounts'));
+Route::post('lvl-acc/api/post-save-accounts', array('uses' => 'LevelAccountController@addSaveLevelAccounts', 'as' => 'addSaveLevelAccounts'));
+
+/*  FAQ                     */
+Route::get('faq/api/get-all-sites', array('uses' => 'FaqController@showGetFaqs', 'as' => 'showGetFaqs'));
+Route::post('faq/api/post-save-faq', array('uses' => 'FaqController@addSaveFaq', 'as' => 'addSaveFaq'));
+Route::post('faq/api/post-save-faqs', array('uses' => 'FaqController@addSaveFaqs', 'as' => 'addSaveFaqs'));
+Route::post('faq/api/post-delete-faqs', array('uses' => 'FaqController@deleteFaqs', 'as' => 'deleteFaqs'));
+
+

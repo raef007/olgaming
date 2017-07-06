@@ -1,6 +1,6 @@
 angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
 	
-    $http.get("api/get-all-sites")
+    $http.get("sites/api/get-all-sites")
 		.then(function success(srv_resp){
 			$scope.sites	= srv_resp.data[0];
 			$scope.pag_inf	= srv_resp.data[1];
@@ -38,10 +38,11 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
 	}
     
     $scope.saveSitesForm = function() {
-		$http.post("api/post-save-sites", $scope.sites)
+		$http.post("sites/api/post-save-sites", $scope.sites)
             .then(function success(srv_resp){
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -49,10 +50,11 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
 	}
     
     $scope.deleteSitesForm = function() {
-        $http.post("api/post-delete-urls", $scope.sites)
+        $http.post("sites/api/post-delete-urls", $scope.sites)
             .then(function success(srv_resp){
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -61,10 +63,11 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
     
     $scope.deleteUrlForm = function(url) {
         
-        $http.get("api/delete-url/"+url.su_seq)
+        $http.get("sites/api/delete-url/"+url.su_seq)
             .then(function success(srv_resp) {
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -77,10 +80,11 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
         
         $scope.new_url.site_id  = $scope.sel_site.site_id;
         
-        $http.post("api/post-save-urls", $scope.new_url)
+        $http.post("sites/api/post-save-urls", $scope.new_url)
             .then(function success(srv_resp){
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -94,11 +98,12 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
         
         $scope.tab_url[site_idx].site_id  = $scope.sites[site_idx].site_id;
         
-        $http.post("api/post-save-urls", $scope.tab_url[site_idx])
+        $http.post("sites/api/post-save-urls", $scope.tab_url[site_idx])
             .then(function success(srv_resp){
 
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -108,10 +113,12 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
     
     $scope.deleteUrlFromSite = function(site_url) {
         
-        $http.get("api/delete-url/"+site_url.su_seq)
+        $http.get("sites/api/delete-url/"+site_url.su_seq)
             .then(function success(srv_resp) {
                 $scope.sites	= srv_resp.data[0];
                 $scope.pag_inf	= srv_resp.data[1];
+                $scope.sel_site = $scope.sites[0];
+                
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -122,14 +129,4 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
         site.offset = new_offset;
     }
     
-});
-
-angular.module("vavaGaming").filter('startFrom', function() {
-    
-    return function(input, start) {
-        if (input) {
-            start = +start; //parse to int
-            return input.slice(start);
-        }
-    }
 });

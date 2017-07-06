@@ -11,7 +11,7 @@ class Site extends Eloquent {
     protected $primaryKey   = 'site_id';
 	public $timestamps      = false;
 
-	public function testRecord()
+	public function getAllRecord()
     {
         $data   = self::get();
         
