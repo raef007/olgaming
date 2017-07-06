@@ -1,6 +1,6 @@
 angular.module("vavaGaming", []);
 
-angular.module("vavaGaming", ['ngRoute']).config(function($routeProvider) {
+angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeProvider) {
 	$routeProvider
 		/*	Member Manage	*/
 		.when('/member-info', {
@@ -64,7 +64,8 @@ angular.module("vavaGaming", ['ngRoute']).config(function($routeProvider) {
 			controller: 'siteCtrl'
 		})
 		.when('/acc-setting', {
-			templateUrl: "site/account-settings"
+			templateUrl: "site/account-settings",
+            controller: 'lvlAccCtrl'
 		})
         .when('/min-max-acc', {
 			templateUrl: "site/set_min_max_acc"
@@ -73,7 +74,8 @@ angular.module("vavaGaming", ['ngRoute']).config(function($routeProvider) {
 			templateUrl: "site/ratio_setting_by_event"
 		})
         .when('/admin-setting', {
-			templateUrl: "site/admin_settings"
+			templateUrl: "site/admin_settings",
+            controller: 'mngSiteCtrl'
 		})
         /*	Content Manage  */
         .when('/banner-mng', {
@@ -83,7 +85,8 @@ angular.module("vavaGaming", ['ngRoute']).config(function($routeProvider) {
 			templateUrl: "content/popup-mng"
 		})
         .when('/faq-mng', {
-			templateUrl: "content/faq-mng"
+			templateUrl: "content/faq-mng",
+            controller: 'faqCtrl'
 		})
         /*	Statistics Manage  */
         .when('/stats-by-date', {
@@ -120,4 +123,14 @@ angular.module("vavaGaming", ['ngRoute']).config(function($routeProvider) {
 		.otherwise({
 			templateUrl : "admin/main"
 	    });;
+});
+
+angular.module("vavaGaming").filter('startFrom', function() {
+    
+    return function(input, start) {
+        if (input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+    }
 });

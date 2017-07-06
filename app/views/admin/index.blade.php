@@ -8,12 +8,18 @@
 		<link href="{{ URL::asset('assets/styles/bootstrap.min.css') }}" rel='stylesheet' type='text/css' />
 		<link href="{{ URL::asset('assets/styles/style.css') }}" rel='stylesheet' type='text/css' />
 		<link href="{{ URL::asset('assets/styles/common.css') }}" rel='stylesheet' type='text/css' />
-		<link href="{{ URL::asset('assets/styles/font-awesome.css') }}" rel="stylesheet"> 
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{ URL::asset('assets/styles/icon-font.min.css') }}" type='text/css' />
 		<link href="{{ URL::asset('assets/styles/animate.css') }}" rel="stylesheet" type="text/css" media="all">
 		<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" /> 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+        <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
 		
+        <style>
+
+            
+        </style>
+        
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<script src="{{ URL::asset('assets/scripts/Chart.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/wow.min.js') }}"></script>
@@ -21,8 +27,10 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+        
 		<script src="{{ URL::asset('assets/scripts/cookie-mng.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/vavaGamingApp.js') }}"></script>
+
 	</head>
 	
 	<body class="sticky-header" ng-app = 'vavaGaming'>
@@ -43,9 +51,12 @@
 			</div>
 		</div>
 		<script src="{{ URL::asset('assets/scripts/jquery.nicescroll.js') }}"></script>
-		<script src="{{ URL::asset('assets/scripts/scripts.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/bootstrap.min.js') }}"></script>
-		<script src="{{ URL::asset('assets/scripts/cookie-mng.js') }}"></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-rangy.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
+		<script src="{{ URL::asset('assets/scripts/scripts.js') }}"></script>
+        <script src="{{ URL::asset('assets/scripts/cookie-mng.js') }}"></script>
 		
 		<script>
 			angular.module("vavaGaming").controller('menuCtrl', function($scope) {
@@ -156,5 +167,8 @@
 
 		</script>
 		<script src="{{ URL::asset('assets/scripts/sitesCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/mngSiteCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/lvlAccCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/faqCtrl.js') }}"></script>
 	</body>
 </html>
