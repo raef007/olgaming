@@ -14,11 +14,6 @@
 		<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
         <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
-		
-        <style>
-
-            
-        </style>
         
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<script src="{{ URL::asset('assets/scripts/Chart.js') }}"></script>
@@ -27,6 +22,11 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/tinymce.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tinymce/0.0.18/tinymce.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/plugins/media/plugin.min.js"></script>
+		
         
 		<script src="{{ URL::asset('assets/scripts/cookie-mng.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/vavaGamingApp.js') }}"></script>
@@ -170,5 +170,7 @@
 		<script src="{{ URL::asset('assets/scripts/mngSiteCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/lvlAccCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/faqCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/popupCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/bannerCtrl.js') }}"></script>
 	</body>
 </html>

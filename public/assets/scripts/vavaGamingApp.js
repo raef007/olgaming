@@ -1,6 +1,6 @@
 angular.module("vavaGaming", []);
 
-angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeProvider) {
+angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(function($routeProvider) {
 	$routeProvider
 		/*	Member Manage	*/
 		.when('/member-info', {
@@ -79,10 +79,12 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeP
 		})
         /*	Content Manage  */
         .when('/banner-mng', {
-			templateUrl: "content/banner-mng"
+			templateUrl: "content/banner-mng",
+            controller: 'bannerCtrl'
 		})
         .when('/popup-mng', {
-			templateUrl: "content/popup-mng"
+			templateUrl: "content/popup-mng",
+            controller: 'popupCtrl'
 		})
         .when('/faq-mng', {
 			templateUrl: "content/faq-mng",

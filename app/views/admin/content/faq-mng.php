@@ -94,9 +94,7 @@
 
                         <div class="h10"></div>
                         
-                        <div text-angular ng-model='new_faq.text' name = 'faq-content'>
-                            HO HO
-                        </div>
+                        <textarea ui-tinymce = 'tinymceOptions' ng-model="new_faq.text"></textarea>
                         
                         <div class="h20"></div>
                         <div class="h20"></div>
