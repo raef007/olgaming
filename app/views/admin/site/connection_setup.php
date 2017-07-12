@@ -91,8 +91,8 @@
                                             
                                             <li ng-repeat = 'page in pag_inf.pages' ng-class="(page === pag_inf.offset) ? 'active': ''"><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
 
-                                            <li><a href="" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                            <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
+                                            <li><a href="" ng-hide="pag_inf.offset >= pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                            <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.offset >= pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -218,13 +218,13 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat = "url in sites[$index].site_urls | limitTo:1 track by $index">
+										<tr ng-repeat = "url in site.site_urls | limitTo:1 track by $index">
 											<td><input type="checkbox"></td>
 											<td>{{ url.su_seq }}</td>
-											<td><input type="text" ng-model="sites[$parent.$index].site_name" readonly></td>
-											<td><input type="text" ng-model="sites[$parent.$index].site_urls[$index].site_url"></td>
+											<td><input type="text" ng-model="site.site_name" readonly></td>
+											<td><input type="text" ng-model="url.site_url"></td>
 											<td>
-                                                <select ng-model = "sites[$parent.$index].reg_way">
+                                                <select ng-model = "site.reg_way">
                                                     <option value = ''>추천코드가입</option>
                                                     <option value = '0'>자유가입</option>
                                                     <option value = '1'>비공개</option>

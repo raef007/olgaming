@@ -172,5 +172,6 @@
 		<script src="{{ URL::asset('assets/scripts/faqCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/popupCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/bannerCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/custCenterCtrl.js') }}"></script>
 	</body>
 </html>

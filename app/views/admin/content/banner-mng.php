@@ -540,7 +540,6 @@
             
             $('#main-cntr').on('click', '.cancel-editor-btn', function() {
                 $('#tab_banner_set').slideUp();
-                console.log('shit');
                 return false;
             });
             

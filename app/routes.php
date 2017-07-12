@@ -99,9 +99,16 @@ Route::post('popup/api/post-save-popup', array('uses' => 'PopupController@addSav
 Route::post('popup/api/post-save-popups', array('uses' => 'PopupController@addSavePopups', 'as' => 'addSavePopups'));
 Route::post('popup/api/post-delete-popups', array('uses' => 'PopupController@deletePopups', 'as' => 'deletePopups'));
 
-/*  Pop-up                  */
+/*  Banner                  */
 Route::get('banner/api/get-all-sites', array('uses' => 'BannerController@showGetBanner', 'as' => 'showGetBanner'));
 Route::post('banner/api/upload-img', array('uses' => 'BannerController@uploadBanner', 'as' => 'uploadBanner'));
 Route::post('banner/api/post-save-banner', array('uses' => 'BannerController@addSaveBanner', 'as' => 'addSaveBanner'));
 Route::post('banner/api/post-save-banners', array('uses' => 'BannerController@addSaveBanners', 'as' => 'addSaveBanners'));
 Route::post('banner/api/post-delete-banners', array('uses' => 'BannerController@deleteBanners', 'as' => 'deleteBanners'));
+
+/*  Customer Center         */
+Route::get('cust-center/api/get-all-sites', array('uses' => 'CustomerCenterController@showGetCustCenter', 'as' => 'showGetCustCenter'));
+Route::post('cust-center/api/search-all-sites', array('uses' => 'CustomerCenterController@searchAllCustCenter', 'as' => 'searchAllCustCenter'));
+
+Route::post('cust-center/api/post-save-template', array('uses' => 'CustomerCenterController@addSaveTemplate', 'as' => 'addSaveTemplate'));
+Route::post('cust-center/api/post-delete-template', array('uses' => 'CustomerCenterController@deleteTemplate', 'as' => 'deleteTemplate'));
