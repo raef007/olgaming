@@ -1,6 +1,6 @@
 angular.module("vavaGaming", []);
 
-angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeProvider) {
+angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(function($routeProvider) {
 	$routeProvider
 		/*	Member Manage	*/
 		.when('/member-info', {
@@ -53,7 +53,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeP
 		})
         /*	Service         */
         .when('/cust-center', {
-			templateUrl: "service/customer_center"
+			templateUrl: "service/customer_center",
+            controller: 'custCenterCtrl'
 		})
         .when('/notice-center', {
 			templateUrl: "service/notice_event"
@@ -79,10 +80,12 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular']).config(function($routeP
 		})
         /*	Content Manage  */
         .when('/banner-mng', {
-			templateUrl: "content/banner-mng"
+			templateUrl: "content/banner-mng",
+            controller: 'bannerCtrl'
 		})
         .when('/popup-mng', {
-			templateUrl: "content/popup-mng"
+			templateUrl: "content/popup-mng",
+            controller: 'popupCtrl'
 		})
         .when('/faq-mng', {
 			templateUrl: "content/faq-mng",
@@ -131,6 +134,30 @@ angular.module("vavaGaming").filter('startFrom', function() {
         if (input) {
             start = +start; //parse to int
             return input.slice(start);
+        }
+    }
+});
+
+angular.module("vavaGaming").filter('dateRange', function() {
+    
+    return function(items, start, end) {
+        if (items) {
+            var strt_date    = new Date(start.substr(0, 4)+'-'+start.substr(4, 2)+'-'+start.substr(6, 2));
+            var end_date     = new Date(end.substr(0, 4)+'-'+end.substr(4, 2)+'-'+end.substr(6, 2));
+            
+            var result = [];
+            
+            for (var idx = 0; idx < items.length; idx++) {
+            
+                var item_date   = items[idx].reg_date;
+                var item_obj    = new Date(item_date.substr(0, 4)+'-'+item_date.substr(4, 2)+'-'+item_date.substr(6, 2));
+                
+                if ((item_obj >= strt_date)
+                && (item_obj <= end_date)) {
+                    result.push(items[idx]);
+                }
+            }            
+            return result;
         }
     }
 });

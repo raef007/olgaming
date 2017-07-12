@@ -53,4 +53,11 @@ angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
         );
     }
     
+    $scope.tinymceOptions = {
+        height: 255,
+        menubar: false,
+        plugins: 'image code',
+        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    };
+    
 });
