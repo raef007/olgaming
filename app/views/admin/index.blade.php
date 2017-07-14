@@ -173,5 +173,6 @@
 		<script src="{{ URL::asset('assets/scripts/popupCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/bannerCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/custCenterCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/logHistoryCtrl.js') }}"></script>
 	</body>
 </html>

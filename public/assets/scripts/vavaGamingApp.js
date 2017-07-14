@@ -14,7 +14,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 		})
 		/*	Login Manage	*/
 		.when('/login-hist', {
-			templateUrl: "login/login_history"
+			templateUrl: "login/login_history",
+            controller: 'logHistoryCtrl'
 		})
         .when('/curr-user', {
 			templateUrl: "login/current_users_messages"

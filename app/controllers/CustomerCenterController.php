@@ -90,7 +90,6 @@ class CustomerCenterController extends BaseController {
                         $query->where('MANAGER.'.$post_data['filter_by'], $post_data['filter_val']);
                     }
                     else {
-                        $filter = $post_data['filter_by'];
                         $query->where($post_data['filter_by'], 'like', '%'.$post_data['filter_val'].'%');
                     }
                 }
