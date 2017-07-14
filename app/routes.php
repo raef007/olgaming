@@ -112,3 +112,4 @@ Route::post('cust-center/api/search-all-sites', array('uses' => 'CustomerCenterC
 
 Route::post('cust-center/api/post-save-template', array('uses' => 'CustomerCenterController@addSaveTemplate', 'as' => 'addSaveTemplate'));
 Route::post('cust-center/api/post-delete-template', array('uses' => 'CustomerCenterController@deleteTemplate', 'as' => 'deleteTemplate'));
+Route::post('cust-center/api/post-send-msg', array('uses' => 'CustomerCenterController@sendMessage', 'as' => 'sendMessage'));
