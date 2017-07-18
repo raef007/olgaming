@@ -57,7 +57,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
             controller: 'custCenterCtrl'
 		})
         .when('/notice-center', {
-			templateUrl: "service/notice_event"
+			templateUrl: "service/notice_event",
+			controller: 'noticeCtrl'
 		})
         /*	Site Manage    */
         .when('/conn-setup', {
