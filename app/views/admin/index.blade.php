@@ -174,5 +174,8 @@
 		<script src="{{ URL::asset('assets/scripts/bannerCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/custCenterCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/logHistoryCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/ipInfoCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/smsLogCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/chargeMngCtrl.js') }}"></script>
 	</body>
 </html>

@@ -52,20 +52,20 @@
                                                                     <th>회원정보</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody ng-repeat = 'site in sites track by $index'>
-                                                                <tr ng-repeat = 'log in site.ok_logs track by $index'>
-                                                                    <td>{{ log.sl_seq }}</td>
+                                                            <tbody>
+                                                                <tr ng-repeat = 'site in sites | combine:"ok_logs" | startFrom:pag_inf.ok_offset*pag_inf.ok_limit | limitTo:pag_inf.ok_limit track by $index'>
+                                                                    <td>{{ site.sl_seq }}</td>
                                                                     <td>{{ site.site_name }}</td>
-                                                                    <td>{{ log.username }}</td>
-                                                                    <td>{{ log.nickname }}</td>
+                                                                    <td>{{ site.username }}</td>
+                                                                    <td>{{ site.nickname }}</td>
                                                                     <!-- blcoked와 btn-blocked가 글씨색 결정 -->
                                                                     <td class="blocked">
-                                                                        {{ log.IP }}
+                                                                        {{ site.IP }}
                                                                         <button class="btn-default btn-blocked btn">IP허용</button>
                                                                     </td>
-                                                                    <td>{{ log.reg_date }}</td>
+                                                                    <td>{{ site.reg_date }}</td>
                                                                     <td><button class="btn-default btn">IP조회</button></td>
-                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123">조회</button></td>
+                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123" ng-click = 'searchIpGoogle(site.IP)'>조회</button></td>
                                                                     <td><a href = "./member/membership_info_details.jsp" class="btn-default btn" target="_blank" >회원정보</a></td>
                                                                 </tr>
                                                             </tbody>
@@ -122,21 +122,21 @@
 				                                                    <th>회원정보</th>
 				                                                </tr>
 				                                            </thead>
-				                                            <tbody ng-repeat = 'site in sites track by $index'>
-                                                                <tr ng-repeat = 'log in site.ng_logs track by $index'>
-                                                                    <td>{{ log.sl_seq }}</td>
+				                                            <tbody>
+                                                                <tr ng-repeat = 'site in sites | combine:"ng_logs" | startFrom:pag_inf.ng_offset*pag_inf.ng_limit | limitTo:pag_inf.ok_limit track by $index'>
+                                                                    <td>{{ site.sl_seq }}</td>
                                                                     <td>{{ site.site_name }}</td>
-                                                                    <td>{{ log.username }}</td>
-                                                                    <td>{{ log.fail_pasword }}</td>
-                                                                    <td>{{ log.nickname }}</td>
+                                                                    <td>{{ site.username }}</td>
+                                                                    <td>{{ site.fail_pasword }}</td>
+                                                                    <td>{{ site.nickname }}</td>
                                                                     <!-- blcoked와 btn-blocked가 글씨색 결정 -->
                                                                     <td class="blocked">
-                                                                        {{ log.IP }}
+                                                                        {{ site.IP }}
                                                                         <button class="btn-default btn-blocked btn">IP허용</button>
                                                                     </td>
-                                                                    <td>{{ log.reg_date }}</td>
+                                                                    <td>{{ site.reg_date }}</td>
                                                                     <td><button class="btn-default btn">IP조회</button></td>
-                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123">조회</button></td>
+                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123" ng-click = 'searchIpGoogle(site.IP)'>조회</button></td>
                                                                     <td><a href = "./member/membership_info_details.jsp" class="btn-default btn" target="_blank" >회원정보</a></td>
                                                                 </tr>
 				                                            </tbody>
@@ -206,7 +206,7 @@
 				                                                </tr>
 				                                            </thead>
 				                                            <tbody>
-				                                                <tr ng-repeat = 'log in site.ok_logs track by $index'>
+				                                                <tr ng-repeat = 'log in site.ok_logs | startFrom:site.ok_offset*site.ok_limit | limitTo:site.ok_limit track by $index'>
                                                                     <td>{{ log.sl_seq }}</td>
                                                                     <td>{{ site.site_name }}</td>
                                                                     <td>{{ log.username }}</td>
@@ -218,7 +218,7 @@
                                                                     </td>
                                                                     <td>{{ log.reg_date }}</td>
                                                                     <td><button class="btn-default btn">IP조회</button></td>
-                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123">조회</button></td>
+                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123" ng-click = 'searchIpGoogle(log.IP)'>조회</button></td>
                                                                     <td><a href = "./member/membership_info_details.jsp" class="btn-default btn" target="_blank" >회원정보</a></td>
                                                                 </tr>
 				                                            </tbody>
@@ -275,7 +275,7 @@
 				                                                </tr>
 				                                            </thead>
 				                                            <tbody>
-				                                                <tr ng-repeat = 'log in site.ng_logs track by $index'>
+				                                                <tr ng-repeat = 'log in site.ng_logs | startFrom:site.ng_offset*site.ng_limit | limitTo:site.ng_limit track by $index'>
                                                                     <td>{{ log.sl_seq }}</td>
                                                                     <td>{{ site.site_name }}</td>
                                                                     <td>{{ log.username }}</td>
@@ -288,7 +288,7 @@
                                                                     </td>
                                                                     <td>{{ log.reg_date }}</td>
                                                                     <td><button class="btn-default btn">IP조회</button></td>
-                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123">조회</button></td>
+                                                                    <td><button class="btn-default btn google-search" data-value="123.123.123.123" ng-click = 'searchIpGoogle(log.IP)'>조회</button></td>
                                                                     <td><a href = "./member/membership_info_details.jsp" class="btn-default btn" target="_blank" >회원정보</a></td>
                                                                 </tr>
 				                                            </tbody>
@@ -316,12 +316,13 @@
 				                </div>
 				            </div>
 				        </div>
-	
-						<script>
-					        $(function(){
-					            $('.google-search').on("click",function(){
-					                var value = $(this).attr("data-value");
-					                window.open("https://www.google.com/search?q="+value);
-					            });
-					        });
-					    </script>
+                        
+                        <script>
+				            $(document).ready(function() {
+                                
+                                $('#main-cntr').delegate(".datepicker1", "focusin", function(){
+                                    $(this).datepicker();
+                                });
+                                
+                            });
+				        </script>

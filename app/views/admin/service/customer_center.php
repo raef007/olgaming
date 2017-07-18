@@ -45,7 +45,6 @@
 				                                            <table class="table table-bordered">
 				                                                <thead>
 				                                                    <tr>
-				                                                        
 				                                                        <th>NO. <i class="fa fa-sort"></i>
 				                                                        <th>사이트</th>
 				                                                        <th>아이디</th>
@@ -57,17 +56,17 @@
 				                                                        <th>상태</th>
 				                                                    </tr>
 				                                                </thead>
-				                                                <tbody ng-repeat = 'site in sites | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index'>
-				                                                    <tr ng-repeat = 'question in site.questions track by $index'>
-				                                                        <td>{{ question.cc_seq }}</td>
+				                                                <tbody>
+				                                                    <tr ng-repeat = 'site in sites | combine:"questions" | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index'>
+				                                                        <td>{{ site.cc_seq }}</td>
 				                                                        <td>{{ site.site_name }}</td>
-				                                                        <td>{{ question.admin_id }}</td>
-				                                                        <td>{{ question.nick_name }}</td>
-				                                                        <td><a class="cursor uline font-blue" ng-click = 'showUserConvo(question, site)'>{{ question.subject }}</a></td>
-				                                                        <td ng-if = '0 == question.sort'>계좌 문의</td>
-				                                                        <td>{{ question.reg_date }}</td>
-				                                                        <td>{{ question.response_date }}</td>
-				                                                        <td ng-if = 'NULL == question.response_date'>접수</td>
+				                                                        <td>{{ site.admin_id }}</td>
+				                                                        <td>{{ site.nick_name }}</td>
+				                                                        <td><a class="cursor uline font-blue" ng-click = 'showUserConvo(site, site)'>{{ site.subject }}</a></td>
+				                                                        <td ng-if = '0 == site.sort'>계좌 문의</td>
+				                                                        <td>{{ site.reg_date }}</td>
+				                                                        <td>{{ site.response_date }}</td>
+				                                                        <td ng-if = 'NULL == site.response_date'>접수</td>
 				                                                    </tr>
 				                                                </tbody>
 				                                            </table>
@@ -103,8 +102,7 @@
 				                                        <div class="table-responsive">
 				                                            <table class="table table-bordered">
 				                                                <thead>
-				                                                    <tr>
-				                                                        
+				                                                    <tr>				                                                        
 				                                                        <th>NO. <i class="fa fa-sort"></i>
 				                                                        <th>사이트</th>
 				                                                        <th>제목</th>

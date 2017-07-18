@@ -33,4 +33,8 @@ angular.module("vavaGaming").controller('logHistoryCtrl', function($scope, $http
     $scope.setNgOffset = function(site, new_offset) {
         site.ok_ng_offset = new_offset;
     }
+    
+    $scope.searchIpGoogle = function(ip_num) {
+        window.open("https://www.google.com/search?q="+ip_num);
+    }
 });

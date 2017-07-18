@@ -116,3 +116,14 @@ Route::post('cust-center/api/post-send-msg', array('uses' => 'CustomerCenterCont
 
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
+
+/*  IP Information          */
+Route::post('ipinfo/api/search-all-sites', array('uses' => 'IpInformationController@searchIpInfo', 'as' => 'searchIpInfo'));
+Route::post('ipinfo/api/post-save-ipinfo', array('uses' => 'IpInformationController@addSaveIpInfo', 'as' => 'addSaveIpInfo'));
+
+/*  SMS Log                 */
+Route::post('smslog/api/search-all-sites', array('uses' => 'SmsLogController@searchSmsLog', 'as' => 'searchSmsLog'));
+Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@deleteSmsLogs', 'as' => 'deleteSmsLogs'));
+
+/*  Charge Management Log   */
+Route::post('charge-mng/api/search-all-sites', array('uses' => 'SmsLogController@searchChargeMng', 'as' => 'searchChargeMng'));

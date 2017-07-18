@@ -1,13 +1,5 @@
 					<div style="padding:0px 10px 10px 10px;" class="body-wrap">
-
-			           <!--  <div class="location-info">
-			                <div class="location-info-content">
-			                    충/환전 관리
-			                    <span class="location-info-sp">></span>
-			                    충전 관리
-			                </div>
-			            </div> -->
-			
+                    
 			            <div class="h80"></div>
 			
 			            <div id="tab_charge" class="div-tab tabs swipe-tab tabs-color-top">
