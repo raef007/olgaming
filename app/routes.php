@@ -114,7 +114,5 @@ Route::post('cust-center/api/post-save-template', array('uses' => 'CustomerCente
 Route::post('cust-center/api/post-delete-template', array('uses' => 'CustomerCenterController@deleteTemplate', 'as' => 'deleteTemplate'));
 
 /* notice center */
-Route::get('notices/api/get-all-notices', array('uses' => 'NoticeController@showGetNotice', 'as' => 'showGetNotice'));
-Route::post('notices/api/search-notices', array('uses' => 'NoticeController@searchNotice', 'as' => 'searchNotice'));
-Route::post('notices/api/post-delete-notice', array('uses' => 'NoticeController@deleteNotice', 'as' => 'deleteNotice'));
+Route::post('notice/api/get-all-sites', array('uses' => 'NoticeController@searchNotice', 'as' => 'searchNotice'));
 

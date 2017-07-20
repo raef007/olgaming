@@ -162,3 +162,29 @@ angular.module("vavaGaming").filter('dateRange', function() {
         }
     }
 });
+angular.module("vavaGaming").filter('combine', function() {
+    return function(items, inner_name) {
+        if (items) {
+            var combined    = [];
+            var temp        = [];
+            
+            for (var i = 0; i < items.length; i++) {
+                
+                for (i2 = 0; i2 < items[i][inner_name].length; i2++) {
+                    
+                    for (var name in items[i]) {
+                        if (name != inner_name) {
+                            items[i][inner_name][i2][name] = items[i][name];
+                        }
+                        else {
+                            combined.push(items[i][inner_name][i2]);
+                        }
+                    }
+                    
+                }
+            }
+            
+            return combined;
+        }
+    }
+});
