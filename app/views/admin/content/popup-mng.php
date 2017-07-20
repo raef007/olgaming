@@ -1,13 +1,5 @@
 		<div style="padding:0px 10px 10px 10px;" class="body-wrap">
 
-            <!-- <div class="location-info">
-                <div class="location-info-content">
-                    콘텐츠 관리
-                    <span class="location-info-sp">></span>
-                    팝업 관리
-                </div>
-            </div> -->
-
             <div class="h80"></div>
 
             <div id="tab_pop_adm" class="div-tab tabs swipe-tab tabs-color-top">
@@ -449,7 +441,7 @@
                 });
                 
                 $('#main-cntr').delegate(".datepicker1", "focusin", function(){
-                    $(this).datepicker();
+                    $(this).datepicker(({ dateFormat: 'yymmdd' }));
                 });
                 
             });

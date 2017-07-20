@@ -21,12 +21,12 @@
                 <div class="tab-content">
                     <div class="tab-pane" id="tab_0{{ $index }}" ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'>
                         
-                        <form name="" id="" class="" method="get">
-                            <select name="" id="" class="">
-                                <option>제목+내용</option>
-                                <option>제목</option>
+                        <form ng-submit = 'searchByQuery()'>
+                            <select ng-model = 'search.filter_by'>
+                                <option value = 'text'>제목+내용</option>
+                                <option value = 'title'>제목</option>
                             </select>
-                            <input type="text" value="" size="6">
+                            <input type="text" ng-model = 'search.filter_val' size="6">
                             <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
                         </form>
 

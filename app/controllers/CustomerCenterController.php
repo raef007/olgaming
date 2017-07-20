@@ -90,7 +90,6 @@ class CustomerCenterController extends BaseController {
                         $query->where('MANAGER.'.$post_data['filter_by'], $post_data['filter_val']);
                     }
                     else {
-                        $filter = $post_data['filter_by'];
                         $query->where($post_data['filter_by'], 'like', '%'.$post_data['filter_val'].'%');
                     }
                 }
@@ -164,6 +163,30 @@ class CustomerCenterController extends BaseController {
         $post_data      = Input::all();
         
         $template_db->deleteRecord($post_data['cct_seq']);       
+        
+        $srv_resp   = $this->showGetCustCenter();
+        
+        return $srv_resp;
+    }
+    
+    public function sendMessage()
+    {
+        $qa_db    = new CustomerQa();
+        
+        $data       = array();
+        $srv_resp   = new stdClass();
+        $post_data  = Input::all();
+        
+        $data['cc_seq']         = $post_data['cc_seq'];
+        $data['site_id']        = $post_data['site_id'];
+        $data['text']           = $post_data['text'];
+        
+        $data['ccq_seq']        = 0;
+        $data['user_id']        = 1;
+        $data['answer_flag']    = 1;
+        $data['qa_flag']        = 1;
+        
+        $qa_db->addUpdateRecord($data);
         
         $srv_resp   = $this->showGetCustCenter();
         

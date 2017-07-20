@@ -14,23 +14,27 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 		})
 		/*	Login Manage	*/
 		.when('/login-hist', {
-			templateUrl: "login/login_history"
+			templateUrl: "login/login_history",
+            controller: 'logHistoryCtrl'
 		})
         .when('/curr-user', {
 			templateUrl: "login/current_users_messages"
 		})
         .when('/ip-info', {
-			templateUrl: "login/ip_info"
+			templateUrl: "login/ip_info",
+            controller: 'ipInfoCtrl'
 		})
         .when('/sms-log', {
-			templateUrl: "login/sms_log"
+			templateUrl: "login/sms_log",
+            controller: 'smsLogCtrl'
 		})
         .when('/subscribe', {
 			templateUrl: "login/subscribe"
 		})
         /*	Money Manage    */
         .when('/charge-mng', {
-			templateUrl: "pay/charge_mngmnt"
+			templateUrl: "pay/charge_mngmnt",
+            controller: 'chargeMngCtrl'
 		})
         .when('/exchange', {
 			templateUrl: "pay/exchange"
@@ -162,6 +166,7 @@ angular.module("vavaGaming").filter('dateRange', function() {
         }
     }
 });
+
 angular.module("vavaGaming").filter('combine', function() {
     return function(items, inner_name) {
         if (items) {

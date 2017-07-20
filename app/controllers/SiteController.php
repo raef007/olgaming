@@ -19,6 +19,7 @@ class SiteController extends BaseController {
 	{
         $limit      = 3;
         $all_sites  = DB::table('SITE')->get();
+        $srv_resp   = new stdClass();
         
         foreach($all_sites as $site) {
             $site->site_urls = DB::table('SITE_URL')
@@ -53,7 +54,8 @@ class SiteController extends BaseController {
             $page_info->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
+        $srv_resp   = [$all_sites, $page_info];
+        return json_encode($all_sites);
 	}
     
     public function addSaveSites()

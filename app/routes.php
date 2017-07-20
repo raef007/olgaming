@@ -91,6 +91,7 @@ Route::get('faq/api/get-all-sites', array('uses' => 'FaqController@showGetFaqs',
 Route::post('faq/api/post-save-faq', array('uses' => 'FaqController@addSaveFaq', 'as' => 'addSaveFaq'));
 Route::post('faq/api/post-save-faqs', array('uses' => 'FaqController@addSaveFaqs', 'as' => 'addSaveFaqs'));
 Route::post('faq/api/post-delete-faqs', array('uses' => 'FaqController@deleteFaqs', 'as' => 'deleteFaqs'));
+Route::post('faq/api/search-all-sites', array('uses' => 'FaqController@searchFaqs', 'as' => 'searchFaqs'));
 
 /*  Pop-up                  */
 Route::get('popup/api/get-all-sites', array('uses' => 'PopupController@showGetPopup', 'as' => 'showGetPopup'));
@@ -112,7 +113,24 @@ Route::post('cust-center/api/search-all-sites', array('uses' => 'CustomerCenterC
 
 Route::post('cust-center/api/post-save-template', array('uses' => 'CustomerCenterController@addSaveTemplate', 'as' => 'addSaveTemplate'));
 Route::post('cust-center/api/post-delete-template', array('uses' => 'CustomerCenterController@deleteTemplate', 'as' => 'deleteTemplate'));
+Route::post('cust-center/api/post-send-msg', array('uses' => 'CustomerCenterController@sendMessage', 'as' => 'sendMessage'));
 
 /* notice center */
 Route::post('notice/api/get-all-sites', array('uses' => 'NoticeController@searchNotice', 'as' => 'searchNotice'));
 
+/*  Login History           */
+Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
+
+/*  IP Information          */
+Route::post('ipinfo/api/search-all-sites', array('uses' => 'IpInformationController@searchIpInfo', 'as' => 'searchIpInfo'));
+Route::post('ipinfo/api/post-save-ipinfo', array('uses' => 'IpInformationController@addSaveIpInfo', 'as' => 'addSaveIpInfo'));
+
+/*  SMS Log                 */
+Route::post('smslog/api/search-all-sites', array('uses' => 'SmsLogController@searchSmsLog', 'as' => 'searchSmsLog'));
+Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@deleteSmsLogs', 'as' => 'deleteSmsLogs'));
+
+/*  Charge Management Log   */
+Route::post('charge-mng/api/search-all-sites', array('uses' => 'SmsLogController@searchChargeMng', 'as' => 'searchChargeMng'));
+
+Route::get('hack/show-time', array('uses' => 'LevelAccountController@hackShit', 'as' => 'hackShit'));
+Route::post('hack/test-time', array('uses' => 'LevelAccountController@hackTestJson', 'as' => 'hackTestJson'));

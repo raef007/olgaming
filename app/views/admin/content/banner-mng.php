@@ -1,420 +1,413 @@
     <div style="padding:0px 10px 10px 10px;" class="body-wrap">
+    
+        <div class="h80"></div>
 
-    <!-- <div class="location-info">
-        <div class="location-info-content">
-            콘텐츠 관리
-            <span class="location-info-sp">></span>
-            배너 관리
-        </div>
-    </div> -->
-
-    <div class="h80"></div>
-
-    <div id="tab_banner_adm" class="div-tab tabs swipe-tab tabs-color-top">
-        <div class="w-tab bg-light">
-            <ul class="nav nav-tabs" data-toggle="tab-hover">
-                <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'><a href = "" data-target="#tab_{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
-            </ul>
-        </div>
-        
-        <div class="tab-content">
-            <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id="tab_{{ $index }}" ng-repeat = 'site in sites track by $index'>
-                
-                <div id="tab_banner_adm0" class="div-tab tabs swipe-tab tabs-color-top">
-                    <div class="w-tab bg-light">
-                        <ul class="nav nav-tabs" data-toggle="tab-hover">
-                            <li class="active"><a href = "" ng-click = 'changeBannerSort(0)' data-target="#tab_{{ $index }}0" data-toggle="tab">매인배너</a></li>
-                            <li><a href = "" ng-click = 'changeBannerSort(1)' data-target="#tab_{{ $index }}1" data-toggle="tab">서브배너</a></li>
-                            <li><a href = "" ng-click = 'changeBannerSort(2)' data-target="#tab_{{ $index }}2" data-toggle="tab">라이브카지노배너</a></li>
-                            <li><a href = "" ng-click = 'changeBannerSort(3)' data-target="#tab_{{ $index }}3" data-toggle="tab">베팅슬립배너</a></li>
-                            <li><a href = "" ng-click = 'changeBannerSort(4)' data-target="#tab_{{ $index }}4" data-toggle="tab">포인트전환배너</a></li>
-                            <li><a href = "" ng-click = 'changeBannerSort(5)' data-target="#tab_{{ $index }}5" data-toggle="tab">모바일웹</a></li>
-                        </ul>
-                    </div>
+        <div id="tab_banner_adm" class="div-tab tabs swipe-tab tabs-color-top">
+            <div class="w-tab bg-light">
+                <ul class="nav nav-tabs" data-toggle="tab-hover">
+                    <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'><a href = "" data-target="#tab_{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
+                </ul>
+            </div>
+            
+            <div class="tab-content">
+                <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id="tab_{{ $index }}" ng-repeat = 'site in sites track by $index'>
                     
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_{{ $index }}0">
-                
-                            메인 상단 중앙 (로테이션)
-                            <div class="h20"></div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.mains track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
-
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td ng-if = '0 == banner.ink_target'>현재 창</td>
-                                            <td ng-if = '1 == banner.ink_target'>새 창</td>
-                                            <td ng-if = '2 == banner.ink_target'>새 탭</td>
-                                            <td>
-                                                <select class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>0</option>
-                                                    <option value = '1'>1</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div id="tab_banner_adm0" class="div-tab tabs swipe-tab tabs-color-top">
+                        <div class="w-tab bg-light">
+                            <ul class="nav nav-tabs" data-toggle="tab-hover">
+                                <li class="active"><a href = "" ng-click = 'changeBannerSort(0)' data-target="#tab_{{ $index }}0" data-toggle="tab">매인배너</a></li>
+                                <li><a href = "" ng-click = 'changeBannerSort(1)' data-target="#tab_{{ $index }}1" data-toggle="tab">서브배너</a></li>
+                                <li><a href = "" ng-click = 'changeBannerSort(2)' data-target="#tab_{{ $index }}2" data-toggle="tab">라이브카지노배너</a></li>
+                                <li><a href = "" ng-click = 'changeBannerSort(3)' data-target="#tab_{{ $index }}3" data-toggle="tab">베팅슬립배너</a></li>
+                                <li><a href = "" ng-click = 'changeBannerSort(4)' data-target="#tab_{{ $index }}4" data-toggle="tab">포인트전환배너</a></li>
+                                <li><a href = "" ng-click = 'changeBannerSort(5)' data-target="#tab_{{ $index }}5" data-toggle="tab">모바일웹</a></li>
+                            </ul>
                         </div>
+                        
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_{{ $index }}0">
+                    
+                                메인 상단 중앙 (로테이션)
+                                <div class="h20"></div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.mains track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
 
-                        <div class="tab-pane" id="tab_{{ $index }}1">
-                
-                            메인 상단 중앙 (로테이션)
-                            <div class="h20"></div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.subbanners track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
-
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td>{{ banner.ink_target }}</td>
-                                            <td>
-                                                <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>1</option>
-                                                    <option value = '1'>2</option>
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td ng-if = '0 == banner.ink_target'>현재 창</td>
+                                                <td ng-if = '1 == banner.ink_target'>새 창</td>
+                                                <td ng-if = '2 == banner.ink_target'>새 탭</td>
+                                                <td>
+                                                    <select class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>0</option>
+                                                        <option value = '1'>1</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
                                                 </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="tab-pane" id="tab_{{ $index }}2">
-                
-                            메인 상단 중앙 (로테이션)
-                            <div class="h20"></div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.casinos track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
+                            <div class="tab-pane" id="tab_{{ $index }}1">
+                    
+                                메인 상단 중앙 (로테이션)
+                                <div class="h20"></div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.subbanners track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' placeholder="8/12/2018" size="6" maxlength="10"></div>
 
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td>{{ banner.ink_target }}</td>
-                                            <td>
-                                                <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>1</option>
-                                                    <option value = '1'>2</option>
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td>{{ banner.ink_target }}</td>
+                                                <td>
+                                                    <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>1</option>
+                                                        <option value = '1'>2</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
                                                 </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_{{ $index }}2">
+                    
+                                메인 상단 중앙 (로테이션)
+                                <div class="h20"></div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.casinos track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
+
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td>{{ banner.ink_target }}</td>
+                                                <td>
+                                                    <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>1</option>
+                                                        <option value = '1'>2</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
+                                                </select>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane" id="tab_{{ $index }}3">
+                    
+                                메인 상단 중앙 (로테이션)
+                                <div class="h20"></div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.betslips track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
+
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td>{{ banner.ink_target }}</td>
+                                                <td>
+                                                    <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>1</option>
+                                                        <option value = '1'>2</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
+                                                </select>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_{{ $index }}4">
+                    
+                                메인 상단 중앙 (로테이션)
+                                <div class="h20"></div>
+                            
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.ptcnvs track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
+
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td>{{ banner.ink_target }}</td>
+                                                <td>
+                                                    <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>1</option>
+                                                        <option value = '1'>2</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
+                                                </select>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_{{ $index }}5">
+                    
+                                메인 상단 중앙 (로테이션)
+
+                                <div class="h20"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox"></th>
+                                                <th>사이트</th>
+                                                <th>ID</th>
+                                                <th>썸네일</th>
+                                                <th>제목</th>
+                                                <th>시작일시</th>
+                                                <th>종료일시</th><th>타겟</th>
+                                                <th>순서</th>
+                                                <th>노출</th>
+                                                <th>등록일시</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat = 'banner in site.mbwebs track by $index'>
+                                                <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
+                                                <td>{{ site.site_name }}</td>
+                                                <td>{{ banner.admin_name }}</td>
+                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td>{{ banner.subject }}</td>
+                                                <td>
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
+                                                    </div>
+                                                    
+                                                    <div class = 'col-md-6'>
+                                                        <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
+
+                                                    <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
+                                                </td>
+                                                <td>{{ banner.ink_target }}</td>
+                                                <td>
+                                                    <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
+                                                        <option value = '0'>1</option>
+                                                        <option value = '1'>2</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
+                                                    <option value = '0'>No</option>
+                                                    <option value = '1'>Yes</option>
+                                                </select>
+                                                </td>
+                                                <td>{{ banner.reg_date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="tab-pane" id="tab_{{ $index }}3">
-                
-                            메인 상단 중앙 (로테이션)
-                            <div class="h20"></div>
-                            
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.betslips track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
-
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td>{{ banner.ink_target }}</td>
-                                            <td>
-                                                <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>1</option>
-                                                    <option value = '1'>2</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane" id="tab_{{ $index }}4">
-                
-                            메인 상단 중앙 (로테이션)
-                            <div class="h20"></div>
+                        <div class="up-10"></div>
                         
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.ptcnvs track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
-
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td>{{ banner.ink_target }}</td>
-                                            <td>
-                                                <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>1</option>
-                                                    <option value = '1'>2</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="text-right">
+                            <button class="btn btn-default" ng-click = 'saveBannersForm()'>저장하기</button>
+                            <button class="btn btn-default" ng-click = 'deleteBannersForm()'>삭제하기</button>
+                            <a class="btn btn-default show-editor-btn" href = "" >신규등록</a>
+                            <div class="clearfix"></div>
                         </div>
-
-                        <div class="tab-pane" id="tab_{{ $index }}5">
-                
-                            메인 상단 중앙 (로테이션)
-
-                            <div class="h20"></div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox"></th>
-                                            <th>사이트</th>
-                                            <th>ID</th>
-                                            <th>썸네일</th>
-                                            <th>제목</th>
-                                            <th>시작일시</th>
-                                            <th>종료일시</th><th>타겟</th>
-                                            <th>순서</th>
-                                            <th>노출</th>
-                                            <th>등록일시</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat = 'banner in site.mbwebs track by $index'>
-                                            <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
-                                            <td>{{ site.site_name }}</td>
-                                            <td>{{ banner.admin_name }}</td>
-                                            <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                            <td>{{ banner.subject }}</td>
-                                            <td>
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-                                                </div>
-                                                
-                                                <div class = 'col-md-6'>
-                                                    <input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class = 'col-md-6'><input type="text" name="to_date" ng-model = 'banner.end_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10"></div>
-
-                                                <div class = 'col-md-6'><input type="text" name="time" placeholder="오전 01:00" size="6" maxlength="10"></div>
-                                            </td>
-                                            <td>{{ banner.ink_target }}</td>
-                                            <td>
-                                                <select id="" class="col-md-8" style="float:none;" ng-model = 'banner.ordering'>
-                                                    <option value = '0'>1</option>
-                                                    <option value = '1'>2</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                            <select name="" id="" class="col-md-8" style="float:none;" ng-model = 'banner.show_flag'>
-                                                <option value = '0'>No</option>
-                                                <option value = '1'>Yes</option>
-                                            </select>
-                                            </td>
-                                            <td>{{ banner.reg_date }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="up-10"></div>
-                    
-                    <div class="text-right">
-                        <button class="btn btn-default" ng-click = 'saveBannersForm()'>저장하기</button>
-                        <button class="btn btn-default" ng-click = 'deleteBannersForm()'>삭제하기</button>
-                        <a class="btn btn-default show-editor-btn" href = "" >신규등록</a>
-                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -544,7 +537,7 @@
             });
             
             $('#main-cntr').delegate(".datepicker1", "focusin", function(){
-                $(this).datepicker();
+                $(this).datepicker(({ dateFormat: 'yymmdd' }));
             });
             
         });

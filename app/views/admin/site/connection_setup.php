@@ -34,7 +34,7 @@
 
 								<div class="">
 									<button class="btn btn-default" style="margin-left: 7%;" ng-click="addSitesForm()">추가하기</button>
-									<button ng-click="deleteSitesForm()" class="btn btn-default">삭제하기</button>
+									<button ng-click="deleteSitesForm()" ng-disabled = 'button.delbtn' class="btn btn-default">삭제하기</button>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -76,7 +76,7 @@
 								</div>
 	
 								<div class="text-center col-lg-12">
-									<input type = "submit" class="btn btn-default btn2" value = "저장하기"/>
+									<input type = "submit" ng-disabled = 'button.savebtn' class="btn btn-default btn2" value = "저장하기"/>
 									<button class="btn btn-default btn2">취소하기</button>
 									<div class="clearfix"></div>
 								</div>
@@ -86,9 +86,9 @@
                                 <div class="text-center relative" style="left:-15%;">
                                     <nav>
                                         <ul class="pagination pagination-sm">
-                                            <li><a href="" aria-label="First" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, 0)">처음</a></li>
+                                            <li><a href="" ng-hide="pag_inf.offset == 0" aria-label="First" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, 0)">처음</a></li>
                                             
-                                            <li><a href="" aria-label="Previous" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                            <li><a href="" ng-hide="pag_inf.offset == 0" aria-label="Previous" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
                                             
                                             <li ng-repeat = 'page in pag_inf.pages' ng-class="(page === pag_inf.offset) ? 'active': ''"><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
 
@@ -164,14 +164,14 @@
                                     <div class="text-center relative" style="left:-15%;">
 										<nav>
 											<ul class="pagination pagination-sm">
-												<li><a href="" aria-label="First" ng-click="setOffset(sel_site, 0)">처음</a></li>
+												<li><a href="" ng-hide="sel_site.offset == 0" aria-label="First" ng-click="setOffset(sel_site, 0)">처음</a></li>
                                                 
-												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+												<li><a href="" ng-hide="sel_site.offset == 0" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
 												
                                                 <li ng-repeat = 'page in sel_site.pages' ng-class="(page === sel_site.offset) ? 'active': ''"><a href="" ng-click="setOffset(sel_site, page)">{{ page + 1 }}</a></li>
 
-                                                <li><a href="" ng-click="setOffset(sel_site, sel_site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-												<li><a href="" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.max_page)" aria-label="Last">마지막</a></li>
+                                                <li><a href="" ng-hide="sel_site.offset >= sel_site.max_page" ng-click="setOffset(sel_site, sel_site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+												<li><a href="" ng-hide="sel_site.offset >= sel_site.max_page" aria-label="Previous" ng-click="setOffset(sel_site, sel_site.max_page)" aria-label="Last">마지막</a></li>
 											</ul>
 										</nav>
 									</div>
@@ -311,14 +311,14 @@
 									<div class="text-center relative" style="left:-15%;">
 										<nav>
 											<ul class="pagination pagination-sm">
-												<li><a href="" aria-label="First" ng-click="setOffset(site, 0)">처음</a></li>
+												<li><a href="" ng-hide="site.offset == 0" aria-label="First" ng-click="setOffset(site, 0)">처음</a></li>
                                                 
-												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+												<li><a href="" ng-hide="site.offset == 0" aria-label="Previous" ng-click="setOffset(site, site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
 												
                                                 <li ng-repeat = 'page in site.pages' ng-class="(page === site.offset) ? 'active': ''"><a href="" ng-click="setOffset(site, page)">{{ page + 1 }}</a></li>
 
-                                                <li><a href="" ng-click="setOffset(site, site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-												<li><a href="" aria-label="Previous" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
+                                                <li><a href="" ng-hide="site.offset >= site.max_page" ng-click="setOffset(site, site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+												<li><a href="" ng-hide="site.offset >= site.max_page" aria-label="Previous" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
 											</ul>
 										</nav>
 									</div>

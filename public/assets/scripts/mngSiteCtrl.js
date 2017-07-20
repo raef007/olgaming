@@ -29,9 +29,12 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
                 $scope.sites	    = srv_resp.data[0];
                 $scope.pag_inf	    = srv_resp.data[1];
                 
-                $scope.new_site     = {};
+                $scope.pag_inf.offset   = $scope.pag_inf.max_page;
+                
+                $scope.new_site             = {};
                 $scope.new_site.reg_sites   = [];
                 
+                $('#adm-modal').modal('hide');
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -41,8 +44,11 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
     $scope.saveSitesForm = function() {
         $http.post("mng-sites/api/post-save-sites", $scope.sites)
             .then(function success(srv_resp){
+                var cur_offset      = $scope.pag_inf.offset;
                 $scope.sites	    = srv_resp.data[0];
                 $scope.pag_inf	    = srv_resp.data[1];
+                
+                $scope.pag_inf.offset   = cur_offset;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
