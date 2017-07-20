@@ -172,7 +172,7 @@
 				                            </div>
 				                            
 				                            <div class="tab-content">
-				                                <div class="tab-pane active" id="tab_10">
+				                                <div class="tab-pane active" id="tab_{{ $index + 1 }}0">
 				                                    <form name="" id="" class="" method="get">
 				                                        <input type="text" class="datepicker1" ng-model = 'search.from'>
                                                         <input type="text" class="datepicker1" ng-model = 'search.to'>
@@ -241,7 +241,7 @@
                                                     </div>
 				                                </div>
 				
-				                                <div class="tab-pane" id="tab_11">
+				                                <div class="tab-pane" id="tab_{{ $index + 1 }}1">
 				                                    <form name="" id="" class="" method="get">
 				                                        <input type="text" class="datepicker1" ng-model = 'search.from'>
                                                         <input type="text" class="datepicker1" ng-model = 'search.to'>
@@ -321,7 +321,7 @@
 				            $(document).ready(function() {
                                 
                                 $('#main-cntr').delegate(".datepicker1", "focusin", function(){
-                                    $(this).datepicker();
+                                    $(this).datepicker(({ dateFormat: 'yymmdd' }));
                                 });
                                 
                             });

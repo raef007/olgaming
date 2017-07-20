@@ -13,6 +13,22 @@ angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
 		}
 	);
     
+    $scope.search   = {};
+    $scope.search.filter_by = 'text';
+    $scope.search.val       = '';
+    
+    $scope.searchByQuery = function() {
+        $http.post("faq/api/search-all-sites", $scope.search)
+            .then(function success(srv_resp){
+                $scope.sites	= srv_resp.data[0];
+                $scope.pag_inf	= srv_resp.data[1];
+                
+            }, function failed(srv_resp) {
+                $scope.sites	= [{}];
+            }
+        );
+    }
+
     $scope.saveFaqForm = function() {
 		$http.post("faq/api/post-save-faq", $scope.new_faq)
             .then(function success(srv_resp){

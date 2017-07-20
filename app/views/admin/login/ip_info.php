@@ -164,7 +164,7 @@
 				            $(document).ready(function() {
                                 
                                 $('#main-cntr').delegate(".datepicker1", "focusin", function(){
-                                    $(this).datepicker();
+                                    $(this).datepicker(({ dateFormat: 'yymmdd' }));
                                 });
                                 
                             });

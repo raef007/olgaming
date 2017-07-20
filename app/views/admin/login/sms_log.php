@@ -177,3 +177,13 @@
                             </div>
                           </div>
                         </div>
+                        
+                        <script>
+				            $(document).ready(function() {
+                                
+                                $('#main-cntr').delegate(".datepicker1", "focusin", function(){
+                                    $(this).datepicker(({ dateFormat: 'yymmdd' }));
+                                });
+                                
+                            });
+				        </script>

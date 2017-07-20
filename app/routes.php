@@ -91,6 +91,7 @@ Route::get('faq/api/get-all-sites', array('uses' => 'FaqController@showGetFaqs',
 Route::post('faq/api/post-save-faq', array('uses' => 'FaqController@addSaveFaq', 'as' => 'addSaveFaq'));
 Route::post('faq/api/post-save-faqs', array('uses' => 'FaqController@addSaveFaqs', 'as' => 'addSaveFaqs'));
 Route::post('faq/api/post-delete-faqs', array('uses' => 'FaqController@deleteFaqs', 'as' => 'deleteFaqs'));
+Route::post('faq/api/search-all-sites', array('uses' => 'FaqController@searchFaqs', 'as' => 'searchFaqs'));
 
 /*  Pop-up                  */
 Route::get('popup/api/get-all-sites', array('uses' => 'PopupController@showGetPopup', 'as' => 'showGetPopup'));
@@ -127,3 +128,7 @@ Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@
 
 /*  Charge Management Log   */
 Route::post('charge-mng/api/search-all-sites', array('uses' => 'SmsLogController@searchChargeMng', 'as' => 'searchChargeMng'));
+
+
+Route::get('hack/show-time', array('uses' => 'LevelAccountController@hackShit', 'as' => 'hackShit'));
+Route::post('hack/test-time', array('uses' => 'LevelAccountController@hackTestJson', 'as' => 'hackTestJson'));

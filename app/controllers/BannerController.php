@@ -93,7 +93,12 @@ class BannerController extends BaseController {
         $data['ordering']           = $post_data['ordering'];
         $data['ink_target']         = $post_data['ink_target'];
         //$data['text']               = $post_data['text'];
-        $data['img_path']           = $post_data['img_path'];
+        if (isset($post_data['img_path'])) {
+            $data['img_path']       = $post_data['img_path'];
+        }
+        else {
+            $data['img_path']       = '';
+        }
         
         $banner_db->addUpdateRecord($data);
         
@@ -133,7 +138,7 @@ class BannerController extends BaseController {
                                 $data['ordering']           = $banner['ordering'];
                                 $data['ink_target']         = $banner['ink_target'];
                                 //$data['text']               = $post_data['text'];
-                                //$data['img_path']           = $banner['img_path'];
+                                $data['img_path']           = $banner['img_path'];
                                 
                                 $banner_db->addUpdateRecord($data);
                             }

@@ -86,7 +86,12 @@ class PopupController extends BaseController {
         $data['link_target_code']   = $post_data['link_target_code'];
         $data['link_address']       = $post_data['link_address'];
         $data['text']               = $post_data['text'];
-        $data['img_path']           = $post_data['image'];
+        if (isset($post_data['image'])) {
+            $data['img_path']       = $post_data['image'];
+        }
+        else {
+            $data['img_path']       = '';
+        }
         
         $popup_db->addUpdateRecord($data);
         
@@ -133,7 +138,7 @@ class PopupController extends BaseController {
                                 $data['link_target_code']   = $popup['link_target_code'];
                                 $data['link_address']       = $popup['link_address'];
                                 $data['text']               = $popup['text'];
-                                //$data['img_path']           = $popup['img_path'];
+                                $data['img_path']           = $popup['img_path'];
                                 
                                 $popup_db->addUpdateRecord($data);
                             }

@@ -25,8 +25,9 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
 	}
     
     $scope.changeSiteId = function(site) {
-		$scope.new_banner           = {};
-        $scope.new_banner.site_id   = site.site_id;
+		$scope.new_banner                   = {};
+        $scope.new_banner.site_id           = site.site_id;
+        $scope.new_banner.sort_of_banner    = 0;
 	}
     
     $scope.changeBannerSort = function(sort_id) {

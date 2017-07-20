@@ -47,7 +47,7 @@ class LoginHistoryController extends BaseController {
             $site->ok_limit     = $limit;
             $site->ok_max       = floor($site->ok_count / $site->ok_limit);
             
-            $all_ng_count       += $site->ok_count;
+            $all_ok_count       += $site->ok_count;
             
             if (0 == ($site->ok_count % $site->ok_limit)) {
                 $site->ok_max     = $site->ok_max - 1;

@@ -1,19 +1,6 @@
 <?php
 
 class FaqController extends BaseController {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
     
     public function showGetFaqs()
 	{
@@ -25,6 +12,66 @@ class FaqController extends BaseController {
                 ->where('site_id', $site->site_id)
                 ->get();
             
+            $site->url_count    = count($site->faqs);
+            $site->offset       = 0;
+            $site->limit        = $limit;
+            $site->max_page     = floor($site->url_count / $site->limit);
+            
+            if (0 == ($site->url_count % $site->limit)) {
+                $site->max_page     = $site->max_page - 1;
+            }
+            
+            for ($count = 0; $count <= $site->max_page; $count++) {
+                $site->pages[]  = $count;
+            }
+        }
+        
+        $page_info              = new stdClass();
+        $page_info->url_count   = count($all_sites);
+        $page_info->offset      = 0;
+        $page_info->limit       = $limit;
+        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        
+        if (0 == ($page_info->url_count % $page_info->limit)) {
+            $page_info->max_page    = $page_info->max_page - 1;
+        }
+        
+        for ($count = 0; $count <= $page_info->max_page; $count++) {
+            $page_info->pages[]  = $count;
+        }
+        
+        return json_encode([$all_sites, $page_info]);
+	}
+    
+    public function searchFaqs()
+	{
+        $limit      = 3;
+        $post_data  = Input::all();
+        
+        $all_sites  = DB::table('SITE')->get();
+        
+        foreach($all_sites as $site) {
+            $query  = DB::table('FAQ')
+                ->where('site_id', $site->site_id);
+            
+            if ((isset($post_data['filter_by']))
+            && (isset($post_data['filter_val']))) {
+                if (('' != $post_data['filter_by'])
+                && ('' != $post_data['filter_val'])) {
+                    
+                    if ('text' == $post_data['filter_by']) {
+                        $query->where(function ($filtered) use ($post_data) {
+                                $filtered->where('text', 'like', '%'.$post_data['filter_val'].'%')
+                                    ->orWhere('title', 'like', '%'.$post_data['filter_val'].'%');
+                            });
+                    }
+                    else {
+                        $query->where($post_data['filter_by'], 'like', '%'.$post_data['filter_val'].'%');
+                    }
+                }
+            }
+            
+            $site->faqs         = $query->get();
             $site->url_count    = count($site->faqs);
             $site->offset       = 0;
             $site->limit        = $limit;
