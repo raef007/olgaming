@@ -51,37 +51,19 @@ class LevelAccountController extends BaseController {
         $dup_check      = 0;
         
         foreach ($post_data as $site) {
-        
-            $opt_used   = array();
             
+            $data['site_id']        = $site['site_id'];
             
             foreach ($site['level_accounts'] as $account) {
                 
-                if (FALSE !== array_search($account['level'], $opt_used)) {
-                    $dup_check  = 1;
-                    break;
-                }
+                $data['la_seq']         = $account['la_seq'];
+                $data['level']          = $account['level'];
+                $data['bank_name']      = $account['bank_name'];
+                $data['bank_account']   = $account['bank_account'];
+                $data['bank_owner']     = $account['bank_owner'];
                 
-                $opt_used[] = $account['level'];
+                $lvl_acc_db->addUpdateRecord($data);
             }
-        }
-        
-        if (0 == $dup_check) {
-            foreach ($post_data as $site) {
-                
-                $data['site_id']        = $site['site_id'];
-                
-                foreach ($site['level_accounts'] as $account) {
-                    
-                    $data['level']          = $account['level'];
-                    $data['bank_name']      = $account['bank_name'];
-                    $data['bank_account']   = $account['bank_account'];
-                    $data['bank_owner']     = $account['bank_owner'];
-                    
-                    $lvl_acc_db->addUpdateRecord($data);
-                }
-            }
-        
         }
         
         $data = $this->showGetLevelAccounts();
@@ -94,7 +76,11 @@ class LevelAccountController extends BaseController {
         $post_url   = URL::To('hack/test-time');
         $post_url   = 'http://vava26.com/admin/backOffice.jsp';
         
-        $data_json  = '{"businessName":"site","screenNumber":"0001","functionNumber":"0003","nowTab":"1","nowPage":0,"cntRecordPerPage":0,"adminId":"j3849","etc":"extra","dataList":[{"insert_key":"","site_id":"1","level":"1   ","bank_name":"SC제일은행","bank_owner":"asdfasdfasdf","bank_account":"lalala"}]}';
+        $data_json  = '{"businessName":"site","screenNumber":"0001","functionNumber":"0004","nowTab":"2","nowPage":0,"cntRecordPerPage":0,"adminId":"j3849","etc":"extra","dataList":[{"insert_key":"-1","site_id":"2","level":"0","bank_name":"국민은행","bank_owner":"","bank_account":""}]}';
+        //$data_json  = '{"parameter":{"businessName":"site","screenNumber":"0001","functionNumber":"0004","nowTab":"2","nowPage":0,"cntRecordPerPage":0,"adminId":"j3849","etc":"extra","dataList":[{"insert_key":"-1","site_id":"2","level":"0","bank_name":"국민은행","bank_owner":"","bank_account":""}]}}';
+        
+        $input['parameters']   = $data_json;
+        
         /*--------------------------------------------------------------------
         /*	Send POST request to Highcharts export Server via CuRL
         /*------------------------------------------------------------------*/
@@ -103,12 +89,16 @@ class LevelAccountController extends BaseController {
         
         /* Sets the CuRL POST Request configuration  */
         curl_setopt($curl, CURLOPT_URL, $post_url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        //curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array('parameter' => $data_json));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER , false);
+        //curl_setopt($curl, CURLOPT_POSTFIELDS, $data_json);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($input));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response  = curl_exec($curl);
+        $output['sent_hdr'] = curl_getinfo($curl);
         curl_close($curl);
+        //print_r($output['sent_hdr']);
         print_r($response);
         /* Execute CuRL Request */
         //$result = curl_exec($curl);

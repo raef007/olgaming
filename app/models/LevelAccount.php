@@ -8,7 +8,7 @@ class LevelAccount extends Eloquent {
 	 * @var string
 	 */
 	protected $table        = 'LEVEL_ACCOUNT';
-    //protected $primaryKey   = '';
+    protected $primaryKey   = 'la_seq';
 	public $timestamps      = false;
 
 	public function getAllRecord()
@@ -23,14 +23,10 @@ class LevelAccount extends Eloquent {
         /*  Variable Declaration        */
         $sts            = 0;
         $primary_key    = 0;
-        
-        $acc_db         = self::where('site_id', $data['site_id'])
-            ->where('level', $data['level'])
-            ->first();
 
         /*  Instantiate Database Class  */
-        if (!$acc_db) {
-            $acc_db    = new LevelAccount();
+        if (0 == $data['la_seq']) {
+            $acc_db                 = new LevelAccount();
             
             /*  Saves Data to the Database  */
             $acc_db->site_id        = $data['site_id'];
@@ -41,31 +37,29 @@ class LevelAccount extends Eloquent {
             $acc_db->reg_date       = date('Ymd');
             $acc_db->reg_datetime   = time();
             
-            $sts            = $acc_db->save();
+            $sts                    = $acc_db->save();
         }
         else {
-            $sts    = self::where('site_id', $data['site_id'])
-                ->where('site_id', $data['site_id'])
-                ->where('level', $data['level'])
-                ->update(
-                    array(
-                        'site_id'       => $data['site_id'],
-                        'level'         => $data['level'],
-                        'bank_name'     => $data['bank_name'],
-                        'bank_account'  => $data['bank_account'],
-                        'bank_owner'    => $data['bank_owner']
-                    )
-                );
+            /*  Saves Data to the Database  */
+            $acc_db                 = self::find($data['la_seq']);
+            
+            $acc_db->site_id        = $data['site_id'];
+            $acc_db->level          = $data['level'];
+            $acc_db->bank_name      = $data['bank_name'];
+            $acc_db->bank_account   = $data['bank_account'];
+            $acc_db->bank_owner     = $data['bank_owner'];
+            
+            $sts                    = $acc_db->save();
         }
         
-        $primary_key    = $data['site_id'];
+        $primary_key    = $data['la_seq'];
         
         return $primary_key;
     }
     
-    public function deleteRecord($site_id)
+    public function deleteRecord($la_seq)
     {
-        $site = self::where('site_id', $site_id)
+        $site = self::where('la_seq', $la_seq)
             ->delete();
     }
 

@@ -13,6 +13,7 @@ angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
     $scope.addAccountRow = function(idx, site) {
         var new_acc = {};
         
+        new_acc.la_seq          = '0';
         new_acc.level           = '0';
         new_acc.bank_account    = '';
         new_acc.bank_name       = '';
@@ -21,9 +22,12 @@ angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
         new_acc.reg_datetime    = '';
         new_acc.site_id         = site.site_id;
         
+        $scope.sites[idx].level_accounts.push(new_acc);
+        /*
         if (4 > site.level_accounts.length) {
             $scope.sites[idx].level_accounts.push(new_acc);
         }
+        */
     };
     
     $scope.saveAccountForm = function() {

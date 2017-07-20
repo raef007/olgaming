@@ -55,7 +55,7 @@ class SiteController extends BaseController {
         }
         
         $srv_resp   = [$all_sites, $page_info];
-        return json_encode($all_sites);
+        return json_encode([$all_sites, $page_info]);
 	}
     
     public function addSaveSites()
