@@ -115,6 +115,9 @@ Route::post('cust-center/api/post-save-template', array('uses' => 'CustomerCente
 Route::post('cust-center/api/post-delete-template', array('uses' => 'CustomerCenterController@deleteTemplate', 'as' => 'deleteTemplate'));
 Route::post('cust-center/api/post-send-msg', array('uses' => 'CustomerCenterController@sendMessage', 'as' => 'sendMessage'));
 
+/* notice center */
+Route::post('notice/api/get-all-sites', array('uses' => 'NoticeController@searchNotice', 'as' => 'searchNotice'));
+
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
 
@@ -128,7 +131,6 @@ Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@
 
 /*  Charge Management Log   */
 Route::post('charge-mng/api/search-all-sites', array('uses' => 'SmsLogController@searchChargeMng', 'as' => 'searchChargeMng'));
-
 
 Route::get('hack/show-time', array('uses' => 'LevelAccountController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'LevelAccountController@hackTestJson', 'as' => 'hackTestJson'));
