@@ -6,6 +6,7 @@ class ChangeManageController extends BaseController {
     {
         $all_count  = 0;
         $limit      = 3;
+        $srv_resp   = new stdClass();
         
         $post_data  = Input::all();
         
@@ -29,38 +30,85 @@ class ChangeManageController extends BaseController {
                 }
             }
             
-            $site->smslogs      = $query->get();
-            $site->url_count    = count($site->smslogs);
-            $site->offset       = 0;
+            $deposits           = $query->get();
+            $all_count          += count($deposits);
+            
+            $site->requests     = array();
+            $site->standbys     = array();
+            $site->completeds   = array();
+            
+            foreach ($deposits as $deposit) {
+                
+                if ('' != $deposit->finish_date) {
+                    $site->completeds[] = $deposit;
+                }
+                else if ('' != $deposit->wait_date) {
+                    $site->standbys[]   = $deposit;
+                }
+                else {
+                    $site->requests[]   = $deposit;
+                }
+            }
+            
             $site->limit        = $limit;
-            $site->max_page     = floor($site->url_count / $site->limit);
             
-            $all_count          += $site->url_count;
+            $site->req_count    = count($site->requests);
+            $site->wait_count   = count($site->standbys);
+            $site->done_count   = count($site->completeds);
             
-            if (0 == ($site->url_count % $site->limit)) {
-                $site->max_page     = $site->max_page - 1;
+            $site->req_offset   = 0;
+            $site->wait_offset  = 0;
+            $site->done_offset  = 0;
+            
+            $site->req_offset   = 0;
+            $site->wait_offset  = 0;
+            $site->done_offset  = 0;
+            
+            $site->req_max      = floor($site->req_count / $site->limit);
+            $site->wait_max     = floor($site->wait_count / $site->limit);
+            $site->done_max     = floor($site->done_count / $site->limit);
+            
+            if (0 == ($site->req_count % $site->limit)) {
+                $site->req_max     = $site->req_max - 1;
             }
             
-            for ($count = 0; $count <= $site->max_page; $count++) {
-                $site->pages[]  = $count;
+            if (0 == ($site->wait_count % $site->limit)) {
+                $site->wait_max     = $site->wait_max - 1;
+            }
+            
+            if (0 == ($site->done_count % $site->limit)) {
+                $site->done_max     = $site->done_max - 1;
+            }
+            
+            for ($count = 0; $count <= $site->req_max; $count++) {
+                $site->req_pages[]  = $count;
+            }
+            
+            for ($count = 0; $count <= $site->wait_max; $count++) {
+                $site->wait_pages[]  = $count;
+            }
+            
+            for ($count = 0; $count <= $site->done_max; $count++) {
+                $site->done_pages[]  = $count;
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = $all_count;
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        $srv_resp->sites        = $all_sites;
+        $srv_resp->url_count    = $all_count;
+        $srv_resp->offset       = 0;
+        $srv_resp->limit        = $limit;
+        $srv_resp->max_page     = floor($srv_resp->url_count / $srv_resp->limit);
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
+        
+        return json_encode($srv_resp);
     }
     
 }

@@ -57,7 +57,7 @@
 											<tbody ng-repeat = "site in sites | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index">
 												<tr ng-repeat = "url in site.site_urls | limitTo:1 track by $index">
 													<td><input name = "site_check" ng-model = "url.del_check" type="checkbox" value = "1"></td>
-													<td>{{ url.su_seq }}</td>
+													<td>{{ ($parent.$index + (pag_inf.offset*pag_inf.limit)) + 1 }}</td>
 													<td><input type="text" ng-model = "site.site_name" name = 'site_name' value=""></td>
 													<td><input type="text" ng-model = "url.site_url" name = 'site_url' value=""></td>
 													<input type = 'hidden' ng-model = "url.su_seq" name = 'su_seq' value=""></td>
@@ -151,7 +151,7 @@
 											</thead>
 											<tbody>
 												<tr ng-repeat = "url in sel_site.site_urls | startFrom:sel_site.offset*sel_site.limit | limitTo:sel_site.limit track by $index">
-													<td>{{ url.su_seq }}</td>
+													<td>{{ ($index + (sel_site.offset*sel_site.limit)) + 1 }}</td>
 													<td>{{ url.site_url }}</td>
 													<td>{{ url.reg_date }}</td>
 													<td><button class="btn btn-default" ng-click = "deleteUrlForm(url)" ng-model = "url.su_seq">삭제</button></td>
@@ -221,7 +221,7 @@
 									<tbody>
 										<tr ng-repeat = "url in site.site_urls | limitTo:1 track by $index">
 											<td><input type="checkbox"></td>
-											<td>{{ url.su_seq }}</td>
+											<td>1</td>
 											<td><input type="text" ng-model="site.site_name" readonly></td>
 											<td><input type="text" ng-model="url.site_url"></td>
 											<td>
@@ -298,7 +298,7 @@
 											</thead>
 											<tbody>
 												<tr ng-repeat = "url in site.site_urls | startFrom:site.offset*site.limit | limitTo:site.limit track by $index">
-													<td>{{ url.su_seq }}</td>
+													<td>{{ ($index + (site.offset*site.limit)) + 1 }}</td>
 													<td>{{ url.site_url }}</td>
 													<td>{{ url.reg_date }}</td>
 													<td><button class="btn btn-default" ng-click = "deleteUrlFromSite(url)">삭제</button></td>

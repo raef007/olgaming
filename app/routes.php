@@ -130,7 +130,10 @@ Route::post('smslog/api/search-all-sites', array('uses' => 'SmsLogController@sea
 Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@deleteSmsLogs', 'as' => 'deleteSmsLogs'));
 
 /*  Charge Management Log   */
-Route::post('charge-mng/api/search-all-sites', array('uses' => 'SmsLogController@searchChargeMng', 'as' => 'searchChargeMng'));
+Route::post('charge-mng/api/search-all-sites', array('uses' => 'ChangeManageController@searchChargeMng', 'as' => 'searchChargeMng'));
 
-Route::get('hack/show-time', array('uses' => 'LevelAccountController@hackShit', 'as' => 'hackShit'));
-Route::post('hack/test-time', array('uses' => 'LevelAccountController@hackTestJson', 'as' => 'hackTestJson'));
+/*  Training Grounds Controller */
+Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
+Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));
+Route::get('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubeGetToken', 'as' => 'spinCubeGetToken'));
+Route::post('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubePostToken', 'as' => 'spinCubePostToken'));
