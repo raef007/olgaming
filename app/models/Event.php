@@ -1,14 +1,14 @@
 <?php
 
-class Notice extends Eloquent {
+class Event extends Eloquent {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table        = 'NOTICE';
-    protected $primaryKey   = 'n_seq';
+	protected $table        = 'EVENT';
+    protected $primaryKey   = 'e_seq';
 	public $timestamps      = false;
 
 	public function getAllRecord()
@@ -29,7 +29,7 @@ class Notice extends Eloquent {
             $faq_db     = self::find($data['f_seq']);
         }
         else {
-            $faq_db     = new Notice();
+            $faq_db     = new Event();
         }
         
         /*  Saves Data to the Database  */
@@ -51,9 +51,9 @@ class Notice extends Eloquent {
         return $primary_key;
     }
     
-    public function deleteRecord($n_seq)
+    public function deleteRecord($e_seq)
     {
-        $site = self::where('n_seq', $n_seq)
+        $site = self::where('e_seq', $e_seq)
             ->delete();
     }
 

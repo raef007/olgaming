@@ -69,7 +69,7 @@
 				                                                    </thead>
 				                                                    <tbody>
 				                                                        <tr ng-repeat = 'site in sites | combine:"subjects" | startFrom:pag_inf.notice_offset*pag_inf.notice_limit | limitTo:pag_inf.notice_limit track by $index'>
-				                                                            <td><input type="checkbox" ng-model = 'del.notice_check' value = '1'></td>
+				                                                            <td><input type="checkbox" ng-model = 'site.notice_check' value = '1'></td>
 				                                                            <td>{{site.n_seq}}</td>
 				                                                            <td>{{site.site_name}}</td>
 				                                                            <td>{{site.order}}</td>
@@ -170,8 +170,8 @@
 				                                                        </tr>
 				                                                    </thead>
 				                                                    <tbody>
-				                                                        <tr ng-repeat = 'site in sites | combine:"titles" | startFrom:pag_inf.event_offset*pag_inf.event_limit | limitTo:pag_inf.event_limit track by $index'>
-				                                                            <td><input type="checkbox"></td>
+				                                                        <tr ng-repeat = 'site in events | combine:"titles" | startFrom:pag_inf.event_offset*pag_inf.event_limit | limitTo:pag_inf.event_limit track by $index'>
+				                                                            <td><input type="checkbox" ng-model = 'site.event_check' value = '1'></td>
 				                                                            <td>{{site.order}}</td>
 				                                                            <td>{{site.site_name}}</td>
 				                                                            <td>{{site.order}}</td>

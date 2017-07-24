@@ -236,6 +236,52 @@ class NoticeController extends BaseController {
             }
         return json_encode([$all_sites, $page_info]);
     }
-
+    
+    public function deleteNotice() {
+        $notice_db      = new Notice();
+        
+        $srv_resp       = new stdClass();
+        $post_data      = Input::all();
+        
+        foreach ($post_data as $site) {
+            
+            if (isset($site['subjects'])) {
+                foreach ($site['subjects'] as $notice) {
+                    if (isset($notice['notice_check'])) {
+                        if ('1' == $notice['notice_check']) {
+                            $notice_db->deleteRecord($notice['n_seq']);
+                        }
+                    }
+                }
+            }
+        }
+        
+        $srv_resp   = $this->showGetNotice();
+        
+        return $srv_resp;
+    }
+    
+    public function deleteEvent() {
+        $event_db       = new Event();
+        
+        $srv_resp       = new stdClass();
+        $post_data      = Input::all();
+        
+        foreach ($post_data as $site) {
+            
+            if (isset($site['titles'])) {
+                foreach ($site['titles'] as $event) {
+                    if (isset($event['event_check'])) {
+                        if ('1' == $event['event_check']) {
+                            $event_db->deleteRecord($event['e_seq']);
+                        }
+                    }
+                }
+            }
+        }
+        
+        $srv_resp   = $this->showGetNotice();
+        
+        return $srv_resp;
+    }
 }
-?>
