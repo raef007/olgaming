@@ -237,7 +237,7 @@ class NoticeController extends BaseController {
         return json_encode([$all_sites, $page_info]);
     }
     
-    public function deleteNotice() {
+    public function deleteNotices() {
         $notice_db      = new Notice();
         
         $srv_resp       = new stdClass();
@@ -261,8 +261,8 @@ class NoticeController extends BaseController {
         return $srv_resp;
     }
     
-    public function deleteEvent() {
-        $event_db       = new Event();
+    public function deleteEvents() {
+        $event_db       = new SiteEvent();
         
         $srv_resp       = new stdClass();
         $post_data      = Input::all();

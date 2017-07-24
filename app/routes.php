@@ -119,7 +119,8 @@ Route::post('cust-center/api/post-send-msg', array('uses' => 'CustomerCenterCont
 Route::get('notice/api/get-all-sites', array('uses' => 'NoticeController@showGetNotice', 'as' => 'showGetNotice'));
 Route::post('notice/api/search-notice', array('uses' => 'NoticeController@searchNotice', 'as' => 'searchNotice'));
 Route::post('notice/api/search-event', array('uses' => 'NoticeController@searchEvent', 'as' => 'searchEvent'));
-Route::post('notice/api/delete-notice', array('uses' => 'NoticeController@deleteNotice', 'as' => 'deleteNotice'));
+Route::post('notice/api/delete-notices', array('uses' => 'NoticeController@deleteNotice', 'as' => 'deleteNotices'));
+Route::post('notice/api/delete-events', array('uses' => 'NoticeController@deleteEvents', 'as' => 'deleteEvents'));
 
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
