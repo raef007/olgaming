@@ -237,7 +237,7 @@ class NoticeController extends BaseController {
         return json_encode([$all_sites, $page_info]);
     }
     
-    public function deleteNotices() {
+    public function deleteNotice() {
         $notice_db      = new Notice();
         
         $srv_resp       = new stdClass();
@@ -283,5 +283,44 @@ class NoticeController extends BaseController {
         $srv_resp   = $this->showGetNotice();
         
         return $srv_resp;
+    }
+    public function addNotice() {
+        $post_data  = Input::all();
+        DB::table('NOTICE')
+        ->join('MANAGER', 'MANAGER.admin_id', '=', 'NOTICE.admin_id')
+        ->insert(
+            [
+            'site_id' => $post_data['site_id'],
+            'subject' => $post_data['subject'],
+            'admin_id' => '1',
+            'text' => $post_data['text'],
+            'order' => $post_data['order'],
+            'show_flag' => $post_data['show_flag']
+            ]
+            );
+    $srv_resp   = $this->showGetNotice();
+    return $srv_resp;
+    }
+
+    public function addEvent() {
+        $post_data  = Input::all();
+        DB::table('EVENT')
+        ->join('MANAGER', 'MANAGER.admin_id', '=', 'EVENT.admin_id')
+        ->insert(
+            [
+            'site_id' => $post_data['site_id'],
+            'subject' => $post_data['subject'],
+            'admin_id' => '1',
+            'text' => $post_data['text'],
+            'start_date' => $post_data['start_date'],
+            'start_datetime' => $post_data['start_datetime'],
+            'end_date' => $post_data['end_date'],
+            'end_datetime' => $post_data['end_datetime'],
+            'order' => $post_data['order'],
+            'show_flag' => $post_data['show_flag']
+            ]
+            );
+    $srv_resp   = $this->showGetNotice();
+    return $srv_resp;
     }
 }
