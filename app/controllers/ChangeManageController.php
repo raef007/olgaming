@@ -195,4 +195,157 @@ class ChangeManageController extends BaseController {
         return json_encode($srv_resp);
     }
     
+    public function downloadExcel()
+    {
+        $deposit_db       = new Deposit();
+        
+        $srv_resp       = new stdClass();
+        $post_data      = Input::all();
+        
+        $filename       = 'Charge-Management-'.date('Y-m-d');
+        
+        $excel          = Excel::create($filename);
+        
+        foreach ($post_data as $site) {
+            
+            $excel->sheet($site['site_name'], function($sheet) use($site) {
+                $req_data       = array();
+                $wait_data      = array();
+                $done_data      = array();
+                
+                $req_data[0]    = array(
+                    '사이트',
+                    '금액대',
+                    '입금계좌',
+                    '입금자',
+                    '입금금액',
+                    '아이디',
+                    '닉네임',
+                    '회원레벨',
+                    '중복',
+                    '등록일시',
+                    '상태',
+                );
+                
+                $wait_data[0]   = array(
+                    '',
+                    '사이트',
+                    '금액대',
+                    '입금계좌',
+                    '입금자',
+                    '입금금액',
+                    '아이디',
+                    '닉네임',
+                    '회원레벨',
+                    '중복',
+                    '등록일시',
+                    '처리일시',
+                    '상태',
+                );
+                
+                $done_data[0]   = array(
+                    '',
+                    '사이트',
+                    '금액대',
+                    '입금계좌',
+                    '입금자',
+                    '입금금액',
+                    '아이디',
+                    '닉네임',
+                    '회원레벨',
+                    '중복',
+                    '등록일시',
+                    '상태',
+                );
+                
+                /*  Sets the data array for Excel consumption   */
+                foreach ($site['requests'] as $req) {
+                    $req_data[] = array(
+                        $site['site_name'],
+                        $req['deposit_level'],
+                        $req['bank_name'],
+                        $req['bank_owner'],
+                        $req['money'],
+                        $req['username'],
+                        $req['nickname'],
+                        $req['member_level'],
+                        '0',
+                        $req['reg_date'],
+                        $req['cancel_flag'],
+                    );
+                }
+                
+                foreach ($site['standbys'] as $req) {
+                    $wait_data[] = array(
+                        '',
+                        $site['site_name'],
+                        $req['deposit_level'],
+                        $req['bank_name'],
+                        $req['bank_owner'],
+                        $req['money'],
+                        $req['username'],
+                        $req['nickname'],
+                        $req['member_level'],
+                        '0',
+                        $req['reg_date'],
+                        $req['wait_date'],
+                        $req['cancel_flag'],
+                    );
+                }
+                
+                foreach ($site['completeds'] as $req) {
+                    $done_data[] = array(
+                        '',
+                        $site['site_name'],
+                        $req['deposit_level'],
+                        $req['bank_name'],
+                        $req['bank_owner'],
+                        $req['money'],
+                        $req['username'],
+                        $req['nickname'],
+                        $req['member_level'],
+                        '0',
+                        $req['reg_date'],
+                        $req['cancel_flag'],
+                    );
+                }
+            
+                $sheet->fromArray($req_data, null, 'B3', true, false);
+                $sheet->cell('A2', function($cell) {
+                    $cell->setValue('Requests');
+
+                });
+                
+                $sheet->appendRow(array(''));
+                $sheet->appendRow(array(
+                    'Standby'
+                ));
+                $sheet->rows($wait_data, 'B5');
+                
+                $sheet->appendRow(array(''));
+                $sheet->appendRow(array(
+                    'Complete'
+                ));
+                $sheet->rows($done_data);
+            });
+        }
+        
+        $excel->store('xlsx', public_path('assets/charge-mng'));
+        
+        $srv_resp->filename = $filename.'.xlsx';
+        
+        return json_encode($srv_resp);
+    }
+    
+	public function downloadFile($path, $filename)
+    {
+        $download = 'assets/'.$path.'/'.$filename;	// get path
+        
+        if(file_exists($download)){
+            return Response::download($download, $filename);	// stream for download
+        } else {
+            App::abort(403, 'File not found.');
+        }
+	}
+    
 }

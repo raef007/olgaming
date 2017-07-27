@@ -5,13 +5,13 @@
     <div id="tab_site_set" class="div-tab tabs swipe-tab tabs-color-top">
         <div class="w-tab bg-light">
             <ul class="nav nav-tabs" data-toggle="tab-hover">
-                <li ng-class="0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'><a href = "" data-target="#tab_0{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
+                <li ng-class="0 == $index ? 'active' : ''" ng-repeat = 'site in master.sites track by $index'><a href = "" data-target="#tab_0{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
             </ul>
         </div>
         
         
         <div class="tab-content">
-            <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id = "tab_0{{ $index }}" ng-repeat = 'site in sites track by $index'>
+            <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id = "tab_0{{ $index }}" ng-repeat = 'site in master.sites track by $index'>
                 <div class="table-responsive">
                 <h4>계좌 설정</h4>
                     <button class="btn btn-default pull-right" ng-click = 'addAccountRow($index, site)'>추가하기</button>

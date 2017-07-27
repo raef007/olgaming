@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('chargeMngCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('chargeMngCtrl', function($scope, $http, $window) {
 	
     $scope.search       = {};
     $scope.search.from  = '20170101';
@@ -38,6 +38,17 @@ angular.module("vavaGaming").controller('chargeMngCtrl', function($scope, $http)
                 
             }, function failed(srv_resp) {
                 $scope.master	= [{}];
+            }
+        );
+    }
+    
+    $scope.downloadExcelFile = function() {
+        $http.post("charge-mng/api/download-excel", $scope.master.sites)
+            .then(function success(srv_resp){
+                $("body").append("<iframe src='http://localhost/vava777/public/charge-mng/api/download-file/charge-mng/" + srv_resp.data.filename +"' style='display: none;' ></iframe>");
+                
+            }, function failed(srv_resp) {
+                //$scope.master	= [{}];
             }
         );
     }
