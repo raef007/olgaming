@@ -111,7 +111,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative" style="left:-15%;">
@@ -220,7 +220,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative" style="left:-15%;">
@@ -327,7 +327,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default ">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative" style="left:-15%;">
@@ -448,7 +448,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative">
@@ -557,7 +557,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative">
@@ -664,7 +664,7 @@
 			
 			                                    <div class="up-10"></div>
 			                                    <div class="text-right">
-			                                        <button class="btn btn-default">엑셀 다운로드</button>
+			                                        <button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
 			                                    </div>
 			
 			                                    <div class="text-center relative">

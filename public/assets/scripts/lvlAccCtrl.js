@@ -2,11 +2,11 @@ angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
 	
     $http.get("lvl-acc/api/get-all-sites")
 		.then(function success(srv_resp){
-			$scope.sites	    = srv_resp.data[0];
+			$scope.master   = srv_resp.data;
 			//$scope.pag_inf	    = srv_resp.data[1];
             
 		}, function failed(srv_resp) {
-			$scope.sites	= [{}];
+			$scope.master	= [{}];
 		}
 	);
     
@@ -22,22 +22,16 @@ angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
         new_acc.reg_datetime    = '';
         new_acc.site_id         = site.site_id;
         
-        $scope.sites[idx].level_accounts.push(new_acc);
-        /*
-        if (4 > site.level_accounts.length) {
-            $scope.sites[idx].level_accounts.push(new_acc);
-        }
-        */
+        $scope.master.sites[idx].level_accounts.push(new_acc);
     };
     
     $scope.saveAccountForm = function() {
         
-		$http.post("lvl-acc/api/post-save-accounts", $scope.sites)
+		$http.post("lvl-acc/api/post-save-accounts", $scope.master.sites)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                //$scope.pag_inf	= srv_resp.data[1];
+                $scope.master	= srv_resp.data;
             }, function failed(srv_resp) {
-                //$scope.sites	= [];
+                $scope.master	= [{}];
             }
         );
 	}
