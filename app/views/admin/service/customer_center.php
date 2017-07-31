@@ -5,7 +5,7 @@
 				                <div class="w-tab bg-light">
 				                    <ul class="nav nav-tabs" data-toggle="tab-hover">
 				                        <li class="active"><a href = "" data-target="#tab_0" data-toggle="tab">전체</a></li>
-				                        <li ng-repeat = 'site in sites track by $index'><a class = 'close-template-form' href = "" data-target="#tab_{{ $index + 1}}" data-toggle="tab" ng-click = 'changeSiteId(site)'>{{ site.site_name }}</a></li>
+				                        <li ng-repeat = 'site in master.sites track by $index'><a class = 'close-template-form' href = "" data-target="#tab_{{ $index + 1}}" data-toggle="tab" ng-click = 'changeSiteId(site)'>{{ site.site_name }}</a></li>
 				                    </ul>
 				                </div>
 				                
@@ -57,7 +57,7 @@
 				                                                    </tr>
 				                                                </thead>
 				                                                <tbody>
-				                                                    <tr ng-repeat = 'site in sites | combine:"questions" | startFrom:pag_inf.offset*pag_inf.limit | limitTo:pag_inf.limit track by $index'>
+				                                                    <tr ng-repeat = 'site in master.sites | combine:"questions" | startFrom:master.offset*master.limit | limitTo:master.limit track by $index'>
 				                                                        <td>{{ site.cc_seq }}</td>
 				                                                        <td>{{ site.site_name }}</td>
 				                                                        <td>{{ site.admin_id }}</td>
@@ -74,17 +74,17 @@
 				
 				                                        <div class="text-center relative">
 				                                            <nav>
-				                                                <ul class="pagination pagination-sm">
-                                                                    <li><a href="" aria-label="First" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, 0)">처음</a></li>
+                                                                <ul class="pagination pagination-sm">
+                                                                    <li><a href="" aria-label="First" ng-hide="master.offset == 0" ng-click="setOffset(master, 0)">처음</a></li>
                                                                     
-                                                                    <li><a href="" aria-label="Previous" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                                                    <li><a href="" aria-label="Previous" ng-hide="master.offset == 0" ng-click="setOffset(master, master.offset-1)"><i class="fa fa-angle-left"></i></a></li>
                                                                     
-                                                                    <li ng-repeat = 'page in pag_inf.pages' ng-class="(page === pag_inf.offset) ? 'active': ''"><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+                                                                    <li ng-repeat = 'page in master.pages' ng-class="(page === master.offset) ? 'active': ''"><a href="" ng-click="setOffset(master, page)">{{ page + 1 }}</a></li>
 
-                                                                    <li><a href="" ng-hide="pag_inf.offset >= pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                                    <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.offset >= pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
+                                                                    <li><a href="" ng-hide="master.offset >= master.max_page" ng-click="setOffset(master, master.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                                    <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.offset >= master.max_page" ng-click="setOffset(master, master.max_page)" aria-label="Last">마지막</a></li>
                                                                 </ul>
-				                                            </nav>
+                                                            </nav>
 				                                        </div>
 				                                    </div>
 				                                </div>
@@ -109,7 +109,7 @@
 				                                                        <th>삭제</th>
 				                                                    </tr>
 				                                                </thead>
-				                                                <tbody ng-repeat = 'site in sites track by $index'>
+				                                                <tbody ng-repeat = 'site in master.sites track by $index'>
 				                                                    <tr ng-repeat = 'template in site.templates track by $index'>
 				                                                        
 				                                                        <td>{{ template.cct_seq }}</td>
@@ -128,7 +128,7 @@
 				                        </div>
 				                    </div>
 				
-				                    <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in sites track by $index'>
+				                    <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in master.sites track by $index'>
 				                        
 				                        <div id="tab_help1" class="div-tab tabs swipe-tab tabs-color-top">
 				                            <div class="w-tab bg-light">

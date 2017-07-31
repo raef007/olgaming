@@ -55,6 +55,7 @@ angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http) {
     $http.post("notice/api/add-notice", $scope.new_notice)
     .then(function success(srv_resp){
             $scope.master    = srv_resp.data;
+            console.log($scope.master);
             $scope.events   = angular.copy($scope.master);
         }, function failed(srv_resp) {
             $scope.master    = [{}];
