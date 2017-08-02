@@ -27,22 +27,21 @@ class SiteController extends BaseController {
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = count($all_sites);
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        $srv_resp->sites        = $all_sites;
+        $srv_resp->url_count    = count($all_sites);
+        $srv_resp->offset       = 0;
+        $srv_resp->limit        = $limit;
+        $srv_resp->max_page     = floor($srv_resp->url_count / $srv_resp->limit);
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        $srv_resp   = [$all_sites, $page_info];
-        return json_encode([$all_sites, $page_info]);
+        return json_encode($srv_resp);
 	}
     
     public function addSaveSites()
@@ -50,6 +49,7 @@ class SiteController extends BaseController {
         $site_db        = new Site();
         $site_url_db    = new SiteUrl();
         $post_data      = Input::all();
+        $err_msg        = array();
         
         foreach ($post_data as $site) {
             
@@ -57,22 +57,40 @@ class SiteController extends BaseController {
             $data['site_name']      = $site['site_name'];
             $data['reg_way']        = $site['reg_way'];
             
-            $site_id                = $site_db->addUpdateRecord($data);
+            $error_found            = $this->validateSite($data);
             
-            foreach ($site['site_urls'] as $url) {
+            if (0 >= count($error_found)) {
+                $site_id                = $site_db->addUpdateRecord($data);
                 
-                $data['site_id']        = $site_id;
-                $data['su_seq']         = $url['su_seq'];
-                $data['site_url']       = $url['site_url'];
-                $data['page_of_manage'] = '';
+                foreach ($site['site_urls'] as $url) {
                 
-                $site_url_id            = $site_url_db->addUpdateRecord($data);
+                    $data['site_id']        = $site_id;
+                    $data['su_seq']         = $url['su_seq'];
+                    $data['site_url']       = $url['site_url'];
+                    $data['page_of_manage'] = '';
+                    
+                    $error_found            = $this->validateSiteUrl($data);
+                    
+                    if (0 >= count($error_found)) {
+                        $site_url_id            = $site_url_db->addUpdateRecord($data);
+                    }
+                    else {
+                        $err_msg[] = $error_found;
+                    }
+                }
             }
+            else {
+                $err_msg[] = $error_found;
+            }
+            
         }
         
         $data = $this->showGetSites();
         
-        return $data;
+        $json_data          = json_decode($data);
+        $json_data->errors  = $err_msg;
+        
+        return json_encode($json_data);
     }
     
     public function addSaveUrl()
@@ -80,17 +98,28 @@ class SiteController extends BaseController {
         $site_db        = new Site();
         $site_url_db    = new SiteUrl();
         $post_data      = Input::all();
+        $err_msg        = array();
         
         $data['su_seq']         = '0';
         $data['site_id']        = $post_data['site_id'];
         $data['site_url']       = $post_data['site_url'];
         $data['page_of_manage'] = $post_data['page_of_manage'];
         
-        $data['su_seq']         = $site_url_db->addUpdateRecord($data);
+        $error_found            = $this->validateSiteUrl($data);
+        
+        if (0 >= count($error_found)) {
+            $data['su_seq']         = $site_url_db->addUpdateRecord($data);
+        }
+        else {
+            $err_msg[] = $error_found;
+        }
         
         $data = $this->showGetSites();
         
-        return $data;
+        $json_data          = json_decode($data);
+        $json_data->errors  = $err_msg;
+        
+        return json_encode($json_data);
     }
     
     public function deleteUrlSites()
@@ -134,5 +163,64 @@ class SiteController extends BaseController {
         $data = $this->showGetSites();
         
         return $data;
+    }
+    
+    private function validateSite($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'site_id.required'      => 'Site ID is required',
+            'site_id.numeric'       => 'Site ID must be a number',
+            'site_name.required'    => '사이트 is required',
+            'reg_way.required'      => '가입방식 Account is required',
+            'reg_way.numeric'       => '가입방식 must be a number',
+        );
+        
+        $rules      = array(
+            'site_id'       => 'required|numeric',
+            'site_name'     => 'required',
+            'reg_way'       => 'required|numeric',
+        );
+        
+        /*  Run the Laravel Validation  */
+		$validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
+    }
+    
+    private function validateSiteUrl($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'site_id.required'          => 'Site ID is required',
+            'site_id.numeric'           => 'Site ID must be a number',
+            'site_url.required'         => 'URL is required',
+            'site_url.url'              => 'Invalid URL Format',
+        );
+        
+        $rules      = array(
+            'site_id'           => 'required|numeric',
+            'su_seq'            => 'required|numeric',
+            'site_url'          => 'required|url',
+        );
+        
+        /*  Run the Laravel Validation  */
+		$validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
     }
 }

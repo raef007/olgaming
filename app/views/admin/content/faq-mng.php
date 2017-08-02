@@ -14,12 +14,12 @@
             <div id="tab_pop_adm" class="div-tab tabs swipe-tab tabs-color-top">
                 <div class="w-tab bg-light">
                     <ul class="nav nav-tabs" data-toggle="tab-hover">
-                        <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'><a href = "" data-target="#tab_0{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
+                        <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in master.sites track by $index'><a href = "" data-target="#tab_0{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
                     </ul>
                 </div>
                 
                 <div class="tab-content">
-                    <div class="tab-pane" id="tab_0{{ $index }}" ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'>
+                    <div class="tab-pane" id="tab_0{{ $index }}" ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in master.sites track by $index'>
                         
                         <form ng-submit = 'searchByQuery()'>
                             <select ng-model = 'search.filter_by'>
@@ -49,9 +49,9 @@
                                     <tbody>
                                         <tr ng-repeat = 'faq in site.faqs'>
                                             <td><input type="checkbox" ng-model = 'faq.faq_check' value = '1'></td>
-                                            <td>{{ faq.f_seq }}</td>
-                                            <td></td>
-                                            <td>{{ faq.title }}</td>
+                                            <td>{{ ($index + (site.offset*site.limit)) + 1 }}</td>
+                                            <td>{{ faq.admin_id }}</td>
+                                            <td><a href = '' ng-click = 'loadFaqInf(faq)'><i class = 'fa fa-edit'>&nbsp;</i>{{ faq.title }} <a/></td>
                                             <td ng-if = '0 == faq.sort'>계정관련</td>
                                             <td ng-if = '1 == faq.sort'>게임실행</td>
                                             <td ng-if = '2 == faq.sort'>기타</td>
@@ -72,7 +72,7 @@
                             <div class="text-right">
                                 <button type = 'submit' class="btn btn-default">저장하기</button>
                                 <button type = 'button' ng-click = 'deleteSitesForm()' class="btn btn-default">삭제하기</button>
-                                <button type = 'button' class="btn btn-default wys-slide-btn">신규등록</button>
+                                <button type = 'button' class="btn btn-default" ng-click = 'openNewFaq(site)'>신규등록</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>
@@ -125,23 +125,10 @@
 
                         <div class="text-center">
                             <button type = 'submit' class="btn-default btn btn2">등록하기</button>
-                            <button type = 'button' class="btn-default btn btn2 cancel-wys-slider">취소하기</button>
+                            <button type = 'button' class="btn-default btn btn2" ng-click = 'resetNewFaq(master.sites[0])'>취소하기</button>
                         </div>
 
                     </div>
                 </form>
             </div>
         </div>
-        
-        
-        <script>
-            $('document').ready(function() {
-                $('#main-cntr').on('click', '.wys-slide-btn', function() {
-                    $('#wys-editor').slideDown();
-                });
-                
-                $('#main-cntr').on('click', '.cancel-wys-slider', function() {
-                    $('#wys-editor').slideUp();
-                });
-            });
-        </script>

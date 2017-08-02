@@ -54,7 +54,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '10.30.42.115',
 			'database'  => 'VAVASOFT',
 			'username'  => 'vavauser',
 			'password'  => 'password',

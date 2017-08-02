@@ -2,12 +2,12 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
 	
     $http.get("banner/api/get-all-sites")
 		.then(function success(srv_resp){
-			$scope.sites	= srv_resp.data[0];
-			$scope.pag_inf	= srv_resp.data[1];
+			$scope.master	= srv_resp.data;
             
             $scope.new_banner                   = {};
-            $scope.new_banner.site_id           = $scope.sites[0].site_id;
             $scope.new_banner.sort_of_banner    = 0;
+            
+            $scope.resetNewBanner($scope.master.sites[0]);
 		}, function failed(srv_resp) {
 			$scope.sites	= [{}];
 		}
@@ -16,8 +16,8 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
     $scope.saveBannerForm = function() {
 		$http.post("banner/api/post-save-banner", $scope.new_banner)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                $scope.master	= srv_resp.data;
+                $scope.resetNewBanner($scope.master.sites[0]);
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -26,8 +26,8 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
     
     $scope.changeSiteId = function(site) {
 		$scope.new_banner                   = {};
-        $scope.new_banner.site_id           = site.site_id;
         $scope.new_banner.sort_of_banner    = 0;
+        $scope.resetNewBanner(site);
 	}
     
     $scope.changeBannerSort = function(sort_id) {
@@ -35,10 +35,9 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
 	}
     
     $scope.saveBannersForm = function() {
-        $http.post("banner/api/post-save-banners", $scope.sites)
+        $http.post("banner/api/post-save-banners", $scope.master.sites)
             .then(function success(srv_resp){
-                $scope.sites	    = srv_resp.data[0];
-                $scope.pag_inf	    = srv_resp.data[1];
+                $scope.master   = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -47,15 +46,55 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
     }
     
     $scope.deleteBannersForm = function() {
-        $http.post("banner/api/post-delete-banners", $scope.sites)
+        $http.post("banner/api/post-delete-banners", $scope.master.sites)
             .then(function success(srv_resp){
-                $scope.sites	    = srv_resp.data[0];
-                $scope.pag_inf	    = srv_resp.data[1];
+                $scope.master   = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
         );
+    }
+    
+    $scope.loadBannerInf = function(banner) {
+        var cur_site_id                     = $scope.new_banner.site_id;
+        
+        $scope.new_banner                   = {};
+        $scope.new_banner.b_seq             = banner.b_seq;
+        $scope.new_banner.subject           = banner.subject;
+        $scope.new_banner.start_date        = banner.start_date;
+        $scope.new_banner.end_date          = banner.end_date;
+        $scope.new_banner.ink_target        = banner.ink_target;
+        $scope.new_banner.ordering          = banner.ordering;
+        $scope.new_banner.show_flag         = banner.show_flag;
+        $scope.new_banner.text              = banner.text;
+        $scope.new_banner.sort_of_banner    = banner.sort_of_banner;
+        $scope.new_banner.site_id           = cur_site_id;
+        
+        $('#tab_banner_set').slideDown();
+    }
+    
+    $scope.resetNewBanner = function(site) {
+        var cur_sort_banner                 = $scope.new_banner.sort_of_banner;
+        
+        $scope.new_banner                   = {};
+        $scope.new_banner.b_seq             = 0;
+        $scope.new_banner.subject           = '';
+        $scope.new_banner.start_date        = '';
+        $scope.new_banner.end_date          = '';
+        $scope.new_banner.ink_target        = '';
+        $scope.new_banner.ordering          = '';
+        $scope.new_banner.show_flag         = '';
+        $scope.new_banner.text              = '';
+        $scope.new_banner.sort_of_banner    = cur_sort_banner;
+        $scope.new_banner.site_id           = site.site_id;
+        
+        $('#tab_banner_set').slideUp();
+    }
+    
+    $scope.openNewBanner = function(site) {
+        $scope.resetNewBanner(site);
+        $('#tab_banner_set').slideDown();
     }
     
     $scope.tinymceOptions = {
@@ -121,7 +160,7 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
                     return;
                 }
                 else {
-                    $scope.new_banner.img_path  = json.location;
+                    $scope.new_banner.img_path  = json.filename;
                 }
                 
                 success(json.location);

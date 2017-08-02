@@ -7660,3 +7660,7 @@ textarea.form-control1.control2 {
     width: 100%;
 }
 }
+
+a i.fa-edit {
+    color: blue;
+}

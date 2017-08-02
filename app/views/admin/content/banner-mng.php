@@ -5,12 +5,12 @@
         <div id="tab_banner_adm" class="div-tab tabs swipe-tab tabs-color-top">
             <div class="w-tab bg-light">
                 <ul class="nav nav-tabs" data-toggle="tab-hover">
-                    <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in sites track by $index'><a href = "" data-target="#tab_{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
+                    <li ng-click = 'changeSiteId(site)' ng-class = "0 == $index ? 'active' : ''" ng-repeat = 'site in master.sites track by $index'><a href = "" data-target="#tab_{{ $index }}" data-toggle="tab">{{ site.site_name }}</a></li>
                 </ul>
             </div>
             
             <div class="tab-content">
-                <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id="tab_{{ $index }}" ng-repeat = 'site in sites track by $index'>
+                <div class="tab-pane" ng-class = "0 == $index ? 'active' : ''" id="tab_{{ $index }}" ng-repeat = 'site in master.sites track by $index'>
                     
                     <div id="tab_banner_adm0" class="div-tab tabs swipe-tab tabs-color-top">
                         <div class="w-tab bg-light">
@@ -51,8 +51,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
@@ -115,8 +115,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" size="6" maxlength="10">
@@ -177,8 +177,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
@@ -239,8 +239,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
@@ -301,8 +301,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
@@ -363,8 +363,8 @@
                                                 <td><input type="checkbox" ng-model = 'banner.banner_check'></td>
                                                 <td>{{ site.site_name }}</td>
                                                 <td>{{ banner.admin_name }}</td>
-                                                <td><img src="{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
-                                                <td>{{ banner.subject }}</td>
+                                                <td><img src="<?php echo URL::To('assets/images/banners') ?>/{{ banner.img_path }}" style = 'height: 20px; width: 40px;'></td>
+                                                <td> <a href = '' ng-click = 'loadBannerInf(banner)'><i class = 'fa fa-edit'>&nbsp;</i>{{ banner.subject }}</td>
                                                 <td>
                                                     <div class = 'col-md-6'>
                                                         <input type="text" name="fr_date" ng-model = 'banner.start_date' class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
@@ -405,7 +405,7 @@
                         <div class="text-right">
                             <button class="btn btn-default" ng-click = 'saveBannersForm()'>저장하기</button>
                             <button class="btn btn-default" ng-click = 'deleteBannersForm()'>삭제하기</button>
-                            <a class="btn btn-default show-editor-btn" href = "" >신규등록</a>
+                            <a class="btn btn-default" href = "" ng-click = 'openNewBanner(site)'>신규등록</a>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -475,7 +475,7 @@
                     링크주소<span style="margin:0 -16px 0 0;"></span>
                     <span class="sp"></span>
                     <span class="sp"></span>
-                    <input type="text" name="" value="" placeholder="" id="" class="" size="25" maxlength="255"> (http:// 또는 https:// 필수 입력)
+                    <input type="text" size="25" maxlength="255"> (http:// 또는 https:// 필수 입력)
                 </div>
 
                 <div class="h10"></div>
@@ -517,7 +517,7 @@
                 
                 <div class="text-center">
                     <button class="btn-default btn btn2">등록하기</button>
-                    <button class="btn-default btn btn2 cancel-editor-btn">취소하기</button>
+                    <button class="btn-default btn btn2" ng-click = 'resetNewBanner(master.sites[0])'>취소하기</button>
                 </div>
 
             </div>
@@ -526,15 +526,6 @@
     
     <script>
         $(document).ready(function() {
-            $('#main-cntr').on('click', '.show-editor-btn', function() {
-                $('#tab_banner_set').slideDown();
-                return false;
-            });
-            
-            $('#main-cntr').on('click', '.cancel-editor-btn', function() {
-                $('#tab_banner_set').slideUp();
-                return false;
-            });
             
             $('#main-cntr').delegate(".datepicker1", "focusin", function(){
                 $(this).datepicker(({ dateFormat: 'yymmdd' }));

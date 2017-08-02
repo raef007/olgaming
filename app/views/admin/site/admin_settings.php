@@ -1,21 +1,13 @@
 		<div style="padding:0px 10px 10px 10px;" class="body-wrap">
 
-			<!--   <div class="location-info">
-                <div class="location-info-content">
-                    사이트 관리
-                    <span class="location-info-sp">></span>
-                    관리자 설정
-                </div>
-            </div> -->
-
             <div class="h80"></div>
 
             <div id="tab_adm_set" class="div-tab tabs swipe-tab tabs-color-top">
                 <div class="w-tab bg-light">
                     <ul class="nav nav-tabs" data-toggle="tab-hover">
                         <li class="active"><a href = "" data-target="#tab_0" data-toggle="tab" ng-click = 'allMngSiteTab()'>전체</a></li>
-                        <li ng-repeat = 'tab_site in site_list track by $index'>
-                            <a href = "" data-target="#tab_{{ $index + 1 }}" data-toggle="tab" ng-click = 'initTabData(tab_site)'>{{ tab_site.site_name }}</a>
+                        <li ng-repeat = 'site in master.sites track by $index'>
+                            <a href = "" data-target="#tab_{{ $index + 1 }}" data-toggle="tab" ng-click = 'initTabData(site)'>{{ site.site_name }}</a>
                         </li>
                         
                     </ul>
@@ -52,14 +44,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat = 'site in sites | startFrom:pag_inf.offset*pag_inf.limit| limitTo:pag_inf.limit track by $index'>
+                                                    <tr ng-repeat = 'site in master.sites | combine:"managers" | startFrom:master.offset*master.limit| limitTo:master.limit track by $index'>
                                                         <td><input name = "site_check" ng-model = "site.site_check" type="checkbox" value = "1"></td>
-                                                        <td>{{ site.ms_seq }}</td>
+                                                        <td>{{ ($index + (master.offset*master.limit)) + 1 }}</td>
                                                         <td>{{ site.site_name }}</td>
                                                         <td>{{ site.admin_id }}</td>
                                                         <td>{{ site.nick_name }}</td>
                                                         <td>
-                                                            <select ng-hide = "sites[((pag_inf.limit*(pag_inf.offset+1)) - pag_inf.limit) + $index].admin_id == sites[(((pag_inf.limit*(pag_inf.offset+1)) - pag_inf.limit) + $index) - 1].admin_id" ng-model = 'site.use_flag' name = 'use_flag'>
+                                                            <select ng-model = 'site.use_flag' name = 'use_flag'>
                                                                 <option value = '0'>NO </option>
                                                                 <option value = '1'>YES </option>
                                                             </select>
@@ -83,14 +75,14 @@
                                     <div class="text-center relative" style="left:-15%;">
                                         <nav>
                                             <ul class="pagination pagination-sm">
-                                                <li><a href="" aria-label="First" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, 0)">처음</a></li>
+                                                <li><a href="" aria-label="First" ng-hide="master.offset == 0" ng-click="setOffset(master, 0)">처음</a></li>
                                                 
-                                                <li><a href="" aria-label="Previous" ng-hide="pag_inf.offset == 0" ng-click="setOffset(pag_inf, pag_inf.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                                <li><a href="" aria-label="Previous" ng-hide="master.offset == 0" ng-click="setOffset(master, master.offset-1)"><i class="fa fa-angle-left"></i></a></li>
                                                 
-                                                <li ng-repeat = 'page in pag_inf.pages' ng-class="(page === pag_inf.offset) ? 'active': ''"><a href="" ng-click="setOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+                                                <li ng-repeat = 'page in master.pages' ng-class="(page === master.offset) ? 'active': ''"><a href="" ng-click="setOffset(master, page)">{{ page + 1 }}</a></li>
 
-                                                <li><a href="" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.offset == pag_inf.max_page" ng-click="setOffset(pag_inf, pag_inf.max_page)" aria-label="Last">마지막</a></li>
+                                                <li><a href="" ng-hide="master.offset == master.max_page" ng-click="setOffset(master, master.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.offset == master.max_page" ng-click="setOffset(master, master.max_page)" aria-label="Last">마지막</a></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -103,7 +95,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'tab_site in site_list track by $index'>
+                    <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in master.sites track by $index'>
                             
                         <div id="tab_adm_set0" class="div-tab tabs swipe-tab tabs-color-top">
                             <div class="w-tab bg-light">
@@ -134,19 +126,19 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat = 'site in sites track by $index' ng-if = 'site.site_id == tab_site.site_id'>
-                                                        <td><input type="checkbox" name = 'site_check' ng-model = 'site.site_check' value = '1'></td>
-                                                        <td>{{ site.ms_seq }}</td>
+                                                    <tr ng-repeat = 'manager in site.managers track by $index'>
+                                                        <td><input type="checkbox" ng-model = 'manager.site_check' value = '1'></td>
+                                                        <td>{{ ($index + (site.offset*site.limit)) + 1 }}</td>
                                                         <td>{{ site.site_name }}</td>
-                                                        <td>{{ site.admin_id }}</td>
-                                                        <td>{{ site.nick_name }}</td>
+                                                        <td>{{ manager.admin_id }}</td>
+                                                        <td>{{ manager.nick_name }}</td>
                                                         <td>
-                                                            <select ng-model = 'site.use_flag' name = 'use_flag'>
+                                                            <select ng-model = 'manager.use_flag' name = 'manager'>
                                                                 <option value = '0'>NO </option>
                                                                 <option value = '1'>YES </option>
                                                             </select>
                                                         </td>
-                                                        <td>{{ site.name }}</td>
+                                                        <td>{{ manager.name }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -218,8 +210,8 @@
                             </div>
                             <div class="form-group" ng-if = '0 == form.site_id'>
                                 <label for="" style="text-align: left" class="col-xs-4 control-label">사이트</label>
-                                <div class="col-xs-4" ng-repeat = 'opt_site in site_list track by $index'>
-                                    <input type="checkbox" ng-model = 'new_site.sel_sites[$index]' ng-click = 'addRemoveOption(site_list, $index)' value = '1'> {{ opt_site.site_name }}
+                                <div class="col-xs-4" ng-repeat = 'site in master.sites track by $index'>
+                                    <input type="checkbox" ng-model = 'new_site.sel_sites[$index]' ng-click = 'addRemoveOption(site, $index)' value = '1'> {{ site.site_name }}
                                 </div>
                             </div>
                             
