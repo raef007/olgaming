@@ -3,10 +3,11 @@
 class CustomerCenterController extends BaseController {
 
     public function showGetCustCenter()
-	{
-        $all_count  = 0;
+    {
         $limit      = 3;
+        $srv_resp   = new stdClass();
         $all_sites  = DB::table('SITE')->get();
+        $all_count  = 0;
         
         foreach($all_sites as $site) {
             $site->questions = DB::table('CUSTOMER_C')
@@ -41,32 +42,32 @@ class CustomerCenterController extends BaseController {
                 ->get();
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = $all_count;
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        $srv_resp->sites        = $all_sites;
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        $srv_resp->url_count   = $all_count;
+        $srv_resp->offset      = 0;
+        $srv_resp->limit       = $limit;
+        $srv_resp->max_page    = floor($srv_resp->url_count / $srv_resp->limit);
+        
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
-	}
+        return json_encode($srv_resp);
+    }
     
     public function searchAllCustCenter()
     {
         $all_count  = 0;
         $limit      = 3;
-        
         $post_data  = Input::all();
-        
         $all_sites  = DB::table('SITE')->get();
-        
+        $srv_resp              = new stdClass();
+
         foreach($all_sites as $site) {
             $query  = DB::table('CUSTOMER_C')
                 ->select('*', 'CUSTOMER_C.reg_date')
@@ -118,43 +119,76 @@ class CustomerCenterController extends BaseController {
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = $all_count;
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        $srv_resp->url_count   = $all_count;
+        $srv_resp->offset      = 0;
+        $srv_resp->limit       = $limit;
+        $srv_resp->max_page    = floor($srv_resp->url_count / $srv_resp->limit);
+        
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
+        return json_encode($srv_resp);
     }
     
     public function addSaveTemplate()
     {
         $template_db    = new CustomerTemplate();
-        
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
+        $err_msg        = array();
+
+         $error_count    = $this->validateTemplate($post_data);
         
+        if (0 >= count($error_count)) {
         $data['cct_seq']    = $post_data['cct_seq'];
         $data['site_id']    = $post_data['site_id'];
         $data['subject']    = $post_data['subject'];
         $data['text']       = $post_data['text'];
         
         $template_db->addUpdateRecord($data);
-        
+        }
+        else {
+            $err_msg[] = $error_count;
+        }
+
         $srv_resp   = $this->showGetCustCenter();
-        
-        return $srv_resp;
+        $json_data          = json_decode($srv_resp);
+        $json_data->errors  = $err_msg;
+        return json_encode($json_data);
     }
     
+     private function validateTemplate($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'subject.required'        => 'Please input subject',
+            'text.required'        => 'Please input text',
+        );
+        
+        $rules      = array(
+            'subject'         => 'required',
+            'text'         => 'required',
+        );
+        
+        /*  Run the Laravel Validation  */
+        $validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
+    }
     public function deleteTemplate()
     {
         $template_db    = new CustomerTemplate();
@@ -172,25 +206,59 @@ class CustomerCenterController extends BaseController {
     public function sendMessage()
     {
         $qa_db    = new CustomerQa();
-        
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
+        $err_msg        = array();
+
+        $error_count    = $this->validateMessage($post_data);
         
+
+        if (0 >= count($error_count)) {
         $data['cc_seq']         = $post_data['cc_seq'];
         $data['site_id']        = $post_data['site_id'];
         $data['text']           = $post_data['text'];
-        
         $data['ccq_seq']        = 0;
         $data['user_id']        = 1;
         $data['answer_flag']    = 1;
         $data['qa_flag']        = 1;
         
         $qa_db->addUpdateRecord($data);
-        
+        }
+        else {
+            $err_msg[] = $error_count;
+        }
+
+
         $srv_resp   = $this->showGetCustCenter();
+        $json_data          = json_decode($srv_resp);
+        $json_data->errors  = $err_msg;
         
-        return $srv_resp;
+    return json_encode($json_data);    }
+
+     private function validateMessage($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'text.required'        => 'Please input text',
+        );
+        
+        $rules      = array(
+            'text'         => 'required',
+        );
+        
+        /*  Run the Laravel Validation  */
+        $validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
     }
+
     
 }

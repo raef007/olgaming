@@ -12,7 +12,7 @@
 				                <div class="w-tab bg-light">
 				                    <ul class="nav nav-tabs" data-toggle="tab-hover">
 				                        <li class="active"><a href = "" data-target="#tab_0" data-toggle="tab">전체</a></li>
-				                        <li ng-repeat = 'site in sites track by $index'><a class = 'close-template-form' href = "" data-target="#tab_{{ $index + 1}}" data-toggle="tab" ng-click = 'changeSiteId(site)'>{{ site.site_name }}</a></li>
+				                        <li ng-repeat = 'site in master.sites track by $index'><a class = 'close-template-form' href = "" data-target="#tab_{{ $index + 1}}" data-toggle="tab" ng-click = 'changeSiteId(site)'>{{ site.site_name }}</a></li>
 				                    </ul>
 				                </div>
 				                <div class="tab-content">
@@ -68,7 +68,7 @@
 				                                                        </tr>
 				                                                    </thead>
 				                                                    <tbody>
-				                                                        <tr ng-repeat = 'site in sites | combine:"subjects" | startFrom:pag_inf.notice_offset*pag_inf.notice_limit | limitTo:pag_inf.notice_limit track by $index'>
+				                                                        <tr ng-repeat = 'site in master.sites | combine:"subjects" | startFrom:master.notice_offset*master.notice_limit | limitTo:master.notice_limit track by $index'>
 				                                                            <td><input type="checkbox" ng-model = 'site.notice_check' value = '1'></td>
 				                                                            <td>{{site.n_seq}}</td>
 				                                                            <td>{{site.site_name}}</td>
@@ -99,17 +99,17 @@
 				
 				                                            <div class="text-center relative">
 				                                            	<nav>
-                                                            		<ul class="pagination pagination-sm">
-                                                                		<li><a href="" aria-label="First" ng-hide="pag_inf.notice_offset == 0" ng-click="setNoticeOffset(pag_inf, 0)">처음</a></li>
-                                                                
-                                                               			<li><a href="" aria-label="Previous" ng-hide="pag_inf.notice_offset == 0" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_offset-1)"><i class="fa fa-angle-left"></i></a></li>
-                                                                
-                                                                		<li ng-repeat = 'page in pag_inf.notice_pages' ng-class="(page === pag_inf.notice_offset) ? 'active': ''"><a href="" ng-click="setNoticeOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+																    <ul class="pagination pagination-sm">
+																        <li><a href="" aria-label="First" ng-hide="master.notice_offset == 0" ng-click="setNoticeOffset(master, 0)">처음</a></li>
 
-                                                                		<li><a href="" ng-hide="pag_inf.notice_offset >= pag_inf.notice_max_page" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                                		<li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.notice_offset >= pag_inf.notice_max_page" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_max_page)" aria-label="Last">마지막</a></li>
-                                                            		</ul>
-                                                       			 </nav>
+																        <li><a href="" aria-label="Previous" ng-hide="master.notice_offset == 0" ng-click="setNoticeOffset(master, master.notice_offset-1)"><i class="fa fa-angle-left"></i></a></li>
+
+																        <li ng-repeat = 'page in master.notice_pages' ng-class="(page === master.notice_offset) ? 'active': ''"><a href="" ng-click="setNoticeOffset(master, page)">{{ page + 1 }}</a></li>
+
+																        <li><a href="" ng-hide="master.notice_offset >= master.notice_max_page" ng-click="setNoticeOffset(master, master.notice_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+																        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.notice_offset >= master.notice_max_page" ng-click="setNoticeOffset(master, master.notice_max_page)" aria-label="Last">마지막</a></li>
+																    </ul>
+																</nav>
 				                                        	</div>
 				
 				                                                <div class="page-select-opt1">
@@ -170,7 +170,7 @@
 				                                                        </tr>
 				                                                    </thead>
 				                                                    <tbody>
-				                                                        <tr ng-repeat = 'site in events | combine:"titles" | startFrom:pag_inf.event_offset*pag_inf.event_limit | limitTo:pag_inf.event_limit track by $index'>
+				                                                        <tr ng-repeat = 'site in events | combine:"titles" | startFrom:master.event_offset*master.event_limit | limitTo:master.event_limit track by $index'>
 				                                                            <td><input type="checkbox" ng-model = 'site.event_check' value = '1'></td>
 				                                                            <td>{{site.order}}</td>
 				                                                            <td>{{site.site_name}}</td>
@@ -204,17 +204,17 @@
 				
 				                                            <div class="text-center relative">
 				                                                <nav>
-                                                                    <ul class="pagination pagination-sm">
-                                                                        <li><a href="" aria-label="First" ng-hide="pag_inf.event_offset == 0" ng-click="setEventOffset(pag_inf, 0)">처음</a></li>
-                                                                
-                                                                        <li><a href="" aria-label="Previous" ng-hide="pag_inf.event_offset == 0" ng-click="setEventOffset(pag_inf, pag_inf.event_offset-1)"><i class="fa fa-angle-left"></i></a></li>
-                                                                
-                                                                        <li ng-repeat = 'page in pag_inf.event_pages' ng-class="(page === pag_inf.event_offset) ? 'active': ''"><a href="" ng-click="setEventOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+																    <ul class="pagination pagination-sm">
+																        <li><a href="" aria-label="First" ng-hide="master.event_offset == 0" ng-click="setEventOffset(master, 0)">처음</a></li>
 
-                                                                        <li><a href="" ng-hide="pag_inf.event_offset >= pag_inf.event_max_page" ng-click="setEventOffset(pag_inf, pag_inf.event_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                                        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.event_offset >= pag_inf.event_max_page" ng-click="setEventOffset(pag_inf, pag_inf.event_max_page)" aria-label="Last">마지막</a></li>
-                                                                    </ul>
-                                                                 </nav>
+																        <li><a href="" aria-label="Previous" ng-hide="master.event_offset == 0" ng-click="setEventOffset(master, master.event_offset-1)"><i class="fa fa-angle-left"></i></a></li>
+
+																        <li ng-repeat = 'page in master.event_pages' ng-class="(page === master.event_offset) ? 'active': ''"><a href="" ng-click="setEventOffset(master, page)">{{ page + 1 }}</a></li>
+
+																        <li><a href="" ng-hide="master.event_offset >= master.event_max_page" ng-click="setEventOffset(master, master.event_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+																        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.event_offset >= master.event_max_page" ng-click="setEventOffset(master, master.event_max_page)" aria-label="Last">마지막</a></li>
+																    </ul>
+																</nav>
 				
 				                                                <div class="page-select-opt1">
 				                                                    한 페이지에
@@ -233,7 +233,7 @@
 				                                </div>
 				                            </div>
 				                        </div>
-				                        <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in sites track by $index'>
+				                        <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in master.sites track by $index'>
 				                        	<div id="notice_event" class="div-tab tabs swipe-tab tabs-color-top">
 				                            	<div class="w-tab bg-light">
 				                            	    <ul class="nav nav-tabs" data-toggle="tab-hover">
@@ -285,7 +285,7 @@
 				                                                        </tr>
 				                                                    </thead>
 				                                                    <tbody>
-				                                                        <tr ng-repeat = 'subject in site.subjects | startFrom:pag_inf.notice_offset*pag_inf.notice_limit | limitTo:pag_inf.notice_limit track by $index'>
+				                                                        <tr ng-repeat = 'subject in site.subjects | startFrom:master.notice_offset*master.notice_limit | limitTo:master.notice_limit track by $index'>
 				                                                            <td><input type="checkbox" ng-model = 'subject.notice_check' value = '1'></td>
 				                                                            <td>{{subject.n_seq}}</td>
 				                                                            <td>{{subject.site_name}}</td>
@@ -314,20 +314,19 @@
 				                                            </div>
 				
 				                                            <div class="text-center relative">
-				                                            	<nav>
-                                                            		<ul class="pagination pagination-sm">
-                                                                		<li><a href="" aria-label="First" ng-hide="pag_inf.notice_offset == 0" ng-click="setNoticeOffset(pag_inf, 0)">처음</a></li>
-                                                                
-                                                               			<li><a href="" aria-label="Previous" ng-hide="pag_inf.notice_offset == 0" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_offset-1)"><i class="fa fa-angle-left"></i></a></li>
-                                                                
-                                                                		<li ng-repeat = 'page in pag_inf.notice_pages' ng-class="(page === pag_inf.notice_offset) ? 'active': ''"><a href="" ng-click="setNoticeOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+                                                                <nav>
+                                                                    <ul class="pagination pagination-sm">
+                                                                        <li><a href="" aria-label="First" ng-hide="site.notice_offset == 0" ng-click="setNoticeOffset(site, 0)">처음</a></li>
 
-                                                                		<li><a href="" ng-hide="pag_inf.notice_offset >= pag_inf.notice_max_page" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                                		<li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.notice_offset >= pag_inf.notice_max_page" ng-click="setNoticeOffset(pag_inf, pag_inf.notice_max_page)" aria-label="Last">마지막</a></li>
-                                                            		</ul>
-                                                       			 </nav>
-				                                        	</div>
-				
+                                                                        <li><a href="" aria-label="Previous" ng-hide="site.notice_offset == 0" ng-click="setNoticeOffset(site, site.notice_offset-1)"><i class="fa fa-angle-left"></i></a></li>
+
+                                                                        <li ng-repeat = 'page in site.notice_pages' ng-class="(page === site.notice_offset) ? 'active': ''"><a href="" ng-click="setNoticeOffset(site, page)">{{ page + 1 }}</a></li>
+
+                                                                        <li><a href="" ng-hide="site.notice_offset >= site.notice_max_page" ng-click="setNoticeOffset(site, site.notice_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                                        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="site.notice_offset >= site.notice_max_page" ng-click="setNoticeOffset(site, site.notice_max_page)" aria-label="Last">마지막</a></li>
+                                                                    </ul>
+                                                                </nav>
+                                                            </div>
 				                                                <div class="page-select-opt1">
 				                                                    한 페이지에
 				                                                    <select name="selector1" id="selector1" class="">
@@ -421,14 +420,14 @@
 				                                            <div class="text-center relative">
 				                                                <nav>
                                                                     <ul class="pagination pagination-sm">
-                                                                        <li><a href="" aria-label="First" ng-hide="pag_inf.event_offset == 0" ng-click="setEventOffset(pag_inf, 0)">처음</a></li>
+                                                                        <li><a href="" aria-label="First" ng-hide="site.event_offset == 0" ng-click="setEventOffset(site, 0)">처음</a></li>
                                                                 
-                                                                        <li><a href="" aria-label="Previous" ng-hide="pag_inf.event_offset == 0" ng-click="setEventOffset(pag_inf, pag_inf.event_offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                                                        <li><a href="" aria-label="Previous" ng-hide="site.event_offset == 0" ng-click="setEventOffset(site, site.event_offset-1)"><i class="fa fa-angle-left"></i></a></li>
                                                                 
-                                                                        <li ng-repeat = 'page in pag_inf.event_pages' ng-class="(page === pag_inf.event_offset) ? 'active': ''"><a href="" ng-click="setEventOffset(pag_inf, page)">{{ page + 1 }}</a></li>
+                                                                        <li ng-repeat = 'page in site.event_pages' ng-class="(page === site.event_offset) ? 'active': ''"><a href="" ng-click="setEventOffset(site, page)">{{ page + 1 }}</a></li>
 
-                                                                        <li><a href="" ng-hide="pag_inf.event_offset >= pag_inf.event_max_page" ng-click="setEventOffset(pag_inf, pag_inf.event_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-                                                                        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="pag_inf.event_offset >= pag_inf.event_max_page" ng-click="setEventOffset(pag_inf, pag_inf.event_max_page)" aria-label="Last">마지막</a></li>
+                                                                        <li><a href="" ng-hide="site.event_offset >= site.event_max_page" ng-click="setEventOffset(site, site.event_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                                        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="site.event_offset >= site.event_max_page" ng-click="setEventOffset(site, site.event_max_page)" aria-label="Last">마지막</a></li>
                                                                     </ul>
                                                                  </nav>
 				
@@ -461,7 +460,7 @@
 						                        사이트
 						                        <span class="sp"></span>
 						                        <select ng-model = 'new_notice.site_id'>
-						                            <option ng-repeat='site in sites track by $index' value="{{site.site_id}}">{{site.site_name}}</option>
+						                            <option ng-repeat='site in master.sites track by $index' value="{{site.site_id}}">{{site.site_name}}</option>
 						                        </select>
 						                    </div>    
 						                    <div class="h10"></div>    
@@ -523,7 +522,7 @@
 						                	    사이트
 						                	    <span class="sp"></span>
 						                	    <select ng-model="new_event.site_id">
-						                	        <option ng-repeat='site in sites track by $index' value="{{site.site_id}}">{{site.site_name}}</option>
+						                	        <option ng-repeat='site in master.sites track by $index' value="{{site.site_id}}">{{site.site_name}}</option>
 						                	    </select>
 						                	</div>    
 						                	<div class="h10"></div>    

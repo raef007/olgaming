@@ -6,8 +6,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
     
     $http.get("cust-center/api/get-all-sites")
 		.then(function success(srv_resp){
-			$scope.sites	= srv_resp.data[0];
-			$scope.pag_inf	= srv_resp.data[1];
+			$scope.master = srv_resp.data;
             
             $scope.new_template         = {};
             $scope.new_template.site_id = $scope.sites[0].site_id;
@@ -30,8 +29,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
         
         $http.get("cust-center/api/get-all-sites")
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                $scope.master = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 $scope.sites	= [{}];
@@ -42,8 +40,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
     $scope.addSaveTemplate = function() {
 		$http.post("cust-center/api/post-save-template", $scope.new_template)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                $scope.master = srv_resp.data;
                 
                 $scope.new_template.cct_seq = 0;
                 $scope.new_template.subject = '';
@@ -57,8 +54,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
     $scope.deleteTemplate = function(template) {
         $http.post("cust-center/api/post-delete-template", template)
             .then(function success(srv_resp){
-                $scope.sites	    = srv_resp.data[0];
-                $scope.pag_inf	    = srv_resp.data[1];
+                $scope.master = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -112,8 +108,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
     $scope.searchByQuery = function() {
         $http.post("cust-center/api/search-all-sites", $scope.search)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                $scope.master = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 $scope.sites	= [{}];

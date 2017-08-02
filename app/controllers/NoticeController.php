@@ -3,10 +3,12 @@ class NoticeController extends BaseController {
 
     public function showGetNotice()
     {
+        
+        $limit      = 5;
+        $srv_resp   = new stdClass();
+        $all_sites  = DB::table('SITE')->get();
         $all_count_notice  = 0;
         $all_count_event = 0;
-        $limit      = 5;
-        $all_sites  = DB::table('SITE')->get();
         
         foreach($all_sites as $site) {
             $site->subjects = DB::table('NOTICE')
@@ -50,41 +52,44 @@ class NoticeController extends BaseController {
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->notice_count   = $all_count_notice;
-        $page_info->notice_offset      = 0;
-        $page_info->notice_limit       = $limit;
-        $page_info->notice_max_page    = floor($page_info->notice_count / $page_info->notice_limit);
+        $srv_resp->sites        = $all_sites;
+
+        $srv_resp->notice_count   = $all_count_notice;
+        $srv_resp->notice_offset      = 0;
+        $srv_resp->notice_limit       = $limit;
+        $srv_resp->notice_max_page    = floor($srv_resp->notice_count / $srv_resp->notice_limit);
         
-        if (0 == ($page_info->notice_count % $page_info->notice_limit)) {
-            $page_info->notice_max_page    = $page_info->notice_max_page - 1;
+        if (0 == ($srv_resp->notice_count % $srv_resp->notice_limit)) {
+            $srv_resp->notice_max_page    = $srv_resp->notice_max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->notice_max_page; $count++) {
-            $page_info->notice_pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->notice_max_page; $count++) {
+            $srv_resp->notice_pages[]  = $count;
         }
-        $page_info->event_count   = $all_count_event;
-        $page_info->event_offset      = 0;
-        $page_info->event_limit       = $limit;
-        $page_info->event_max_page    = floor($page_info->event_count / $page_info->event_limit);
+        $srv_resp->event_count       = $all_count_event;
+        $srv_resp->event_offset      = 0;
+        $srv_resp->event_limit       = $limit;
+        $srv_resp->event_max_page    = floor($srv_resp->event_count / $srv_resp->event_limit);
         
-        if (0 == ($page_info->event_count % $page_info->event_limit)) {
-            $page_info->event_max_page    = $page_info->event_max_page - 1;
-        }
-        
-        for ($count = 0; $count <= $page_info->event_max_page; $count++) {
-            $page_info->event_pages[]  = $count;
+        if (0 == ($srv_resp->event_count % $srv_resp->event_limit)) {
+            $srv_resp->event_max_page    = $srv_resp->event_max_page - 1;
         }
         
-        return json_encode([$all_sites, $page_info]); 
+        for ($count = 0; $count <= $srv_resp->event_max_page; $count++) {
+            $srv_resp->event_pages[]  = $count;
+        }
+        
+        return json_encode($srv_resp); 
     }
 
     public function searchNotice(){
-        $all_count_notice  = 0;
-        $all_count_event = 0;
+        
+        $post_data      = Input::all();
         $limit      = 5;
-        $post_data  = Input::all();
+        $srv_resp   = new stdClass();
         $all_sites  = DB::table('SITE')->get();
+        $all_count_event = 0;
+        $all_count_notice  = 0;
         
         foreach($all_sites as $site) {
             $site->subjects = DB::table('NOTICE')
@@ -130,40 +135,43 @@ class NoticeController extends BaseController {
             }
 
         }
-        $page_info              = new stdClass();
-        $page_info->notice_count   = $all_count_notice;
-        $page_info->notice_offset      = 0;
-        $page_info->notice_limit       = $limit;
-        $page_info->notice_max_page    = floor($page_info->notice_count / $page_info->notice_limit);
+        $srv_resp->sites        = $all_sites;
+
+        $srv_resp->notice_count   = $all_count_notice;
+        $srv_resp->notice_offset      = 0;
+        $srv_resp->notice_limit       = $limit;
+        $srv_resp->notice_max_page    = floor($srv_resp->notice_count / $srv_resp->notice_limit);
         
-        if (0 == ($page_info->notice_count % $page_info->notice_limit)) {
-            $page_info->notice_max_page    = $page_info->notice_max_page - 1;
+        if (0 == ($srv_resp->notice_count % $srv_resp->notice_limit)) {
+            $srv_resp->notice_max_page    = $srv_resp->notice_max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->notice_max_page; $count++) {
-            $page_info->notice_pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->notice_max_page; $count++) {
+            $srv_resp->notice_pages[]  = $count;
         }
-        $page_info->event_count   = $all_count_event;
-        $page_info->event_offset      = 0;
-        $page_info->event_limit       = $limit;
-        $page_info->event_max_page    = floor($page_info->event_count / $page_info->event_limit);
+        $srv_resp->event_count   = $all_count_event;
+        $srv_resp->event_offset      = 0;
+        $srv_resp->event_limit       = $limit;
+        $srv_resp->event_max_page    = floor($srv_resp->event_count / $srv_resp->event_limit);
         
-        if (0 == ($page_info->event_count % $page_info->event_limit)) {
-            $page_info->event_max_page    = $page_info->event_max_page - 1;
+        if (0 == ($srv_resp->event_count % $srv_resp->event_limit)) {
+            $srv_resp->event_max_page    = $srv_resp->event_max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->event_max_page; $count++) {
-            $page_info->event_pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->event_max_page; $count++) {
+            $srv_resp->event_pages[]  = $count;
         }
-    return json_encode([$all_sites, $page_info]); 
+    return json_encode($srv_resp); 
     }
 
-    public function searchEvent(){
-        $all_count_notice  = 0;
-        $all_count_event = 0;
+   public function searchEvent(){
+
+        $post_data      = Input::all();
         $limit      = 5;
-        $post_data  = Input::all();
+        $srv_resp   = new stdClass();
         $all_sites  = DB::table('SITE')->get();
+        $all_count_event = 0;
+        $all_count_notice  = 0;
 
             foreach($all_sites as $site) {
             $site->titles = DB::table('Event')
@@ -209,37 +217,37 @@ class NoticeController extends BaseController {
                     }
     
             }
-            $page_info              = new stdClass();
-            $page_info->event_count   = $all_count_event;
-            $page_info->event_offset      = 0;
-            $page_info->event_limit       = $limit;
-            $page_info->event_max_page    = floor($page_info->event_count / $page_info->event_limit);
+            $srv_resp->sites        = $all_sites;
+
+            $srv_resp->event_count   = $all_count_event;
+            $srv_resp->event_offset      = 0;
+            $srv_resp->event_limit       = $limit;
+            $srv_resp->event_max_page    = floor($srv_resp->event_count / $srv_resp->event_limit);
             
-            if (0 == ($page_info->event_count % $page_info->event_limit)) {
-                $page_info->event_max_page    = $page_info->event_max_page - 1;
+            if (0 == ($srv_resp->event_count % $srv_resp->event_limit)) {
+                $srv_resp->event_max_page    = $srv_resp->event_max_page - 1;
             }
             
-            for ($count = 0; $count <= $page_info->event_max_page; $count++) {
-                $page_info->event_pages[]  = $count;
+            for ($count = 0; $count <= $srv_resp->event_max_page; $count++) {
+                $srv_resp->event_pages[]  = $count;
             }
-            $page_info->notice_count   = $all_count_notice;
-            $page_info->notice_offset      = 0;
-            $page_info->notice_limit       = $limit;
-            $page_info->notice_max_page    = floor($page_info->notice_count / $page_info->notice_limit);
+            $srv_resp->notice_count   = $all_count_notice;
+            $srv_resp->notice_offset      = 0;
+            $srv_resp->notice_limit       = $limit;
+            $srv_resp->notice_max_page    = floor($srv_resp->notice_count / $srv_resp->notice_limit);
             
-            if (0 == ($page_info->notice_count % $page_info->notice_limit)) {
-                $page_info->notice_max_page    = $page_info->notice_max_page - 1;
+            if (0 == ($srv_resp->notice_count % $srv_resp->notice_limit)) {
+                $srv_resp->notice_max_page    = $srv_resp->notice_max_page - 1;
             }
             
-            for ($count = 0; $count <= $page_info->notice_max_page; $count++) {
-                $page_info->notice_pages[]  = $count;
+            for ($count = 0; $count <= $srv_resp->notice_max_page; $count++) {
+                $srv_resp->notice_pages[]  = $count;
             }
-        return json_encode([$all_sites, $page_info]);
+        return json_encode($srv_resp);
     }
     
     public function deleteNotice() {
         $notice_db      = new Notice();
-        
         $srv_resp       = new stdClass();
         $post_data      = Input::all();
         
@@ -286,31 +294,81 @@ class NoticeController extends BaseController {
     }
     public function addNotice() {
         $post_data  = Input::all();
+        $err_msg        = array();
+
+    $error_count    = $this->validateNotice($post_data);
+
+        if (0 >= count($error_count)) {
         DB::table('NOTICE')
-        ->join('MANAGER', 'MANAGER.admin_id', '=', 'NOTICE.admin_id')
         ->insert(
             [
             'site_id' => $post_data['site_id'],
             'subject' => $post_data['subject'],
-            'admin_id' => '1',
+            'admin_id' => 'Admin1',
             'text' => $post_data['text'],
             'order' => $post_data['order'],
             'show_flag' => $post_data['show_flag']
-            ]
-            );
+            ]);
+        }
+        else {
+            $err_msg[] = $error_count;
+        }
+
     $srv_resp   = $this->showGetNotice();
-    return $srv_resp;
+    $json_data          = json_decode($srv_resp);
+    $json_data->errors  = $err_msg;
+        
+    return json_encode($json_data);    }
+
+
+    private function validateNotice($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'site_id.required'        => 'Site ID is required',
+            'subject.required'    => 'Subject is required',
+            'text' => 'Please input text',
+            'order.required'   => 'Order is required',
+            'show_flag.required'   => 'Flag is required',
+            'show_flag.numeric'   => 'Please choose between 노출 / 숨김',
+        );
+        
+        $rules      = array(
+            'site_id'         => 'required',
+            'subject'     => 'required',
+            'text'    => 'required',
+            'order'    => 'required',
+            'show_flag'    => 'required|numeric',
+
+        );
+        
+        /*  Run the Laravel Validation  */
+        $validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
     }
+
 
     public function addEvent() {
         $post_data  = Input::all();
+        $err_msg        = array();
+
+    $error_count    = $this->validateNotice($post_data);
+
+        if (0 >= count($error_count)) {
         DB::table('EVENT')
-        ->join('MANAGER', 'MANAGER.admin_id', '=', 'EVENT.admin_id')
         ->insert(
             [
             'site_id' => $post_data['site_id'],
             'subject' => $post_data['subject'],
-            'admin_id' => '1',
+            'admin_id' => 'Admin1',
             'text' => $post_data['text'],
             'start_date' => $post_data['start_date'],
             'start_datetime' => $post_data['start_datetime'],
@@ -320,7 +378,57 @@ class NoticeController extends BaseController {
             'show_flag' => $post_data['show_flag']
             ]
             );
-    $srv_resp   = $this->showGetNotice();
-    return $srv_resp;
     }
+        else {
+            $err_msg[] = $error_count;
+        }
+
+    $srv_resp   = $this->showGetNotice();
+    $json_data          = json_decode($srv_resp);
+    $json_data->errors  = $err_msg;
+        
+    return json_encode($json_data);    }
+
+    private function validateEvent($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'site_id.required'        => 'Site ID is required',
+            'subject.required'    => 'Subject is required',
+            'text' => 'Please input text',
+            'start_date' => 'Please enter date',
+            'start_datetime' => 'Please enter date',
+            'end_date' => 'Please enter date',
+            'end_datetime' => 'Please enter date',
+            'order.required'   => 'Order is required',
+            'show_flag.required'   => 'Flag is required',
+            'show_flag.numeric'   => 'Please choose between 노출 / 숨김',
+        );
+        
+        $rules      = array(
+            'site_id'         => 'required',
+            'subject'     => 'required',
+            'text'    => 'required',
+            'start_date'    => 'required',
+            'start_datetime'    => 'required',
+            'end_date'    => 'required',
+            'end_datetime'    => 'required',
+            'order'    => 'required',
+            'show_flag'    => 'required|numeric',
+
+        );
+        
+        /*  Run the Laravel Validation  */
+        $validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
+    }
+
 }
