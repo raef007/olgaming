@@ -58,7 +58,30 @@ angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http) {
             }
         );
     }
-    
+    $scope.saveNotice =function(){
+    $http.post("notice/api/add-notice", $scope.new_notice)
+    .then(function success(srv_resp){
+            $scope.sites    = srv_resp.data[0];
+            $scope.events   = angular.copy($scope.sites);
+            $scope.pag_inf  = srv_resp.data[1];
+        }, function failed(srv_resp) {
+            $scope.sites    = [{}];
+        }
+        );
+    }
+    $scope.saveEvent =function(){
+    $http.post("notice/api/add-event", $scope.new_event)
+    .then(function success(srv_resp){
+            $scope.sites    = srv_resp.data[0];
+            $scope.events   = angular.copy($scope.sites);
+            $scope.pag_inf  = srv_resp.data[1];
+        }, function failed(srv_resp) {
+            $scope.sites    = [{}];
+        }
+        );
+    }
+
+
     $scope.setNoticeOffset = function(site, new_offset) {
         site.notice_offset = new_offset;
     }
