@@ -141,8 +141,15 @@ Route::post('charge-mng/api/search-all-sites', array('uses' => 'ChangeManageCont
 Route::post('charge-mng/api/download-excel', array('uses' => 'ChangeManageController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('charge-mng/api/download-file/{path}/{filename}', array('uses' => 'ChangeManageController@downloadFile', 'as' => 'downloadFile'));
 
+/* Exchange */
+Route::get('exchange/api/get-all-sites', array('uses' => 'ExchangeController@showGetExchange', 'as' => 'showGetExchange'));
+Route::post('exchange/api/cancel-exchange', array('uses' => 'ExchangeController@cancelWithdraw', 'as' => 'cancelWithdraw'));
+Route::post('exchange-mng/api/download-excel', array('uses' => 'ExchangeController@downloadExcel', 'as' => 'downloadExcel'));
+Route::get('exchange-mng/api/download-file/{path}/{filename}', array('uses' => 'ExchangeController@downloadFile', 'as' => 'downloadFile'));
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));
 Route::get('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubeGetToken', 'as' => 'spinCubeGetToken'));
 Route::post('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubePostToken', 'as' => 'spinCubePostToken'));
+
+

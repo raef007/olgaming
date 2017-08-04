@@ -37,7 +37,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
             controller: 'chargeMngCtrl'
 		})
         .when('/exchange', {
-			templateUrl: "pay/exchange"
+			templateUrl: "pay/exchange",
+			controller: 'ExchangeCtrl'
 		})
         .when('/money-use-log', {
 			templateUrl: "pay/money_use_log"
