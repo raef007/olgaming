@@ -1,4 +1,7 @@
 angular.module("vavaGaming").controller('ExchangeCtrl', function($scope, $http, $window) {
+    $scope.search       = {};
+    $scope.search.from  = '20170101';
+    $scope.search.to    = '20171231';
 
 	$http.get("exchange/api/get-all-sites")
         .then(function success(srv_resp){
@@ -9,12 +12,24 @@ angular.module("vavaGaming").controller('ExchangeCtrl', function($scope, $http, 
             $scope.master    = [{}];
         }
     );
-
+    $scope.searchWithdraw = function() {
+        $http.post("exchange/api/search-all-sites", $scope.search)
+            .then(function success(srv_resp){
+                $scope.master   = srv_resp.data;                
+                $scope.wait_copy    = angular.copy($scope.master);
+                $scope.done_copy    = angular.copy($scope.master);
+                
+            }, function failed(srv_resp) {
+                $scope.master   = [{}];
+            }
+        );
+    }
     $scope.setReqOffset = function(site, new_offset) {
         site.req_offset = new_offset;
     }
     
     $scope.setWaitOffset = function(site, new_offset) {
+
         site.wait_offset = new_offset;
     }
     
@@ -28,11 +43,22 @@ angular.module("vavaGaming").controller('ExchangeCtrl', function($scope, $http, 
     }
     
     $scope.cancelWithdraw = function(items, list) {
-        $http.post("exchange/api/cancel-exchange", $scope.master.sites)
+        $http.post("exchange/api/cancel-exchange/"+list, items)
             .then(function success(srv_resp){
                 $scope.master   = srv_resp.data;                
                 $scope.wait_copy    = angular.copy($scope.master);
-                $scope.done_copy    = angular.copy($scope.master);                
+                $scope.done_copy    = angular.copy($scope.master);         
+            }, function failed(srv_resp) {
+                $scope.master   = [{}];
+            }
+        );
+    }
+    $scope.setChargeSts = function(items, list, sts) {
+        $http.post("exchange/api/set-charge-sts/"+list+"/"+sts, items)
+            .then(function success(srv_resp){
+                $scope.master   = srv_resp.data;                
+                $scope.wait_copy    = angular.copy($scope.master);
+                $scope.done_copy    = angular.copy($scope.master);
             }, function failed(srv_resp) {
                 $scope.master   = [{}];
             }

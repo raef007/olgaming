@@ -29,40 +29,38 @@
 												<h4>환전요청 (STEP.1)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select> 
+
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
-												<div class="h10"></div>
+											<div class="h10"></div>
 					
 												<div class="text-left">
-													<button class="btn btn-default">환전대기 처리 (STEP.2)</button>
-													<button class="btn btn-default pull-right" ng-click='cancelWithdraw()'>환전 취소</button>
+													<button class="btn btn-default" ng-click = 'setChargeSts(master.sites, "requests", 2)'>환전대기 처리 (STEP.2)</button>
+													<button class="btn btn-default pull-right" ng-click = 'cancelWithdraw(master.sites, "requests")'>환전 취소</button>
 												</div>
 					
 												<div class="h10"></div>
@@ -112,8 +110,7 @@
 															</tr>														
 														</tbody>
 													</table>
-												</div>
-					
+												</div>					
 												<div class="up-10"></div>
 												<div class="text-right">
 													<button class="btn btn-default" ng-click = 'downloadExcelFile()'>엑셀 다운로드</button>
@@ -131,8 +128,7 @@
                                                             <li><a href="" ng-hide="master.req_offset >= master.req_max" ng-click="setReqOffset(master, master.req_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
                                                             <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.req_offset >= master.req_max" ng-click="setReqOffset(master, master.req_max)" aria-label="Last">마지막</a></li>
                                                         </ul>
-                                                    </nav>
-					
+                                                    </nav>					
 													<div class="page-select-opt1">
 														한 페이지에 <select name="selector1" id="selector1" class="">
 															<option>전체</option>
@@ -143,40 +139,37 @@
 														</select> 항목 보기
 													</div>
 												</div>
-											</div>
-					
+											</div>					
 											<div class="tab-pane" id="tab_01">
 					
 												<h4>환전대기 (STEP.2)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select> 
+
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
 												<div class="h10"></div>
@@ -185,8 +178,8 @@
 													합계 금액 <input type="text" style="text-align:right" size="20" value="123,456 원"> <span
 														class="sp"></span> 합계 건수 <input type="text" size="20" style="text-align:right" value="2 건"> <span class="sp"></span>
 					
-													<button class="btn btn-default">환전완료 처리 (STEP.3)</button>
-													<button class="btn btn-default pull-right" ng-click='cancelWithdraw()'>충전취소</button>
+													<button class="btn btn-default" ng-click = 'setChargeSts(wait_copy.sites, "standbys", 3)'>환전완료 처리 (STEP.3)</button>
+													<button class="btn btn-default pull-right" ng-click='cancelWithdraw(wait_copy.sites, "standbys")'>충전취소</button>
 												</div>
 					
 												<div class="h10"></div>
@@ -219,7 +212,6 @@
 			                                                    <td ng-if = '1 == site.deposit_level'>소액</td>
 			                                                    <td ng-if = '2 == site.deposit_level'>중액</td>
 			                                                    <td ng-if = '3 == site.deposit_level'>고액</td>
-
 																<td class="open_exchange_tbl ex_id"><a href="#">{{site.username}}</a></td>
 																<td class="open_exchange_tbl ex_nickname"><a href="#">{{site.nickname}}</a></td>
 																<td class="font-red"> 원</td>
@@ -244,12 +236,9 @@
 												<div class="text-center relative">
 													<nav>
                                                         <ul class="pagination pagination-sm">
-                                                            <li><a href="" ng-hide="master.wait_offset == 0" aria-label="First" ng-hide="master.wait_offset == 0" ng-click="setWaitOffset(master, 0)">처음</a></li>
-                                                            
-                                                            <li><a href="" ng-hide="master.wait_offset == 0" aria-label="Previous" ng-hide="master.wait_offset == 0" ng-click="setWaitOffset(master, master.wait_offset-1)"><i class="fa fa-angle-left"></i></a></li>
-                                                            
+                                                            <li><a href="" ng-hide="master.wait_offset == 0" aria-label="First" ng-hide="master.wait_offset == 0" ng-click="setWaitOffset(master, 0)">처음</a></li>                                
+                                                            <li><a href="" ng-hide="master.wait_offset == 0" aria-label="Previous" ng-hide="master.wait_offset == 0" ng-click="setWaitOffset(master, master.wait_offset-1)"><i class="fa fa-angle-left"></i></a></li>                                                            
                                                             <li ng-repeat = 'page in master.wait_pages' ng-class="(page === master.wait_offset) ? 'active': ''"><a href="" ng-click="setWaitOffset(master, page)">{{ page + 1 }}</a></li>
-
                                                             <li><a href="" ng-hide="master.wait_offset >= master.wait_max" ng-click="setWaitOffset(master, master.wait_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
                                                             <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.wait_offset >= master.wait_max" ng-click="setWaitOffset(master, master.wait_max)" aria-label="Last">마지막</a></li>
                                                         </ul>
@@ -272,33 +261,31 @@
 												<h4>환전완료 (STEP.3)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select> 
+
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
 												<div class="h10"></div>
@@ -395,33 +382,31 @@
 												<h4>환전요청 (STEP.1)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select> 
+
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
 												<div class="h10"></div>
@@ -514,33 +499,31 @@
 												<h4>환전대기 (STEP.2)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select> 
+
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
 												<div class="h10"></div>
@@ -633,33 +616,30 @@
 												<h4>환전완료 (STEP.3)</h4>
 					
 												<form name="" id="" class="" method="get">
-													<input type="text" name="fr_date" value="" id="fr_date"
-														class="datepicker1" placeholder="8/12/2018" size="6"
-														maxlength="10"> <input type="text" name="to_date"
-														value="" id="to_date" class="datepicker1"
-														placeholder="8/12/2018" size="6" maxlength="10">
+													<input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10"> 
+													<input type="text" name="to_date" value="" id="to_date" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 입금레벨 <select name="selector1"
-														id="selector1" class="">
-														<option>가입</option>
-														<option>소액</option>
-														<option>중액</option>
-														<option>고액</option>
-													</select> <input type="text" value="" size="6">
+													<span class="sp"></span> 입금레벨 
+													<select name="selector1" id="selector1" ng-model = 'search.deposit_level' class="" >
+														<option value = '0'>가입</option>
+			                                            <option value = '1'>소액</option>
+			                                            <option value = '2'>중액</option>
+			                                            <option value = '3'>고액</option>
+													</select>
 													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+														class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 					
-													<span class="sp"></span> 조건검색 <select name="selector1"
-														id="selector1" class="">
-														<option>아이디</option>
-														<option>닉네임</option>
-														<option>입금자</option>
-														<option>입금계좌</option>
-													</select> <input type="text" value="" size="6">
-													<button type="submit"
-														class="btn_submit btn-success btn-black btn">조회</button>
+													<span class="sp"></span> 조건검색 
+													<select ng-model = 'search.filter_by'>
+			                                            <option value = 'member.username'>아이디</option>
+			                                            <option value = 'member.nickname'>닉네임</option>
+			                                            <option value = 'member.bank_owner'>입금자</option>
+			                                            <option value = 'member.bank_name'>입금계좌</option>
+			                                        </select> 
+													<input type="text" value="" size="6" ng-model = 'search.filter_val'>
+													<button type="submit" class="btn_submit btn-success btn-black btn" ng-click='searchWithdraw()'>조회</button>
 												</form>
 					
 												<div class="h10"></div>
@@ -721,8 +701,7 @@
 													        <li><a href="" ng-hide="master.withdraw_offset >= master.withdraw_max_page" ng-click="setwithdrawOffset(master, master.withdraw_offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
 													        <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.withdraw_offset >= master.withdraw_max_page" ng-click="setwithdrawOffset(master, master.withdraw_max_page)" aria-label="Last">마지막</a></li>
 													    </ul>
-													</nav>
-					
+													</nav>					
 													<div class="page-select-opt1">
 														한 페이지에 <select name="selector1" id="selector1" class="">
 															<option>전체</option>
@@ -741,7 +720,22 @@
 							</div>
 						</div>
 				</div>
-					
+					<script>
+			            $(document).ready(function() {
+                            $('#main-cntr').on('click', '.show-template-form', function() {
+                                $('#template-form').slideDown();
+                            });
+                            
+                            $('#main-cntr').on('click', '.close-template-form', function() {
+                                $('#template-form').slideUp();
+                            });
+                            
+                            $('#main-cntr').delegate(".datepicker1", "focusin", function(){
+                                $(this).datepicker(({ dateFormat: 'yymmdd' }));
+                            });
+                            
+                        });
+				    </script>
 					<script>
 						$(function(){
 							$('.open_exchange_tbl').on("click",function(){

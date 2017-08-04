@@ -128,7 +128,7 @@ Route::post('notice/api/add-event', array('uses' => 'NoticeController@addEvent',
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
 
-/*  IP Information          */
+/*  IP Information          */	
 Route::post('ipinfo/api/search-all-sites', array('uses' => 'IpInformationController@searchIpInfo', 'as' => 'searchIpInfo'));
 Route::post('ipinfo/api/post-save-ipinfo', array('uses' => 'IpInformationController@addSaveIpInfo', 'as' => 'addSaveIpInfo'));
 
@@ -140,12 +140,17 @@ Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@
 Route::post('charge-mng/api/search-all-sites', array('uses' => 'ChangeManageController@searchChargeMng', 'as' => 'searchChargeMng'));
 Route::post('charge-mng/api/download-excel', array('uses' => 'ChangeManageController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('charge-mng/api/download-file/{path}/{filename}', array('uses' => 'ChangeManageController@downloadFile', 'as' => 'downloadFile'));
-
+ 
 /* Exchange */
 Route::get('exchange/api/get-all-sites', array('uses' => 'ExchangeController@showGetExchange', 'as' => 'showGetExchange'));
-Route::post('exchange/api/cancel-exchange', array('uses' => 'ExchangeController@cancelWithdraw', 'as' => 'cancelWithdraw'));
+Route::post('exchange/api/search-all-sites', array('uses' => 'ExchangeController@searchWithdraw', 'as' => 'searchWithdraw'));
+Route::post('exchange/api/cancel-exchange/{step_list}', array('uses' => 'ExchangeController@cancelWithdraw', 'as' => 'cancelWithdraw'));
+Route::post('exchange/api/set-charge-sts/{step_list}/{sts}', array('uses' => 'ExchangeController@setStatus', 'as' => 'setStatus'));
 Route::post('exchange-mng/api/download-excel', array('uses' => 'ExchangeController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('exchange-mng/api/download-file/{path}/{filename}', array('uses' => 'ExchangeController@downloadFile', 'as' => 'downloadFile'));
+
+
+
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));
