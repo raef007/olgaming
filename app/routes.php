@@ -128,7 +128,7 @@ Route::post('notice/api/add-event', array('uses' => 'NoticeController@addEvent',
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
 
-/*  IP Information          */
+/*  IP Information          */	
 Route::post('ipinfo/api/search-all-sites', array('uses' => 'IpInformationController@searchIpInfo', 'as' => 'searchIpInfo'));
 Route::post('ipinfo/api/post-save-ipinfo', array('uses' => 'IpInformationController@addSaveIpInfo', 'as' => 'addSaveIpInfo'));
 
@@ -142,9 +142,21 @@ Route::post('charge-mng/api/download-excel', array('uses' => 'ChangeManageContro
 Route::get('charge-mng/api/download-file/{path}/{filename}', array('uses' => 'ChangeManageController@downloadFile', 'as' => 'downloadFile'));
 Route::post('charge-mng/api/cancel/{list}', array('uses' => 'ChangeManageController@cancelDeposit', 'as' => 'cancelDeposit'));
 Route::post('charge-mng/api/set-charge-sts/{list}/{sts}', array('uses' => 'ChangeManageController@setStatus', 'as' => 'setStatus'));
+ 
+/* Exchange */
+Route::get('exchange/api/get-all-sites', array('uses' => 'ExchangeController@showGetExchange', 'as' => 'showGetExchange'));
+Route::post('exchange/api/search-all-sites', array('uses' => 'ExchangeController@searchWithdraw', 'as' => 'searchWithdraw'));
+Route::post('exchange/api/cancel-exchange/{step_list}', array('uses' => 'ExchangeController@cancelWithdraw', 'as' => 'cancelWithdraw'));
+Route::post('exchange/api/set-charge-sts/{step_list}/{sts}', array('uses' => 'ExchangeController@setStatus', 'as' => 'setStatus'));
+Route::post('exchange-mng/api/download-excel', array('uses' => 'ExchangeController@downloadExcel', 'as' => 'downloadExcel'));
+Route::get('exchange-mng/api/download-file/{path}/{filename}', array('uses' => 'ExchangeController@downloadFile', 'as' => 'downloadFile'));
+
+
 
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));
 Route::get('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubeGetToken', 'as' => 'spinCubeGetToken'));
 Route::post('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubePostToken', 'as' => 'spinCubePostToken'));
+
+
