@@ -5,6 +5,8 @@ class FaqController extends BaseController {
     public function showGetFaqs()
 	{
         $limit      = 3;
+        $all_faqs   = 0;
+        $srv_resp   = new stdClass();
         $all_sites  = DB::table('SITE')->get();
         
         foreach($all_sites as $site) {
@@ -17,6 +19,8 @@ class FaqController extends BaseController {
             $site->limit        = $limit;
             $site->max_page     = floor($site->url_count / $site->limit);
             
+            $all_faqs           += $site->url_count;
+            
             if (0 == ($site->url_count % $site->limit)) {
                 $site->max_page     = $site->max_page - 1;
             }
@@ -26,21 +30,21 @@ class FaqController extends BaseController {
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = count($all_sites);
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        $srv_resp->sites        = $all_sites;
+        $srv_resp->url_count    = $all_faqs;
+        $srv_resp->offset       = 0;
+        $srv_resp->limit        = $limit;
+        $srv_resp->max_page     = floor($srv_resp->url_count / $srv_resp->limit);
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
+        return json_encode($srv_resp);
 	}
     
     public function searchFaqs()
@@ -86,43 +90,55 @@ class FaqController extends BaseController {
             }
         }
         
-        $page_info              = new stdClass();
-        $page_info->url_count   = count($all_sites);
-        $page_info->offset      = 0;
-        $page_info->limit       = $limit;
-        $page_info->max_page    = floor($page_info->url_count / $page_info->limit);
+        $srv_resp              = new stdClass();
+        $srv_resp->url_count   = count($all_sites);
+        $srv_resp->offset      = 0;
+        $srv_resp->limit       = $limit;
+        $srv_resp->max_page    = floor($srv_resp->url_count / $srv_resp->limit);
         
-        if (0 == ($page_info->url_count % $page_info->limit)) {
-            $page_info->max_page    = $page_info->max_page - 1;
+        if (0 == ($srv_resp->url_count % $srv_resp->limit)) {
+            $srv_resp->max_page    = $srv_resp->max_page - 1;
         }
         
-        for ($count = 0; $count <= $page_info->max_page; $count++) {
-            $page_info->pages[]  = $count;
+        for ($count = 0; $count <= $srv_resp->max_page; $count++) {
+            $srv_resp->pages[]  = $count;
         }
         
-        return json_encode([$all_sites, $page_info]);
+        return json_encode([$all_sites, $srv_resp]);
 	}
     
     public function addSaveFaq()
     {
         $faq_db     = new Faq();
         
+        $err_msg    = array();
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
         
-        $data['f_seq']      = 0;
+        $data['f_seq']      = $post_data['f_seq'];
         $data['site_id']    = $post_data['site_id'];
+        $data['admin_id']   = 'Admin1';
         $data['title']      = $post_data['title'];
         $data['text']       = $post_data['text'];
         $data['sort']       = $post_data['sort'];
         $data['show_flag']  = $post_data['show_flag'];
         
-        $faq_db->addUpdateRecord($data);
+        $errors_found   = $this->validateFaqs($data);
+        
+        if (0 >= count($errors_found)) {
+            $faq_db->addUpdateRecord($data);
+        }
+        else {
+            $err_msg[] = $errors_found;
+        }
         
         $srv_resp   = $this->showGetFaqs();
         
-        return $srv_resp;
+        $json_data          = json_decode($srv_resp);
+        $json_data->errors  = $err_msg;
+        
+        return json_encode($json_data);
     }
     
     public function addSaveFaqs()
@@ -140,13 +156,14 @@ class FaqController extends BaseController {
             foreach ($site['faqs'] as $faq) {
                 if (isset($faq['faq_check'])) {
                     if ('1' == $faq['faq_check']) {
-                        $data['f_seq']      = $faq['f_seq'];
-                        $data['title']      = $faq['title'];
-                        $data['text']       = $faq['text'];
-                        $data['sort']       = $faq['sort'];
-                        $data['show_flag']  = $faq['show_flag'];
-                        
-                        $faq_db->addUpdateRecord($data);
+                        $errors_found   = $this->validateFaqs($faq);
+
+                        if (0 >= count($errors_found)) {
+                            $faq_db->addUpdateRecord($faq);
+                        }
+                         else {
+                            $err_msg[] = $errors_found;
+                        }
                     }
                 }
             }
@@ -154,7 +171,10 @@ class FaqController extends BaseController {
 
         $srv_resp   = $this->showGetFaqs();
         
-        return $srv_resp;
+        $json_data          = json_decode($srv_resp);
+        $json_data->errors  = $err_msg;
+        
+        return json_encode($json_data);
     }
     
     public function deleteFaqs()
@@ -178,5 +198,40 @@ class FaqController extends BaseController {
         $srv_resp   = $this->showGetFaqs();
         
         return $srv_resp;
+    }
+    
+    private function validateFaqs($data)
+    {
+        $messages   = array();                      /* Validation Messages according to rules   */
+        $rules      = array();                      /* Validation Rules                         */
+        $errors     = array();
+        
+        $messages   = array(
+            'title.required'        => '제목 is required',
+            'text.required'         => 'Content is required',
+            'sort.required'         => '구분 is required',
+            'sort.numeric'          => '구분 must be a numeric',
+            'show_flag.required'    => '노출여부 is required',
+        );
+        
+        $rules      = array(
+            'f_seq'     => 'required|numeric',
+            'site_id'   => 'required|numeric',
+            'admin_id'  => 'required',
+            
+            'title'     => 'required',
+            'text'      => 'required',
+            'sort'      => 'required|numeric',
+            'show_flag' => 'required|boolean',
+        );
+        
+        /*  Run the Laravel Validation  */
+		$validator = Validator::make($data, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errors   = $validator->messages()->all();
+        }
+        
+        return $errors;
     }
 }

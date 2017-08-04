@@ -5,9 +5,9 @@ class LevelAccountController extends BaseController {
     public function showGetLevelAccounts()
 	{
         $limit      = 3;
+        $all_accnts = 0;
         $srv_resp   = new stdClass();
         $all_sites  = DB::table('SITE')->get();
-        $all_accnts = 0;
         
         foreach($all_sites as $site) {
             $site->level_accounts = DB::table('LEVEL_ACCOUNT')
@@ -52,7 +52,6 @@ class LevelAccountController extends BaseController {
     {
         $lvl_acc_db     = new LevelAccount();
         $post_data      = Input::all();
-        $dup_check      = 0;
         $err_msg        = array();
         
         foreach ($post_data as $site) {

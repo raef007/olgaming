@@ -2,11 +2,9 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
 	
     $http.get("popup/api/get-all-sites")
 		.then(function success(srv_resp){
-			$scope.sites	= srv_resp.data[0];
-			$scope.pag_inf	= srv_resp.data[1];
+			$scope.master   = srv_resp.data;
             
-            $scope.new_popup          = {};
-            $scope.new_popup.site_id  = $scope.sites[0].site_id;
+            $scope.resetNewPopup($scope.master.sites[0]);
 		}, function failed(srv_resp) {
 			$scope.sites	= [{}];
 		}
@@ -15,8 +13,13 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
     $scope.savePopupForm = function() {
 		$http.post("popup/api/post-save-popup", $scope.new_popup)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                var cur_site_id = $scope.new_popup.site_id;
+                
+                $scope.master	= srv_resp.data;
+                
+                $scope.resetNewPopup($scope.master.sites[0]);
+                $scope.new_popup.site_id = cur_site_id;
+                
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -24,15 +27,13 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
 	}
     
     $scope.changeSiteId = function(site) {
-		$scope.new_popup            = {};
-        $scope.new_popup.site_id    = site.site_id;
+		$scope.resetNewPopup(site);
 	}
     
     $scope.savePopupsForm = function() {
-        $http.post("popup/api/post-save-popups", $scope.sites)
+        $http.post("popup/api/post-save-popups", $scope.master.sites)
             .then(function success(srv_resp){
-                $scope.sites	    = srv_resp.data[0];
-                $scope.pag_inf	    = srv_resp.data[1];
+                $scope.master	    = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
@@ -41,15 +42,70 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
     }
     
     $scope.deletePopupsForm = function() {
-        $http.post("popup/api/post-delete-popups", $scope.sites)
+        $http.post("popup/api/post-delete-popups", $scope.master.sites)
             .then(function success(srv_resp){
-                $scope.sites	    = srv_resp.data[0];
-                $scope.pag_inf	    = srv_resp.data[1];
+                $scope.master	    = srv_resp.data;
                 
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
         );
+    }
+    
+    $scope.loadPopupInf = function(popup) {
+        var cur_site_id                     = $scope.new_popup.site_id;
+        $scope.new_popup                    = {};
+        $scope.new_popup.p_seq              = popup.p_seq;
+        $scope.new_popup.subject            = popup.subject;
+        $scope.new_popup.text               = popup.text;
+        $scope.new_popup.size_width         = popup.size_width;
+        $scope.new_popup.size_height        = popup.size_height;
+        $scope.new_popup.x_position         = popup.x_position;
+        $scope.new_popup.y_position         = popup.y_position;
+        $scope.new_popup.start_date         = popup.start_date;
+        $scope.new_popup.start_datetime     = popup.start_datetime;
+        $scope.new_popup.end_date           = popup.end_date;
+        $scope.new_popup.end_datetime       = popup.end_datetime;
+        $scope.new_popup.scrool_flag        = popup.scrool_flag;
+        $scope.new_popup.sort_machine       = popup.sort_machine;
+        $scope.new_popup.sort_popup         = popup.sort_popup;
+        $scope.new_popup.show_flag          = popup.show_flag;
+        $scope.new_popup.ordering           = popup.ordering;
+        $scope.new_popup.link_target_code   = popup.link_target_code;
+        $scope.new_popup.link_address       = popup.link_address;
+        $scope.new_popup.site_id            = cur_site_id;
+        
+        $('#tab_site_set').slideDown();
+    }
+    
+    $scope.resetNewPopup = function(site) {
+        $scope.new_popup                    = {};
+        $scope.new_popup.p_seq              = 0;
+        $scope.new_popup.subject            = '';
+        $scope.new_popup.text               = '';
+        $scope.new_popup.size_width         = '';
+        $scope.new_popup.size_height        = '';
+        $scope.new_popup.x_position         = '';
+        $scope.new_popup.y_position         = '';
+        $scope.new_popup.start_date         = '';
+        $scope.new_popup.start_datetime     = '';
+        $scope.new_popup.end_date           = '';
+        $scope.new_popup.end_datetime       = '';
+        $scope.new_popup.scrool_flag        = '';
+        $scope.new_popup.sort_machine       = '';
+        $scope.new_popup.sort_popup         = '';
+        $scope.new_popup.show_flag          = '';
+        $scope.new_popup.ordering           = '';
+        $scope.new_popup.link_target_code   = '';
+        $scope.new_popup.link_address       = '';
+        $scope.new_popup.site_id            = site.site_id;
+        
+        $('#tab_site_set').slideUp();
+    }
+    
+    $scope.openNewPopup = function(site) {
+        $scope.resetNewPopup(site);
+        $('#tab_site_set').slideDown();
     }
     
     $scope.tinymceOptions = {
@@ -115,7 +171,7 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
                     return;
                 }
                 else {
-                    $scope.new_popup.image  = json.location;
+                    $scope.new_popup.image  = json.filename;
                 }
                 
                 success(json.location);

@@ -46,7 +46,7 @@ class Banner extends Eloquent {
         $banner_db->show_flag           = $data['show_flag'];
         //$popup_db->text                 = $data['text'];
         
-        $banner_db->reg_date            = date('Ymd');        
+        $banner_db->reg_date            = date('Ymd');
         $banner_db->reg_datetime        = time();
         
         $sts            = $banner_db->save();
