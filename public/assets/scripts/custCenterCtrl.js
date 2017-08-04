@@ -9,10 +9,10 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
 			$scope.master = srv_resp.data;
             
             $scope.new_template         = {};
-            $scope.new_template.site_id = $scope.sites[0].site_id;
+            $scope.new_template.site_id = $scope.master.sites[0].site_id;
             $scope.new_template.cct_seq = 0;
 		}, function failed(srv_resp) {
-			$scope.sites	= [{}];
+			//$scope.sites	= [{}];
 		}
 	);
     
@@ -32,7 +32,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
                 $scope.master = srv_resp.data;
                 
             }, function failed(srv_resp) {
-                $scope.sites	= [{}];
+                //$scope.sites	= [{}];
             }
         );
 	}
@@ -83,26 +83,26 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
         var result      = [{}];
         var questions   = [];
         
-        for (var pidx = 0; pidx < $scope.sites.length; pidx++) {
+        for (var pidx = 0; pidx < $scope.master.sites.length; pidx++) {
             
-            result[pidx] = $scope.sites[pidx];
+            result[pidx] = $scope.master.sites[pidx];
             questions   = [];
             
-            for (var idx = 0; idx < $scope.sites[pidx].questions.length; idx++) {
+            for (var idx = 0; idx < $scope.master.sites[pidx].questions.length; idx++) {
             
-                var item_date   = $scope.sites[pidx].questions[idx].reg_date;
+                var item_date   = $scope.master.sites[pidx].questions[idx].reg_date;
                 var item_obj    = new Date(item_date.substr(0, 4)+'-'+item_date.substr(4, 2)+'-'+item_date.substr(6, 2));
                 
                 if ((item_obj >= strt_obj)
                 && (item_obj <= end_obj)) {
-                    questions.push($scope.sites[pidx].questions[idx]);
+                    questions.push($scope.master.sites[pidx].questions[idx]);
                 }
             }
             
             result[pidx].questions = questions;
         }
         
-        $scope.sites = result;
+        $scope.master.sites = result;
     }
     
     $scope.searchByQuery = function() {
@@ -111,7 +111,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
                 $scope.master = srv_resp.data;
                 
             }, function failed(srv_resp) {
-                $scope.sites	= [{}];
+                //$scope.sites	= [{}];
             }
         );
     }
@@ -156,8 +156,7 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
         
         $http.post("cust-center/api/post-send-msg", $scope.new_msg)
             .then(function success(srv_resp){
-                $scope.sites	= srv_resp.data[0];
-                $scope.pag_inf	= srv_resp.data[1];
+                $scope.master.sites	= srv_resp.data;
                 
                 msgbox.messages.push($scope.new_msg);
                 

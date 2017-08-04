@@ -1,5 +1,5 @@
 angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http) {
-	var errors         = [];
+	var errors          = [];
     $scope.search       = {};
     $scope.search.from  = '20170101';
     $scope.search.to    = '20171231';
@@ -7,9 +7,9 @@ angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http) {
     $scope.searchByQuery = function() {
             $http.post("ipinfo/api/search-all-sites", $scope.search)
                 .then(function success(srv_resp){
-                $scope.master =srv_resp.data;
-                $scope.master.errors = errors;
-                console.log($scope.master);
+                $scope.master           = srv_resp.data;
+                $scope.master.errors    = errors;
+                
             }, function failed(srv_resp) {
                 $scope.master    = [{}];
             }
@@ -19,13 +19,13 @@ angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http) {
     $scope.addSaveIp = function() {
 		$http.post("ipinfo/api/post-save-ipinfo", $scope.new_ipblock)
             .then(function success(srv_resp){
+                errors  = srv_resp.data;
                 $scope.searchByQuery();
 
                 $scope.new_ipblock         = {};
                 $scope.new_ipblock.site_id = $scope.master.sites[0].site_id;
                 $scope.new_ipblock.cct_seq = 0;
-
-                errors       = srv_resp.data;
+                
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

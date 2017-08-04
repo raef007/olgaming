@@ -140,6 +140,8 @@ Route::post('smslog/api/post-delete-smslogs', array('uses' => 'SmsLogController@
 Route::post('charge-mng/api/search-all-sites', array('uses' => 'ChangeManageController@searchChargeMng', 'as' => 'searchChargeMng'));
 Route::post('charge-mng/api/download-excel', array('uses' => 'ChangeManageController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('charge-mng/api/download-file/{path}/{filename}', array('uses' => 'ChangeManageController@downloadFile', 'as' => 'downloadFile'));
+Route::post('charge-mng/api/cancel/{list}', array('uses' => 'ChangeManageController@cancelDeposit', 'as' => 'cancelDeposit'));
+Route::post('charge-mng/api/set-charge-sts/{list}/{sts}', array('uses' => 'ChangeManageController@setStatus', 'as' => 'setStatus'));
 
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));

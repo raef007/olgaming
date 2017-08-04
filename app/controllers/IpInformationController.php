@@ -74,7 +74,7 @@ class IpInformationController extends BaseController {
         $dup_check      = 0;
         $err_msg        = array();
         
-    $error_count    = $this->validateIPBlock($post_data);
+        $error_count    = $this->validateIPBlock($post_data);
 
         if (0 >= count($error_count)) {
         $data['ipb_seq']    = 0;
@@ -95,7 +95,6 @@ class IpInformationController extends BaseController {
             $err_msg[] = $error_count;
         }
 
-             
         return json_encode($err_msg);
     }
     
