@@ -34,8 +34,7 @@ angular.module("vavaGaming").controller('chargeMngCtrl', function($scope, $http,
     $scope.setChargeSts = function(items, list, sts) {
         $http.post("charge-mng/api/set-charge-sts/"+list+"/"+sts, items)
             .then(function success(srv_resp){
-                $scope.searchByQuery();
-                
+                $scope.searchByQuery();                
             }, function failed(srv_resp) {
                 $scope.master	= [{}];
             }
