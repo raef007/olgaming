@@ -139,25 +139,32 @@ class CustomerCenterController extends BaseController {
     public function addSaveTemplate()
     {
         $template_db    = new CustomerTemplate();
-        $data       = array();
-        $srv_resp   = new stdClass();
-        $post_data  = Input::all();
+        $data           = array();
+        $srv_resp       = new stdClass();
+        $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
 
-         $error_count    = $this->validateTemplate($post_data);
+        $errors_found   = $this->validateTemplate($post_data);
         
-        if (0 >= count($error_count)) {
-        $data['cct_seq']    = $post_data['cct_seq'];
-        $data['site_id']    = $post_data['site_id'];
-        $data['subject']    = $post_data['subject'];
-        $data['text']       = $post_data['text'];
-        
-        $template_db->addUpdateRecord($data);
+        if (0 >= count($errors_found)) {
+            $data['cct_seq']    = $post_data['cct_seq'];
+            $data['site_id']    = $post_data['site_id'];
+            $data['subject']    = $post_data['subject'];
+            $data['text']       = $post_data['text'];
+            
+            $template_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $error_count;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
-
+        
+        $idx++;
+        
         $srv_resp   = $this->showGetCustCenter();
         $json_data          = json_decode($srv_resp);
         $json_data->errors  = $err_msg;
@@ -205,36 +212,42 @@ class CustomerCenterController extends BaseController {
     
     public function sendMessage()
     {
-        $qa_db    = new CustomerQa();
+        $qa_db      = new CustomerQa();
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
 
-        $error_count    = $this->validateMessage($post_data);
+        $errors_found   = $this->validateMessage($post_data);
         
-
-        if (0 >= count($error_count)) {
-        $data['cc_seq']         = $post_data['cc_seq'];
-        $data['site_id']        = $post_data['site_id'];
-        $data['text']           = $post_data['text'];
-        $data['ccq_seq']        = 0;
-        $data['user_id']        = 1;
-        $data['answer_flag']    = 1;
-        $data['qa_flag']        = 1;
-        
-        $qa_db->addUpdateRecord($data);
+        if (0 >= count($errors_found)) {
+            $data['cc_seq']         = $post_data['cc_seq'];
+            $data['site_id']        = $post_data['site_id'];
+            $data['text']           = $post_data['text'];
+            $data['ccq_seq']        = 0;
+            $data['user_id']        = 1;
+            $data['answer_flag']    = 1;
+            $data['qa_flag']        = 1;
+            
+            $qa_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $error_count;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
 
-
-        $srv_resp   = $this->showGetCustCenter();
+        $idx++;
+        
+        $srv_resp           = $this->showGetCustCenter();
         $json_data          = json_decode($srv_resp);
         $json_data->errors  = $err_msg;
         
-    return json_encode($json_data);    }
+        return json_encode($json_data);
+    }
 
      private function validateMessage($data)
     {

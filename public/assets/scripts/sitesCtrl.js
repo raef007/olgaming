@@ -1,5 +1,5 @@
-angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
-	
+angular.module("vavaGaming").controller('siteCtrl', function($scope, $http, error) {
+    
     $scope.button           = {};
     $scope.button.savebtn   = false;
     $scope.button.delbtn    = false;
@@ -64,6 +64,8 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
                 $scope.master.offset   = cur_offset;
                 
                 $scope.button.savebtn = false;
+                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
                 $scope.button.savebtn = false;
@@ -123,6 +125,8 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
                 $scope.new_url          = {};
                 $scope.new_url.site_id  = $scope.sel_site.site_id;
                 
+                error.launchModal();
+                
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -133,7 +137,13 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
     
     $scope.saveUrlToSite = function(site_idx) {
         
-        $scope.tab_url[site_idx].site_id  = $scope.master.sites[site_idx].site_id;
+        if (typeof $scope.tab_url[site_idx] === 'undefined') {
+            $scope.tab_url[site_idx]            = {};
+            $scope.tab_url[site_idx].site_id    = $scope.master.sites[site_idx].site_id;
+        }
+        else {
+            $scope.tab_url[site_idx].site_id    = $scope.master.sites[site_idx].site_id;
+        }
         
         if (typeof $scope.tab_url[site_idx].page_of_manage === 'undefined') {
             $scope.tab_url[site_idx].page_of_manage = '';
@@ -153,6 +163,8 @@ angular.module("vavaGaming").controller('siteCtrl', function($scope, $http) {
                 $scope.tab_url[site_idx].site_id    = $scope.master.sites[site_idx].site_id;
                 
                 $scope.master.sites[site_idx].offset  = $scope.master.sites[site_idx].max_page;
+                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

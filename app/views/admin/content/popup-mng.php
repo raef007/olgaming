@@ -1,4 +1,6 @@
-		<div style="padding:0px 10px 10px 10px;" class="body-wrap">
+		<ng-include src="'../app/views/admin/common/modal/msg-prompt.php'"></ng-include>
+        
+        <div style="padding:0px 10px 10px 10px;" class="body-wrap">
 
             <div class="h80"></div>
 

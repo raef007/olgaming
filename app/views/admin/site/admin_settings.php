@@ -1,4 +1,6 @@
-		<div style="padding:0px 10px 10px 10px;" class="body-wrap">
+        <ng-include src="'../app/views/admin/common/modal/msg-prompt.php'"></ng-include>
+		
+        <div style="padding:0px 10px 10px 10px;" class="body-wrap">
 
             <div class="h80"></div>
 
@@ -66,7 +68,7 @@
                                         
                                         <div class="text-right">
                                             <button type = 'submit' class="btn btn-default">저장하기</button>
-                                            <button class="btn btn-default" data-toggle="modal" data-target="#adm-modal">신규등록</button>
+                                            <button type = 'button' class="btn btn-default" data-toggle="modal" data-target="#adm-modal">신규등록</button>
                                             <div class="clearfix"></div>
                                         </div>
                                         
@@ -147,7 +149,7 @@
                                         <div class="up-10"></div>
                                         <div class="text-right">
                                             <button class="btn btn-default">저장하기</button>
-                                            <button class="btn btn-default" data-toggle="modal" data-target="#adm-modal">신규등록</button>
+                                            <button class="btn btn-default" type = 'button' data-toggle="modal" data-target="#adm-modal">신규등록</button>
                                             <div class="clearfix"></div>
                                         </div>
                                     </form>

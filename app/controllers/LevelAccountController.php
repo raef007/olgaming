@@ -52,7 +52,10 @@ class LevelAccountController extends BaseController {
     {
         $lvl_acc_db     = new LevelAccount();
         $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
         
         foreach ($post_data as $site) {
             
@@ -66,16 +69,20 @@ class LevelAccountController extends BaseController {
                 $data['bank_account']   = $account['bank_account'];
                 $data['bank_owner']     = $account['bank_owner'];
                 
-                $error_count    = $this->validateLevelAccounts($data);
+                $error_found    = $this->validateLevelAccounts($data);
                 
-                if (0 >= count($error_count)) {
+                if (0 >= count($error_found)) {
                     $lvl_acc_db->addUpdateRecord($data);
                 }
                 else {
-                    $err_msg[] = $error_count;
+                    $err_obj->msgs  = $error_found;
+                    $err_obj->idx   = $idx;
+                    $err_msg[]      = $err_obj;
                 }
             }
         }
+        
+        $idx++;
         
         $data = $this->showGetLevelAccounts();
         

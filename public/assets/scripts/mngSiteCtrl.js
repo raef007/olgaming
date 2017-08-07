@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http, error) {
 	
     $http.get("mng-sites/api/get-all-sites")
 		.then(function success(srv_resp){
@@ -41,6 +41,7 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
                 $scope.new_site.reg_sites   = [];
                 
                 $('#adm-modal').modal('hide');
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -53,7 +54,7 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
                 var cur_offset      = $scope.master.offset;
                 $scope.master           = srv_resp.data;
                 $scope.master.offset    = cur_offset;
-                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -89,8 +90,6 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
         $scope.new_site.name        = '';
         $scope.new_site.reg_sites   = [];
         $scope.new_site.reg_sites.push(site.site_id);
-        
-        console.log($scope.new_site);
     }
     
     $scope.allMngSiteTab = function() {
@@ -104,6 +103,5 @@ angular.module("vavaGaming").controller('mngSiteCtrl', function($scope, $http) {
         $scope.new_site.use_flag    = '';
         $scope.new_site.name        = '';
         $scope.new_site.reg_sites   = [];
-        console.log($scope.new_site);
     }
 });

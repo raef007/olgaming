@@ -111,7 +111,10 @@ class FaqController extends BaseController {
     {
         $faq_db     = new Faq();
         
-        $err_msg    = array();
+        $idx            = 1;
+        $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
@@ -130,8 +133,12 @@ class FaqController extends BaseController {
             $faq_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $errors_found;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
+        
+        $idx++;
         
         $srv_resp   = $this->showGetFaqs();
         
@@ -144,6 +151,10 @@ class FaqController extends BaseController {
     public function addSaveFaqs()
     {
         $faq_db         = new Faq();
+        
+        $idx            = 1;
+        $err_msg        = array();
+        $err_obj        = new stdClass();
         
         $data           = array();
         $srv_resp       = new stdClass();
@@ -162,10 +173,14 @@ class FaqController extends BaseController {
                             $faq_db->addUpdateRecord($faq);
                         }
                          else {
-                            $err_msg[] = $errors_found;
+                            $err_obj->msgs  = $errors_found;
+                            $err_obj->idx   = $idx;
+                            $err_msg[]      = $err_obj;
                         }
                     }
                 }
+                
+                $idx++;
             }
         }
 

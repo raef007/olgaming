@@ -67,32 +67,37 @@ class IpInformationController extends BaseController {
     
     public function addSaveIpInfo()
     {
-        $ipinfo_db    = new IpBlock();
+        $ipinfo_db      = new IpBlock();
         $data           = array();
         $srv_resp       = new stdClass();
         $post_data      = Input::all();
         $dup_check      = 0;
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
         
-        $error_count    = $this->validateIPBlock($post_data);
+        $errors_found    = $this->validateIPBlock($post_data);
 
-        if (0 >= count($error_count)) {
-        $data['ipb_seq']    = 0;
-        $data['site_id']    = $post_data['site_id'];
-        $data['ip_num']     = $post_data['ipadd1'].'-'.$post_data['ipadd2'].'-'.$post_data['ipadd3'].'-'.$post_data['ipadd4'];
-        
-        if (isset($post_data['ipadd5'])) {
-            if ('' != $post_data['ipadd5']) {
-                $data['ip_num'] = $data['ip_num'].'-'.$post_data['ipadd5'];
+        if (0 >= count($errors_found)) {
+            $data['ipb_seq']    = 0;
+            $data['site_id']    = $post_data['site_id'];
+            $data['ip_num']     = $post_data['ipadd1'].'-'.$post_data['ipadd2'].'-'.$post_data['ipadd3'].'-'.$post_data['ipadd4'];
+            
+            if (isset($post_data['ipadd5'])) {
+                if ('' != $post_data['ipadd5']) {
+                    $data['ip_num'] = $data['ip_num'].'-'.$post_data['ipadd5'];
+                }
             }
-        }
-        
-        $data['reason']     = $post_data['reason'];
-        
-        $srv_resp->sts      = $ipinfo_db->addUpdateRecord($data);
+            
+            $data['reason']     = $post_data['reason'];
+            
+            $srv_resp->sts      = $ipinfo_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $error_count;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
 
         return json_encode($err_msg);

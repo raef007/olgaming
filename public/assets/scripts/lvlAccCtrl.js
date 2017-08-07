@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http, error) {
 	
     $http.get("lvl-acc/api/get-all-sites")
 		.then(function success(srv_resp){
@@ -30,6 +30,7 @@ angular.module("vavaGaming").controller('lvlAccCtrl', function($scope, $http) {
 		$http.post("lvl-acc/api/post-save-accounts", $scope.master.sites)
             .then(function success(srv_resp){
                 $scope.master	= srv_resp.data;
+                error.launchModal();
             }, function failed(srv_resp) {
                 $scope.master	= [{}];
             }

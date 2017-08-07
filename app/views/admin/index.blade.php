@@ -166,6 +166,8 @@
 			});
 
 		</script>
+		<script src="{{ URL::asset('assets/scripts/errorSrvc.js') }}"></script>
+        
 		<script src="{{ URL::asset('assets/scripts/sitesCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/mngSiteCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/lvlAccCtrl.js') }}"></script>

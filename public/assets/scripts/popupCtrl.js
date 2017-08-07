@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('popupCtrl', function($scope, $http, error) {
 	
     $http.get("popup/api/get-all-sites")
 		.then(function success(srv_resp){
@@ -20,6 +20,7 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
                 $scope.resetNewPopup($scope.master.sites[0]);
                 $scope.new_popup.site_id = cur_site_id;
                 
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -34,7 +35,7 @@ angular.module("vavaGaming").controller('popupCtrl', function($scope, $http) {
         $http.post("popup/api/post-save-popups", $scope.master.sites)
             .then(function success(srv_resp){
                 $scope.master	    = srv_resp.data;
-                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

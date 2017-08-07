@@ -1,10 +1,7 @@
-<div style="padding: 0px 10px 10px 10px;" class="body-wrap">
 
-	<!-- <div class="location-info">
-		<div class="location-info-content">
-			사이트 관리 <span class="location-info-sp">></span> 사이트 설정
-		</div>
-	</div> -->
+<ng-include src="'../app/views/admin/common/modal/msg-prompt.php'"></ng-include>
+
+<div style="padding: 0px 10px 10px 10px;" class="body-wrap">
 
 	<div class="h80"></div>
 
@@ -198,10 +195,13 @@
 								<div class="pull-left">
 									<h4>접속 설정</h4>
 								</div>
-
+                                
+                                <!--
 								<div class="">
 									<button class="btn btn-default">삭제하기</button>
 								</div>
+                                -->
+                                
 								<div class="clearfix"></div>
 							</div>
 							<div class="h10"></div>
@@ -237,13 +237,15 @@
 									</tbody>
 								</table>
 							</div>
-
+                            
+                            <!--
 							<div class="text-center col-lg-12">
 								<button class="btn btn-black btn-default btn2">저장하기</button>
 								<button class="btn btn-default btn2">취소하기</button>
 								<div class="clearfix"></div>
 							</div>
-
+                            -->
+                            
 							<div class="h20"></div>
 
 							<h4>URL 관리</h4>

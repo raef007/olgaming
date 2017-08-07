@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http, error) {
 	
     $scope.search       = {};
     $scope.search.from  = '20170101';
@@ -45,6 +45,8 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
                 $scope.new_template.cct_seq = 0;
                 $scope.new_template.subject = '';
                 $scope.new_template.text    = '';
+                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -156,11 +158,13 @@ angular.module("vavaGaming").controller('custCenterCtrl', function($scope, $http
         
         $http.post("cust-center/api/post-send-msg", $scope.new_msg)
             .then(function success(srv_resp){
-                $scope.master.sites	= srv_resp.data;
+                $scope.master	= srv_resp.data;
                 
                 msgbox.messages.push($scope.new_msg);
                 
                 $scope.new_msg  = {};
+                
+                //error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

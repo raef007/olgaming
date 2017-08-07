@@ -59,7 +59,10 @@ class ManageSiteController extends BaseController {
         $manager_db     = new Manager();
         $mngsite_db     = new ManageSite();
         
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $data           = array();
         $srv_resp       = new stdClass();
         $post_data      = Input::all();
@@ -82,8 +85,12 @@ class ManageSiteController extends BaseController {
             }
         }
         else {
-            $err_msg[] = $errors_found;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
+        
+        $idx++;
         
         $srv_resp   = $this->showGetManageSites();
         
@@ -101,22 +108,37 @@ class ManageSiteController extends BaseController {
         $srv_resp       = new stdClass();
         $post_data      = Input::all();
         
+        $idx            = 1;
+        $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         foreach ($post_data as $site) {
             foreach ($site['managers'] as $manager) {
                 if (isset($manager['site_check'])) {
                     if ('1' == $manager['site_check']) {
-                        $data['admin_id']   = $manager['admin_id'];
-                        $data['use_flag']   = $manager['use_flag'];
+                        $errors_found       = $this->validateManageSite($manager);
                         
-                        $manager_db->updateUseFlag($data);
+                        if (0 >= count($errors_found)) {
+                            $manager_db->updateUseFlag($manager);
+                        }
+                        else {
+                            $err_obj->msgs  = $errors_found;
+                            $err_obj->idx   = $idx;
+                            $err_msg[]      = $err_obj;
+                        }
                     }
                 }
+                
+                $idx++;
             }
         }
         
         $srv_resp   = $this->showGetManageSites();
         
-        return $srv_resp;
+        $json_data          = json_decode($srv_resp);
+        $json_data->errors  = $err_msg;
+        
+        return json_encode($json_data);
     }
     
     public function deleteMngSites()
@@ -154,7 +176,7 @@ class ManageSiteController extends BaseController {
         );
         
         $rules      = array(
-            'admin_id'      => 'required|numeric',
+            'admin_id'      => 'required',
             'pwd'           => 'required',
             'nick_name'     => 'required',
             'use_flag'      => 'required|numeric',
@@ -164,11 +186,18 @@ class ManageSiteController extends BaseController {
         /*  Run the Laravel Validation  */
 		$validator = Validator::make($data, $rules, $messages);
         
-        if (0 >= count($data['reg_sites'])) {
-            $errors[0]  = 'Please choose at least 1 Site';
+        if (isset($data['reg_sites'])) {
+            if (0 >= count($data['reg_sites'])) {
+                $errors[0]  = 'Please choose at least 1 Site';
+            }
+            else if ($validator->fails()) {
+                $errors   = $validator->messages()->all();
+            }
         }
-        else if ($validator->fails()) {
-            $errors   = $validator->messages()->all();
+        else {
+            if ($validator->fails()) {
+                $errors   = $validator->messages()->all();
+            }
         }
         
         return $errors;

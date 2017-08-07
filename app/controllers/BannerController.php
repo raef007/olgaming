@@ -80,7 +80,10 @@ class BannerController extends BaseController {
     {
         $banner_db   = new Banner();
         
-        $err_msg    = array();
+        $idx            = 1;
+        $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $data       = array();
         $srv_resp   = new stdClass();
         $post_data  = Input::all();
@@ -111,8 +114,12 @@ class BannerController extends BaseController {
             $banner_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $errors_found;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
+        
+        $idx++;
         
         $srv_resp   = $this->showGetBanner();
         
@@ -127,7 +134,11 @@ class BannerController extends BaseController {
         $banner_db   = new Banner();
         
         $bannertyp      = array('mains', 'subbanners', 'casinos', 'betslips', 'ptcnvs', 'mbwebs');
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $data           = array();
         $srv_resp       = new stdClass();
         $post_data      = Input::all();
@@ -147,10 +158,14 @@ class BannerController extends BaseController {
                                     $banner_db->addUpdateRecord($banner);
                                 }
                                  else {
-                                    $err_msg[] = $errors_found;
+                                    $err_obj->msgs  = $errors_found;
+                                    $err_obj->idx   = $idx;
+                                    $err_msg[]      = $err_obj;
                                 }
                             }
                         }
+                        
+                        $idx++;
                     }
                 }
             }

@@ -161,7 +161,11 @@ class NoticeController extends BaseController {
     public function addNotice()
     {
         $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $destination    = public_path('assets/images/notices');
         $img_path       = 'default.jpg';
         $new_notice     = json_decode($post_data['new_notice']);
@@ -183,9 +187,9 @@ class NoticeController extends BaseController {
         $data['order']          = $new_notice->order;
         $data['show_flag']      = $new_notice->show_flag;
         
-        $error_count    = $this->validateNotice($data);
+        $errors_found    = $this->validateNotice($data);
 
-        if (0 >= count($error_count)) {
+        if (0 >= count($errors_found)) {
             if (0 < $new_notice->n_seq) {
                 $upd_data = array(
                     'site_id'           => $new_notice->site_id,
@@ -223,8 +227,12 @@ class NoticeController extends BaseController {
             }
         }
         else {
-            $err_msg[] = $error_count;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
+        
+        $idx++;
         
         return json_encode($err_msg);
     }
@@ -268,7 +276,11 @@ class NoticeController extends BaseController {
     public function addEvent()
     {
         $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
+        
         $destination    = public_path('assets/images/events');
         $img_path       = 'default.jpg';
         $new_event      = json_decode($post_data['new_event']);
@@ -294,9 +306,9 @@ class NoticeController extends BaseController {
         $data['order']          = $new_event->order;
         $data['show_flag']      = $new_event->show_flag;
         
-        $error_count    = $this->validateEvent($data);
+        $errors_found    = $this->validateEvent($data);
 
-        if (0 >= count($error_count)) {
+        if (0 >= count($errors_found)) {
             if (0 < $new_event->e_seq) {
                 $upd_data = array(
                     'site_id'           => $new_event->site_id,
@@ -340,9 +352,13 @@ class NoticeController extends BaseController {
             }
         }
         else {
-            $err_msg[] = $error_count;
+            $err_obj->msgs  = $errors_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
-
+        
+        $idx++;
+        
         return json_encode($err_msg);
     }
 

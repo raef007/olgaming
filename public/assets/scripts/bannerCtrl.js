@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http, error) {
 	
     $http.get("banner/api/get-all-sites")
 		.then(function success(srv_resp){
@@ -18,6 +18,7 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
             .then(function success(srv_resp){
                 $scope.master	= srv_resp.data;
                 $scope.resetNewBanner($scope.master.sites[0]);
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -38,7 +39,7 @@ angular.module("vavaGaming").controller('bannerCtrl', function($scope, $http) {
         $http.post("banner/api/post-save-banners", $scope.master.sites)
             .then(function success(srv_resp){
                 $scope.master   = srv_resp.data;
-                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

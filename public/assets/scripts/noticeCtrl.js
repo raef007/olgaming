@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http, error) {
     
     var errors          = [];
     $scope.search       = {};
@@ -80,6 +80,7 @@ angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http) {
         .then(function success(srv_resp){
             errors  = srv_resp.data;
             $scope.searchNotice();
+            error.launchModal();
         }, function failed(srv_resp) {
             $scope.master    = [{}];
         });
@@ -140,6 +141,7 @@ angular.module("vavaGaming").controller('noticeCtrl', function($scope, $http) {
         .then(function success(srv_resp){
             errors  = srv_resp.data;
             $scope.searchNotice();
+            error.launchModal();
         }, function failed(srv_resp) {
             $scope.master    = [{}];
         });

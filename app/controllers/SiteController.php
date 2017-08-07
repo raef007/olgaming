@@ -49,40 +49,55 @@ class SiteController extends BaseController {
         $site_db        = new Site();
         $site_url_db    = new SiteUrl();
         $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
         
         foreach ($post_data as $site) {
             
-            $data['site_id']        = $site['site_id'];
-            $data['site_name']      = $site['site_name'];
-            $data['reg_way']        = $site['reg_way'];
-            
-            $error_found            = $this->validateSite($data);
-            
-            if (0 >= count($error_found)) {
-                $site_id                = $site_db->addUpdateRecord($data);
+            foreach ($site['site_urls'] as $url) {
                 
-                foreach ($site['site_urls'] as $url) {
+                $err_obj        = new stdClass();
                 
-                    $data['site_id']        = $site_id;
-                    $data['su_seq']         = $url['su_seq'];
-                    $data['site_url']       = $url['site_url'];
-                    $data['page_of_manage'] = '';
-                    
-                    $error_found            = $this->validateSiteUrl($data);
-                    
-                    if (0 >= count($error_found)) {
-                        $site_url_id            = $site_url_db->addUpdateRecord($data);
-                    }
-                    else {
-                        $err_msg[] = $error_found;
+                if (isset($url['del_check'])) {
+                    if ('1' == $url['del_check']) {
+                        
+                        $data['site_id']        = $site['site_id'];
+                        $data['site_name']      = $site['site_name'];
+                        $data['reg_way']        = $site['reg_way'];
+                        
+                        $error_found            = $this->validateSite($data);
+                        
+                        if (0 >= count($error_found)) {
+                            $site_id                = $site_db->addUpdateRecord($data);
+                            
+                            $data['site_id']        = $site_id;
+                            $data['su_seq']         = $url['su_seq'];
+                            $data['site_url']       = $url['site_url'];
+                            $data['page_of_manage'] = '';
+                            
+                            $error_found            = $this->validateSiteUrl($data);
+                            
+                            if (0 >= count($error_found)) {
+                                $site_url_id            = $site_url_db->addUpdateRecord($data);
+                            }
+                            else {
+                                $err_obj->msgs  = $error_found;
+                                $err_obj->idx   = $idx;
+                                $err_msg[]      = $err_obj;
+                            }
+                        }
+                        else {
+                            $err_obj->msgs  = $error_found;
+                            $err_obj->idx   = $idx;
+                            $err_msg[]      = $err_obj;
+                        }
                     }
                 }
             }
-            else {
-                $err_msg[] = $error_found;
-            }
             
+            $idx++;
         }
         
         $data = $this->showGetSites();
@@ -98,7 +113,10 @@ class SiteController extends BaseController {
         $site_db        = new Site();
         $site_url_db    = new SiteUrl();
         $post_data      = Input::all();
+        
+        $idx            = 1;
         $err_msg        = array();
+        $err_obj        = new stdClass();
         
         $data['su_seq']         = '0';
         $data['site_id']        = $post_data['site_id'];
@@ -111,8 +129,12 @@ class SiteController extends BaseController {
             $data['su_seq']         = $site_url_db->addUpdateRecord($data);
         }
         else {
-            $err_msg[] = $error_found;
+            $err_obj->msgs  = $error_found;
+            $err_obj->idx   = $idx;
+            $err_msg[]      = $err_obj;
         }
+        
+        $idx++;
         
         $data = $this->showGetSites();
         

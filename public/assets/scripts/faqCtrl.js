@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('faqCtrl', function($scope, $http, error) {
 	
     $http.get("faq/api/get-all-sites")
 		.then(function success(srv_resp){
@@ -10,7 +10,7 @@ angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
 		}
 	);
     
-    $scope.search   = {};
+    $scope.search           = {};
     $scope.search.filter_by = 'text';
     $scope.search.val       = '';
     
@@ -29,6 +29,8 @@ angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
 		$http.post("faq/api/post-save-faq", $scope.new_faq)
             .then(function success(srv_resp){
                 $scope.master	= srv_resp.data;
+                $scope.resetNewFaq($scope.master.sites[0]);
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
@@ -48,6 +50,8 @@ angular.module("vavaGaming").controller('faqCtrl', function($scope, $http) {
                 
                 $scope.resetNewFaq($scope.master.sites[0]);
                 $scope.new_faq.site_id      = cur_site_id;
+                
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }

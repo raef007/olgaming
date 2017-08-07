@@ -1,4 +1,4 @@
-angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http) {
+angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http, error) {
 	var errors          = [];
     $scope.search       = {};
     $scope.search.from  = '20170101';
@@ -26,6 +26,7 @@ angular.module("vavaGaming").controller('ipInfoCtrl', function($scope, $http) {
                 $scope.new_ipblock.site_id = $scope.master.sites[0].site_id;
                 $scope.new_ipblock.cct_seq = 0;
                 
+                error.launchModal();
             }, function failed(srv_resp) {
                 //$scope.sites	= [];
             }
