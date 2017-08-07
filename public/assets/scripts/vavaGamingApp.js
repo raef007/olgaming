@@ -44,7 +44,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 			templateUrl: "pay/money_use_log"
 		})
         .when('/point-use-log', {
-			templateUrl: "pay/point_use_log"
+			templateUrl: "pay/point_use_log",
+			controller: 'PointUseLogCtrl'
 		})
         .when('/betting-stat', {
 			templateUrl: "pay/betting_stat"
