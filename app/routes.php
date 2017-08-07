@@ -151,7 +151,11 @@ Route::post('exchange/api/set-charge-sts/{step_list}/{sts}', array('uses' => 'Ex
 Route::post('exchange-mng/api/download-excel', array('uses' => 'ExchangeController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('exchange-mng/api/download-file/{path}/{filename}', array('uses' => 'ExchangeController@downloadFile', 'as' => 'downloadFile'));
 
-
+/* Point Use Log*/
+Route::get('pul/api/get-all-sites', array('uses' => 'PointUseLogController@showGetPUL', 'as' => 'showGetPUL'));
+Route::post('pul/api/search-pul', array('uses' => 'PointUseLogController@searchPUL', 'as' => 'searchPUL'));
+Route::post('pul/api/download-excel', array('uses' => 'PointUseLogController@downloadExcel', 'as' => 'downloadExcel'));
+Route::get('pul/api/download-file/{path}/{filename}', array('uses' => 'PointUseLogController@downloadFile', 'as' => 'downloadFile'));
 
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));

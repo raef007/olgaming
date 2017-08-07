@@ -179,5 +179,6 @@
 		<script src="{{ URL::asset('assets/scripts/smsLogCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/chargeMngCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/ExchangeCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/PointUseLogCtrl.js') }}"></script>
 	</body>
 </html>
