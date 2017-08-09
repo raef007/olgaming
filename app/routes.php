@@ -157,6 +157,11 @@ Route::post('pul/api/search-pul', array('uses' => 'PointUseLogController@searchP
 Route::post('pul/api/download-excel', array('uses' => 'PointUseLogController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('pul/api/download-file/{path}/{filename}', array('uses' => 'PointUseLogController@downloadFile', 'as' => 'downloadFile'));
 
+
+/* Payment Settlement */
+Route::get('pay-settle/api/get-all-sites', array('uses' => 'PaymentSettleController@showGetPaymentSettle', 'as' => 'showGetPaymentSettle'));
+Route::post('pay-settle/api/search-deposit', array('uses' => 'PaymentSettleController@searchDeposit', 'as' => 'searchDeposit'));
+
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));

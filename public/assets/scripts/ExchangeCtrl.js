@@ -67,7 +67,7 @@ angular.module("vavaGaming").controller('ExchangeCtrl', function($scope, $http, 
     $scope.downloadExcelFile = function() {
         $http.post("exchange-mng/api/download-excel", $scope.master.sites)
             .then(function success(srv_resp){
-                $("body").append("<iframe src='http://localhost/olgaming/public/exchange/api/download-file/exchange-mng/" + srv_resp.data.filename +"' style='display: none;' ></iframe>");
+                $("body").append("<iframe src='http://localhost/olgaming/public/charge-mng/api/download-file/charge-mng/" + srv_resp.data.filename +"' style='display: none;' ></iframe>");
                 
             }, function failed(srv_resp) {
                 //$scope.master = [{}];
