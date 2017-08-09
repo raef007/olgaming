@@ -90,18 +90,6 @@
                                                 <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.offset == master.max_page" ng-click="setOffset(master, master.max_page)" aria-label="Last">마지막</a></li>
                                             </ul>
                                         </nav>
-			
-			                            <div class="page-select-opt1">
-			                                한 페이지에
-			                                <select name="selector1" id="selector1" class="">
-			                                    <option>전체</option>
-			                                    <option>10</option>
-			                                    <option>25</option>
-			                                    <option>50</option>
-			                                    <option>100</option>
-			                                </select>
-			                                항목 보기
-			                            </div>
 			                        </div>
 			                    </div>
 								<div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in master.sites track by $index'>									                            
@@ -174,18 +162,6 @@
                                                 <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="site.offset == site.max_page" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
                                             </ul>
                                         </nav>
-			
-			                            <div class="page-select-opt1">
-			                                한 페이지에
-			                                <select name="selector1" id="selector1" class="">
-			                                    <option>전체</option>
-			                                    <option>10</option>
-			                                    <option>25</option>
-			                                    <option>50</option>
-			                                    <option>100</option>
-			                                </select>
-			                                항목 보기
-			                            </div>
 			                        </div>
 			                	</div>
 			                </div>
@@ -199,4 +175,20 @@
 				                window.open(url,'_blank');
 				            });
 				        });
+				    </script>
+				    <script>
+			            $(document).ready(function() {
+                            $('#main-cntr').on('click', '.show-template-form', function() {
+                                $('#template-form').slideDown();
+                            });
+                            
+                            $('#main-cntr').on('click', '.close-template-form', function() {
+                                $('#template-form').slideUp();
+                            });
+                            
+                            $('#main-cntr').delegate(".datepicker1", "focusin", function(){
+                                $(this).datepicker(({ dateFormat: 'yymmdd' }));
+                            });
+                            
+                        });
 				    </script>
