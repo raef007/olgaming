@@ -44,6 +44,31 @@ class Site extends Eloquent {
         return $primary_key;
     }
     
+    public function updateMoneyConfig($data)
+    {
+        /*  Variable Declaration        */
+        $sts            = 0;
+        $primary_key    = 0;
+        
+        /*  Instantiate Database Class  */
+        if (0 != $data['site_id']) {
+            $site_db    = self::find($data['site_id']);
+        }
+        else {
+            $site_db    = new Site();
+        }
+        
+        /*  Saves Data to the Database  */
+        $site_db->max_money_per_game    = $data['max_money_per_game'];
+        $site_db->max_win_money_per_bet = $data['max_win_money_per_bet'];
+        $site_db->max_rate              = $data['max_rate'];
+        
+        $sts            = $site_db->save();
+        $primary_key    = $site_db->site_id;
+        
+        return $primary_key;
+    }
+    
     public function deleteRecord($site_id)
     {
         $site = self::where('site_id', $site_id)

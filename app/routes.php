@@ -82,6 +82,11 @@ Route::post('mng-sites/api/post-save-site', array('uses' => 'ManageSiteControlle
 Route::post('mng-sites/api/post-save-sites', array('uses' => 'ManageSiteController@addSaveManageSites', 'as' => 'addSaveManageSites'));
 Route::post('mng-sites/api/post-delete-sites', array('uses' => 'ManageSiteController@deleteMngSites', 'as' => 'deleteMngSites'));
 
+/*  Bet Limit Configuration     */
+Route::get('bet-limit/api/get-all-sites', array('uses' => 'BetLimitConfigController@showGetBetLimit', 'as' => 'showGetBetLimit'));
+Route::post('bet-limit/api/post-save-configs', array('uses' => 'BetLimitConfigController@addSaveBetConfig', 'as' => 'addSaveBetConfig'));
+Route::post('bet-limit/api/post-delete-configs', array('uses' => 'BetLimitConfigController@deleteConfigs', 'as' => 'deleteConfigs'));
+
 /*  Level Account API        */
 Route::get('lvl-acc/api/get-all-sites', array('uses' => 'LevelAccountController@showGetLevelAccounts', 'as' => 'showGetLevelAccounts'));
 Route::post('lvl-acc/api/post-save-accounts', array('uses' => 'LevelAccountController@addSaveLevelAccounts', 'as' => 'addSaveLevelAccounts'));
@@ -156,6 +161,9 @@ Route::get('pul/api/get-all-sites', array('uses' => 'PointUseLogController@showG
 Route::post('pul/api/search-pul', array('uses' => 'PointUseLogController@searchPUL', 'as' => 'searchPUL'));
 Route::post('pul/api/download-excel', array('uses' => 'PointUseLogController@downloadExcel', 'as' => 'downloadExcel'));
 Route::get('pul/api/download-file/{path}/{filename}', array('uses' => 'PointUseLogController@downloadFile', 'as' => 'downloadFile'));
+
+/*  Member Statistics           */
+Route::post('member-stats/api/get-all-sites', array('uses' => 'MemberStatsController@searchMemberStats', 'as' => 'searchMemberStats'));
 
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));

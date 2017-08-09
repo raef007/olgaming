@@ -171,6 +171,7 @@
 		<script src="{{ URL::asset('assets/scripts/sitesCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/mngSiteCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/lvlAccCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/betLimitConfig.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/faqCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/popupCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/bannerCtrl.js') }}"></script>
@@ -182,5 +183,6 @@
 		<script src="{{ URL::asset('assets/scripts/chargeMngCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/ExchangeCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/PointUseLogCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/memberStatsCtrl.js') }}"></script>
 	</body>
 </html>

@@ -1,6 +1,16 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 @import url("https://fonts.googleapis.com/css?family=Amiri|Buda:300|Buenard|Caudex|Cormorant+Infant|Cormorant+SC|Dosis|Faster+One|Harmattan|Lateef|Nunito+Sans|Poppins|Suranna");
 
+
+ul button.black-btn-tab {
+    background: #222d2f;
+    border: 0px;
+    color: #FFFFFF;
+    border-radius: 4px;
+    width: 115px;
+    height: 38px !important;
+}
+
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}

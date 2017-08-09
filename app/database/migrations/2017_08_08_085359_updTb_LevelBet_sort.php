@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdTbSiteId extends Migration {
+class UpdTbLevelBetSort extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,9 @@ class UpdTbSiteId extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('IP_BLOCK', function(Blueprint $table)
+		Schema::table('LEVEL_BET_MONEY', function(Blueprint $table)
 		{
-			$table->integer("site_id");
-            $table->dropColumn('user_id');
+			$table->tinyInteger("sort")->after('level');
 		});
 	}
 
@@ -28,8 +27,7 @@ class UpdTbSiteId extends Migration {
 	{
 		Schema::table('LEVEL_BET_MONEY', function(Blueprint $table)
 		{
-			$table->integer("user_id");
-            $table->dropColumn('site_id');
+            $table->dropColumn('sort');
 		});
 	}
 

@@ -76,7 +76,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
             controller: 'lvlAccCtrl'
 		})
         .when('/min-max-acc', {
-			templateUrl: "site/set_min_max_acc"
+			templateUrl: "site/set_min_max_acc",
+            controller: 'betLimitConfig'
 		})
         .when('/ratio-setting-event', {
 			templateUrl: "site/ratio_setting_by_event"
@@ -109,7 +110,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 			templateUrl: "stats/foreign_company_stats"
 		})
         .when('/stats-member', {
-			templateUrl: "stats/member_stats"
+			templateUrl: "stats/member_stats",
+            controller: 'memberStatsCtrl'
 		})
         .when('/stats-hit-rate', {
 			templateUrl: "stats/mem_hit_rate"
