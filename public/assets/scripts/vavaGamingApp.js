@@ -120,7 +120,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 			templateUrl: "stats/top_dividend_stats"
 		})
         .when('/stats-pay-settle', {
-			templateUrl: "stats/payment_settlement"
+			templateUrl: "stats/payment_settlement",
+			controller: "paysettleCtrl"
 		})
         .when('/stats-depo-settle', {
 			templateUrl: "stats/settlement_by_deposit"

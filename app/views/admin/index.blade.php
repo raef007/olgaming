@@ -184,5 +184,6 @@
 		<script src="{{ URL::asset('assets/scripts/ExchangeCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/PointUseLogCtrl.js') }}"></script>
 		<script src="{{ URL::asset('assets/scripts/memberStatsCtrl.js') }}"></script>
+		<script src="{{ URL::asset('assets/scripts/paysettleCtrl.js') }}"></script>
 	</body>
 </html>
