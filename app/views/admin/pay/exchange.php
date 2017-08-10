@@ -96,8 +96,8 @@
 																<td class="open_exchange_tbl ex_id"><a href="#">{{site.username}}</a></td>
 																<td class="open_exchange_tbl ex_nickname"><a href="#">{{site.nickname}}</a></td>
 																<td class="font-red">원</td>
-																<td class="open_exchange_tbl ex_accountname"><a href="#">{{site.bank_name}}</a></td>
-																<td>국민은행</td>
+																<td class="open_exchange_tbl ex_accountname"><a href="#">{{site.bank_owner}}</a></td>
+																<td>{{site.bank_name}}</td>
 																<td><span class="font-blue">{{site.bank_account}}</span>
 																</td>
 																<td>
@@ -450,8 +450,8 @@
 																<td class="open_exchange_tbl ex_id"><a href="#">{{request.username}}</a></td>
 																<td class="open_exchange_tbl ex_nickname"><a href="#">{{request.nickname}}</a></td>
 																<td class="font-red">원</td>
-																<td class="open_exchange_tbl ex_accountname"><a href="#">{{request.bank_name}}</a></td>
-																<td>국민은행</td>
+																<td class="open_exchange_tbl ex_accountname"><a href="#">{{request.bank_owner}}</a></td>
+																<td>{{request.bank_name}}</td>
 																<td><span class="font-blue">{{request.bank_account}}</span>
 																</td>
 																<td>

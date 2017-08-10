@@ -170,6 +170,9 @@ Route::post('member-stats/api/get-all-sites', array('uses' => 'MemberStatsContro
 Route::get('pay-settle/api/get-all-sites', array('uses' => 'PaymentSettleController@showGetPaymentSettle', 'as' => 'showGetPaymentSettle'));
 Route::post('pay-settle/api/search-deposit', array('uses' => 'PaymentSettleController@searchDeposit', 'as' => 'searchDeposit'));
 
+/*Settlement by Deposit */
+Route::get('depo-settle/api/get-all-sites', array('uses' => 'DepoSettleController@showGetDepoSettle', 'as' => 'showGetDepoSettle'));
+Route::post('depo-settle/api/search-deposit', array('uses' => 'DepoSettleController@searchDeposit', 'as' => 'searchDeposit'));
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));

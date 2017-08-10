@@ -124,7 +124,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 			controller: "paysettleCtrl"
 		})
         .when('/stats-depo-settle', {
-			templateUrl: "stats/settlement_by_deposit"
+			templateUrl: "stats/settlement_by_deposit",
+			controller: "deposettleCtrl"
 		})
         .when('/stats-dir-dist', {
 			templateUrl: "stats/folder_distribution"
