@@ -173,6 +173,11 @@ Route::post('pay-settle/api/search-deposit', array('uses' => 'PaymentSettleContr
 /*Settlement by Deposit */
 Route::get('depo-settle/api/get-all-sites', array('uses' => 'DepoSettleController@showGetDepoSettle', 'as' => 'showGetDepoSettle'));
 Route::post('depo-settle/api/search-deposit', array('uses' => 'DepoSettleController@searchDeposit', 'as' => 'searchDeposit'));
+
+/* Subscribe */
+Route::get('subscribe/api/get-all-sites', array('uses' => 'SubscribeController@showGetSubscribe', 'as' => 'showGetSubscribe'));
+Route::post('subscribe/api/post-save-subscribe', array('uses' => 'SubscribeController@addSaveSubscribe', 'as' => 'addSaveSubscribe'));
+
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));

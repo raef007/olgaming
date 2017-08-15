@@ -29,7 +29,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
             controller: 'smsLogCtrl'
 		})
         .when('/subscribe', {
-			templateUrl: "login/subscribe"
+			templateUrl: "login/subscribe",
+			controller: 'subscribeCtrl'
 		})
         /*	Money Manage    */
         .when('/charge-mng', {

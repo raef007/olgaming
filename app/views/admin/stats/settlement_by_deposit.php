@@ -127,7 +127,7 @@
 			                                                </tr>
 			                                            </thead>
 			                                            <tbody>
-			                                                <tr tr ng-repeat = 'deposit in site.deposits | startFrom:master.deposit_offset*master.deposit_limit | limitTo:master.deposit_limit track by $index'>
+			                                                <tr ng-repeat = 'deposit in site.deposits | startFrom:master.deposit_offset*master.deposit_limit | limitTo:master.deposit_limit track by $index'>
 			                                                    <td>{{deposit.site_name}}</td>
 			                                                    <td>{{deposit.deposit_level}}</td>
 			                                                    <td>{{deposit.bank_name}}</td>
