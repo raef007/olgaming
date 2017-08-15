@@ -175,5 +175,6 @@ Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit
 Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTestJson', 'as' => 'hackTestJson'));
 Route::get('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubeGetToken', 'as' => 'spinCubeGetToken'));
 Route::post('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubePostToken', 'as' => 'spinCubePostToken'));
+Route::get('wheel/play', array('uses' => 'TrainingGroundsController@getWheelGame', 'as' => 'getWheelGame'));
 
 

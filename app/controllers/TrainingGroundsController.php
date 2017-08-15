@@ -64,4 +64,9 @@ class TrainingGroundsController extends BaseController {
         
         return json_encode($data);
     }
+    
+    public function getWheelGame()
+    {
+        return View::make('wheel.wheel3');
+    }
 }

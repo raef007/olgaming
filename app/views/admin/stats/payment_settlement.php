@@ -75,7 +75,7 @@
 			                                                                <td>{{site.site_name}}</td>
 			                                                                <td>{{site.username}}</td>
 			                                                                <td>{{site.nickname}}</td>
-			                                                                <td>{{site.bank_name}}</td>
+			                                                                <td>{{site.bank_owner}}</td>
 			                                                                <td>{{site.money}}원</td>
 			                                                                <td>{{site.wait_date}}</td>
 			                                                                <td>{{site.finish_date}}</td>
@@ -83,7 +83,7 @@
 			                                                            <tr>
 			                                                                <td>합계</td>
 			                                                                <td colspan="4"></td>
-			                                                                <td>{{ master.sites | combine:"deposits"| sumByColumn: 'money'}} 원</td>
+			                                                                <td>{{ master.all_total_deposit }} 원</td>
 			                                                                <td colspan="2"></td>
 			                                                            </tr>
 			                                                        </tbody>
@@ -173,7 +173,7 @@
 			                                                            <tr>
 			                                                                <td>합계</td>
 			                                                                <td colspan="3"></td>
-			                                                                <td>{{ master.sites | combine:"withdraws"| sumByColumn: 'money'}} 원</td>
+			                                                                <td>{{ master.all_total_withdraw }} 원</td>
 			                                                                <td colspan="5"></td>
 			                                                            </tr>
 			                                                        </tbody>
@@ -257,7 +257,7 @@
 			                                                                <td>{{deposit.site_name}}</td>
 			                                                                <td>{{deposit.username}}</td>
 			                                                                <td>{{deposit.nickname}}</td>
-			                                                                <td>{{deposit.bank_name}}</td>
+			                                                                <td>{{deposit.bank_owner}}</td>
 			                                                                <td>{{deposit.money}}원</td>
 			                                                                <td>{{deposit.wait_date}}</td>
 			                                                                <td>{{deposit.finish_date}}</td>

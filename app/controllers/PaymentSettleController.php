@@ -7,8 +7,11 @@ public function showGetPaymentSettle(){
         $limit              = 5;
         $srv_resp           = new stdClass();
         $all_sites          = DB::table('SITE')->get();
-        $all_count_deposit   = 0;
-        $all_count_withdraw   = 0;
+        $all_count_deposit  = 0;
+        $all_count_withdraw = 0;
+        
+        $all_total_deposit  = 0;
+        $all_total_withdraw = 0;
         
         foreach($all_sites as $site) {
             $deposit_query = DB::table('DEPOSIT')
@@ -67,14 +70,19 @@ public function showGetPaymentSettle(){
 
             $site->total_deposit    = $total_deposit;
             $site->total_withdraw   = $total_withdraw;
-
+            
+            $all_total_deposit      += $total_deposit;
+            $all_total_withdraw     += $total_withdraw;
         }
+        
         $srv_resp->sites        = $all_sites;
 
-        $srv_resp->deposit_count   = $all_count_deposit;
-        $srv_resp->deposit_offset      = 0;
-        $srv_resp->deposit_limit       = $limit;
-        $srv_resp->deposit_max_page    = floor($srv_resp->deposit_count / $srv_resp->deposit_limit);
+        $srv_resp->deposit_count        = $all_count_deposit;
+        $srv_resp->deposit_offset       = 0;
+        $srv_resp->deposit_limit        = $limit;
+        $srv_resp->deposit_max_page     = floor($srv_resp->deposit_count / $srv_resp->deposit_limit);
+        $srv_resp->all_total_deposit    = $all_total_deposit;
+        $srv_resp->all_total_withdraw   = $all_total_withdraw;
         
         if (0 == ($srv_resp->deposit_count % $srv_resp->deposit_limit)) {
             $srv_resp->deposit_max_page    = $srv_resp->deposit_max_page - 1;
@@ -83,7 +91,8 @@ public function showGetPaymentSettle(){
         for ($count = 0; $count <= $srv_resp->deposit_max_page; $count++) {
             $srv_resp->deposit_pages[]  = $count;
         }
-        $srv_resp->withdraw_count   = $all_count_withdraw;
+        
+        $srv_resp->withdraw_count       = $all_count_withdraw;
         $srv_resp->withdraw_offset      = 0;
         $srv_resp->withdraw_limit       = $limit;
         $srv_resp->withdraw_max_page    = floor($srv_resp->withdraw_count / $srv_resp->withdraw_limit);
@@ -94,7 +103,8 @@ public function showGetPaymentSettle(){
         
         for ($count = 0; $count <= $srv_resp->withdraw_max_page; $count++) {
             $srv_resp->withdraw_pages[]  = $count;
-        }        
+        }
+        
         return json_encode($srv_resp); 
     }
     public function searchDeposit(){
