@@ -1,12 +1,6 @@
+                        <ng-include src="'../app/views/admin/common/modal/msg-prompt.php'"></ng-include>
+                        
 						<div style="padding:0px 10px 10px 10px;" class="body-wrap">
-
-				           <!--  <div class="location-info">
-				                <div class="location-info-content">
-				                    회원 관리
-				                    <span class="location-info-sp">></span>
-				                    가입 코드 관리
-				                </div>
-				            </div> -->
 				
 				            <div class="h80"></div>
 				
@@ -14,8 +8,7 @@
 				                <div class="w-tab bg-light">
 				                    <ul class="nav nav-tabs" data-toggle="tab-hover">
 				                        <li class="active"><a href = "" data-target="#tab_0" data-toggle="tab">전체</a></li>
-				                        <li><a href = "" data-target="#tab_1" data-toggle="tab">ACE</a></li>
-				                        <li><a href = "" data-target="#tab_2" data-toggle="tab">TOP</a></li>
+				                        <li ng-repeat = 'site in master.sites track by $index'><a class = 'close-template-form' ng-click = 'changeSiteId(site)' href = "" data-target="#tab_{{ $index + 1 }}" data-toggle="tab">{{ site.site_name }}</a></li>
 				                    </ul>
 				                </div>
 				                
@@ -23,62 +16,60 @@
 				                    <div class="tab-pane active" id="tab_0">
 				                        <h4>가입 코드 관리</h4>
 				                        
-				
 				                        <strong>코드 생성</strong>
 				                        <span class="sp"></span>
 				                        사이트
-				                        <select name="selector1" id="selector1" class="">
-				                            <option>사이트 선택</option>
-				                            <option>ACE</option>
-				                            <option>TOP</option>
+				                        <select ng-model = 'new_rec.site_id'>
+				                            <option value = ''>사이트 선택</option>
+				                            <option ng-repeat = 'site in master.sites' value = '{{ site.site_id }}' ng-selected = 'new_rec.site_id == site.site_id'>{{ site.site_name }}</option>
 				                        </select>
-				
+                                        
 				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code1" checked></label>
-				                        추천인 아이디
-				                        <input type="text" value="" size="6">
-				                        <button class="btn-default btn">중복확인</button>
+				                        <label class="radio-a"><input type="radio" ng-model = 'new_rec.code_type' value = '0'></label>
+				                        가입자 아이디
+				                        <input type="text" value="" size="6" ng-model = 'new_rec.user_id'>
+				                        <!-- <button class="btn-default btn">중복확인</button> -->
 				
 				                        <span class="sp"></span>
 				                        가입코드
-				                        <input disabled="" type="text" value="" size="6">
-				                        <button class="btn-default btn">생성</button>
+				                        <input type="text" value="" size="6" ng-model = 'new_rec.sub_code_user'>
+				                        <button class="btn-default btn" ng-click = 'saveCodeForm()'>생성</button>
 				
 				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code1"></label>
+				                        <label class="radio-a"><input type="radio" ng-model = 'new_rec.code_type' value = '1'></label>
 				                        사이트 공통코드 생성
-				                        <input type="text" value="" size="10" maxlength="8">
-				                        <button class="btn-default btn">생성</button>
+				                        <input type="text" value="" size="10" maxlength="8" ng-model = 'new_rec.sub_code_all'>
+				                        <button class="btn-default btn" ng-click = 'saveCodeForm()'>생성</button>
 				
 				                        <div class="h10"></div>
 				                        <div id="tab_code0" class="div-tab tabs swipe-tab tabs-color-top">
 				                            <div class="w-tab bg-light">
 				                                <ul class="nav nav-tabs" data-toggle="tab-hover">
-				                                    <li class="active"><a href = "" data-target="#tab_3" data-toggle="tab">전체</a></li>
-				                                    <li><a href = "" data-target="#tab_4" data-toggle="tab">오늘</a></li>
-				                                    <li><a href = "" data-target="#tab_5" data-toggle="tab">이번주</a></li>
-				                                    <li><a href = "" data-target="#tab_6" data-toggle="tab">지난주</a></li>
-				                                    <li><a href = "" data-target="#tab_7" data-toggle="tab">지난달</a></li>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(0)'> 오늘</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(1)'> 이번주</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(2)'> 지난주</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(3)'> 지난달</button>
 				                                    
 				                                    <span class="tab-opt">
-				                                    <input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <input type="text" name="to_date" value="" id="to_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
-				                                    
-				                                    <span class="sp"></span>
-				
-				                                    <select name="selector1" id="selector1" class="">
-				                                        <option>아이디</option>
-				                                        <option>추천인</option>
-				                                        <option>가입자</option>
-				                                    </select>
-				                                    <input type="text" value="" size="6">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
+                                                        <input type="text" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10">
+                                                        <input type="text" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
+                                                        <button type="submit" class="btn_submit btn-success btn-black btn" ng-click = 'searchByQuery()'>조회</button>
+                                                        
+                                                        <span class="sp"></span>
+                    
+                                                        <select id="selector1" ng-model = 'search.filter_by'>
+                                                            <option value = 'unique_code'>아이디</option>
+                                                            <option value = 'admin_id'>추천인</option>
+                                                            <option value = 'user_id'>가입자</option>
+                                                        </select>
+                                                        <input type="text" value="" size="6" ng-model = 'search.filter_val'>
+                                                        <button type="submit" class="btn_submit btn-success btn-black btn" ng-click = 'searchByQuery()'>조회</button>
 				                                    </span>
 				                                </ul>
 				                            </div>
+                                            
 				                            <div class="tab-content">
-				                                <div class="tab-pane active" id="tab_3">
+				                                <div class="tab-pane active">
 				                                    <!--가입 코드 관리-->
 				                                    <div class="table-responsive">
 				                                        <table class="table table-bordered">
@@ -95,71 +86,15 @@
 				                                                </tr>
 				                                            </thead>
 				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
+				                                                <tr ng-repeat = 'site in master.sites | combine:"recommends" | startFrom:master.offset*master.limit | limitTo:master.limit track by $index'>
+				                                                    <td>{{ ($index + (master.offset*master.limit)) + 1 }}</td>
+				                                                    <td>{{ site.site_name }}</td>
+				                                                    <td>{{ site.admin_id }}</td>
+				                                                    <td>{{ site.unique_code }}</td>
+				                                                    <td>{{ site.reg_date }}</td>
+				                                                    <td>{{ site.user_id }}</td>
+				                                                    <td>{{ site.reg_date }}</td>
+				                                                    <td><button class="btn-default btn" ng-click = 'deleteCode(site)'>삭제</button></td>
 				                                                </tr>
 				                                            </tbody>
 				                                        </table>
@@ -167,564 +102,77 @@
 				                                    <!--가입 코드 관리-->
 				
 				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_4">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_5">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_6">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_7">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">k123</option>
-																				<option value="test">test</option>
-																				<option value="testing">testing</option>																
-																		</select>
-																	</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>
-																		<select>
-																				<option value="k123">p123</option>
-																				<option value="test">ttestt</option>
-																				<option value="testing">try</option>																
-																		</select>
-																	</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
+                                                        <nav>
+                                                            <ul class="pagination pagination-sm">
+                                                                <li><a href="" aria-label="First" ng-hide="master.offset == 0" ng-click="setOffset(master, 0)">처음</a></li>
+                                                                
+                                                                <li><a href="" aria-label="Previous" ng-hide="master.offset == 0" ng-click="setOffset(master, master.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                                                
+                                                                <li ng-repeat = 'page in master.pages' ng-class="(page === master.offset) ? 'active': ''"><a href="" ng-click="setOffset(master, page)">{{ page + 1 }}</a></li>
+
+                                                                <li><a href="" ng-hide="master.offset >= master.max_page" ng-click="setOffset(master, master.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                                <li><a id = 'site-lastpage-btn' href="" aria-label="Last" ng-hide="master.offset >= master.max_page" ng-click="setOffset(master, master.max_page)" aria-label="Last">마지막</a></li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
 				                                </div>
 				                            </div>
 				                        </div>					
 				                    </div>
 				
-				                    <div class="tab-pane" id="tab_1">
+				                    <div class="tab-pane" id="tab_{{ $index + 1 }}" ng-repeat = 'site in master.sites track by $index'>
 				                        <h4>가입 코드 관리</h4>
 				                        
-				
 				                        <strong>코드 생성</strong>
 				                        <span class="sp"></span>
-				                        사이트
-				                        <select name="selector1" id="selector1" class="">
-				                            <option>사이트 선택</option>
-				                            <option>ACE</option>
-				                            <option>TOP</option>
-				                        </select>
-				
+				                        사이트 &nbsp;{{ site.site_name }}
+
 				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code2" checked></label> 
-				                        추천인 아이디
-				                        <input type="text" value="" size="6">
-				                        <button class="btn-default btn">중복확인</button>
+				                        <label class="radio-a"><input type="radio" ng-model = 'new_rec.code_type' value = '0'></label>
+				                        가입자 아이디
+				                        <input type="text" value="" size="6" ng-model = 'new_rec.user_id'>
+				                        <!-- <button class="btn-default btn">중복확인</button> -->
 				
 				                        <span class="sp"></span>
 				                        가입코드
-				                        <input disabled="" type="text" value="" size="6">
-				                        <button class="btn-default btn">생성</button>
+				                        <input type="text" value="" size="6" ng-model = 'new_rec.sub_code_user'>
+				                        <button class="btn-default btn" ng-click = 'saveCodeForm()'>생성</button>
 				
 				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code2"></label>
+				                        <label class="radio-a"><input type="radio" ng-model = 'new_rec.code_type' value = '1'></label>
 				                        사이트 공통코드 생성
-				                        <input type="text" value="" size="10" maxlength="8">
-				                        <button class="btn-default btn">생성</button>
+				                        <input type="text" value="" size="10" maxlength="8" ng-model = 'new_rec.sub_code_all'>
+				                        <button class="btn-default btn" ng-click = 'saveCodeForm()'>생성</button>
 				
 				                        <div class="h10"></div>
 				                        <div id="tab_code1" class="div-tab tabs swipe-tab tabs-color-top">
 				                            <div class="w-tab bg-light">
 				                                <ul class="nav nav-tabs" data-toggle="tab-hover">
-				                                    <li class="active"><a href = "" data-target="#tab_13" data-toggle="tab">전체</a></li>
-				                                    <li><a href = "" data-target="#tab_14" data-toggle="tab">오늘</a></li>
-				                                    <li><a href = "" data-target="#tab_15" data-toggle="tab">이번주</a></li>
-				                                    <li><a href = "" data-target="#tab_16" data-toggle="tab">지난주</a></li>
-				                                    <li><a href = "" data-target="#tab_17" data-toggle="tab">지난달</a></li>
+				                                    <button class="black-btn-tab" ng-click = 'setSearchDate(0)'> 오늘</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(1)'> 이번주</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(2)'> 지난주</button>
+                                                    <button class="black-btn-tab" ng-click = 'setSearchDate(3)'> 지난달</button>
 				                                    
 				                                    <span class="tab-opt">
-				                                    <input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <input type="text" name="to_date" value="" id="to_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
-				                                    
-				                                    <span class="sp"></span>
-				
-				                                    <select name="selector1" id="selector1" class="">
-				                                        <option>아이디</option>
-				                                        <option>추천인</option>
-				                                        <option>가입자</option>
-				                                    </select>
-				                                    <input type="text" value="" size="6">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
+                                                        <input type="text" class="datepicker1" ng-model = 'search.from' size="6" maxlength="10">
+                                                        <input type="text" class="datepicker1" ng-model = 'search.to' size="6" maxlength="10">
+                                                        <button type="submit" class="btn_submit btn-success btn-black btn" ng-click = 'searchByQuery()'>조회</button>
+                                                        
+                                                        <span class="sp"></span>
+                    
+                                                        <select id="selector1" ng-model = 'search.filter_by'>
+                                                            <option value = 'unique_code'>아이디</option>
+                                                            <option value = 'admin_id'>추천인</option>
+                                                            <option value = 'user_id'>가입자</option>
+                                                        </select>
+                                                        <input type="text" value="" size="6" ng-model = 'search.filter_val'>
+                                                        <button type="submit" class="btn_submit btn-success btn-black btn" ng-click = 'searchByQuery()'>조회</button>
 				                                    </span>
 				                                </ul>
 				                            </div>
+                                            
 				                            <div class="tab-content">
-				                                <div class="tab-pane active" id="tab_13">
+				                                <div class="tab-pane active">
 				                                    <!--가입 코드 관리-->
 				                                    <div class="table-responsive">
 				                                        <table class="table table-bordered">
@@ -741,35 +189,15 @@
 				                                                </tr>
 				                                            </thead>
 				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
+				                                                <tr ng-repeat = 'recommend in site.recommends | startFrom:site.offset*site.limit | limitTo:site.limit track by $index'>
+				                                                    <td>{{ ($index + (site.offset*site.limit)) + 1 }}</td>
+				                                                    <td>{{ site.site_name }}</td>
+				                                                    <td>{{ recommend.admin_id }}</td>
+				                                                    <td>{{ recommend.unique_code }}</td>
+				                                                    <td>{{ recommend.reg_date }}</td>
+				                                                    <td>{{ recommend.user_id }}</td>
+				                                                    <td>{{ recommend.reg_date }}</td>
+				                                                    <td><button class="btn-default btn" ng-click = 'deleteCode(site)'>삭제</button></td>
 				                                                </tr>
 				                                            </tbody>
 				                                        </table>
@@ -777,825 +205,22 @@
 				                                    <!--가입 코드 관리-->
 				
 				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_14">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_15">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_16">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_17">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
+                                                        <nav>
+                                                            <ul class="pagination pagination-sm">
+                                                                <li><a href="" aria-label="First" ng-hide="site.offset == 0" ng-click="setOffset(site, 0)">처음</a></li>
+                                                                
+                                                                <li><a href="" aria-label="Previous" ng-hide="site.offset == 0" ng-click="setOffset(site, site.offset-1)"><i class="fa fa-angle-left"></i></a></li>
+                                                                
+                                                                <li ng-repeat = 'page in site.pages' ng-class="(page === site.offset) ? 'active': ''"><a href="" ng-click="setOffset(site, page)">{{ page + 1 }}</a></li>
+
+                                                                <li><a href="" ng-hide="site.offset >= site.max_page" ng-click="setOffset(site, site.offset+1)" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
+                                                                <li><a href="" aria-label="Previous" ng-hide="site.offset >= site.max_page" ng-click="setOffset(site, site.max_page)" aria-label="Last">마지막</a></li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
 				                                </div>
 				                            </div>
 				                        </div>											
-				                    </div>
-				
-				                    <div class="tab-pane" id="tab_2">
-				                        <h4>가입 코드 관리</h4>
-				                        
-				
-				                        <strong>코드 생성</strong>
-				                        <span class="sp"></span>
-				                        사이트
-				                        <select name="selector1" id="selector1" class="">
-				                            <option>사이트 선택</option>
-				                            <option>ACE</option>
-				                            <option>TOP</option>
-				                        </select>
-				
-				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code" checked></label> 
-				                        추천인 아이디
-				                        <input type="text" value="" size="6">
-				                        <button class="btn-default btn">중복확인</button>
-				
-				                        <span class="sp"></span>
-				                        가입코드
-				                        <input disabled="" type="text" value="" size="6">
-				                        <button class="btn-default btn">생성</button>
-				
-				                        <span class="sp"></span>
-				                        <label class="radio-a"><input type="radio" name="code"></label>
-				                        사이트 공통코드 생성
-				                        <input type="text" value="" size="10" maxlength="8">
-				                        <button class="btn-default btn">생성</button>
-				
-				                        <div class="h10"></div>
-				                        <div id="tab_code2" class="div-tab tabs swipe-tab tabs-color-top">
-				                            <div class="w-tab bg-light">
-				                                <ul class="nav nav-tabs" data-toggle="tab-hover">
-				                                    <li class="active"><a href = "" data-target="#tab_23" data-toggle="tab">전체</a></li>
-				                                    <li><a href = "" data-target="#tab_24" data-toggle="tab">오늘</a></li>
-				                                    <li><a href = "" data-target="#tab_25" data-toggle="tab">이번주</a></li>
-				                                    <li><a href = "" data-target="#tab_26" data-toggle="tab">지난주</a></li>
-				                                    <li><a href = "" data-target="#tab_27" data-toggle="tab">지난달</a></li>
-				                                    
-				                                    <span class="tab-opt">
-				                                    <input type="text" name="fr_date" value="" id="fr_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <input type="text" name="to_date" value="" id="to_date" class="datepicker1" placeholder="8/12/2018" size="6" maxlength="10">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
-				                                    
-				                                    <span class="sp"></span>
-				
-				                                    <select name="selector1" id="selector1" class="">
-				                                        <option>아이디</option>
-				                                        <option>추천인</option>
-				                                        <option>가입자</option>
-				                                    </select>
-				                                    <input type="text" value="" size="6">
-				                                    <button type="submit" class="btn_submit btn-success btn-black btn">조회</button>
-				                                    </span>
-				                                </ul>
-				                            </div>
-				                            <div class="tab-content">
-				                                <div class="tab-pane active" id="tab_23">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_24">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_25">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_26">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="tab-pane" id="tab_27">
-				                                    <!--가입 코드 관리-->
-				                                    <div class="table-responsive">
-				                                        <table class="table table-bordered">
-				                                            <thead>
-				                                                <tr>
-				                                                    <th>No. <i class="fa fa-sort"></i></th>
-				                                                    <th>사이트</th>
-				                                                    <th>추천인 아이디</th>
-				                                                    <th>가입 코드</th>
-				                                                    <th>코드 발급일 <i class="fa fa-sort"></i></th>
-				                                                    <th>가입자 아이디</th>
-				                                                    <th>회원 가입일 <i class="fa fa-sort"></i></th>
-				                                                    <th>삭제</th>
-				                                                </tr>
-				                                            </thead>
-				                                            <tbody>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                                <tr>
-				                                                    <td>3</td>
-				                                                    <td>ACE</td>
-				                                                    <td>k123</td>
-				                                                    <td>236236</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td>testyo</td>
-				                                                    <td>YYYY-MM-DD HH:MM:SS</td>
-				                                                    <td><button class="btn-default btn">삭제</button></td>
-				                                                </tr>
-				                                            </tbody>
-				                                        </table>
-				                                    </div>
-				                                    <!--가입 코드 관리-->
-				
-				                                    <div class="text-center relative">
-				                                        <nav>
-				                                            <ul class="pagination pagination-sm">
-				                                                <li><a href="#" aria-label="First">처음</a></li>
-				                                                <li class="disabled"><a href="#" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
-				                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-				                                                <li><a href="#">2</a></li>
-				                                                <li><a href="#">3</a></li>
-				                                                <li><a href="#">4</a></li>
-				                                                <li><a href="#">5</a></li>
-				                                                <li><a href="#" aria-label="Next"><i class="fa fa-angle-right"></i></a></li>
-				                                                <li><a href="#" aria-label="Last">마지막</a></li>
-				                                            </ul>
-				                                        </nav>
-				
-				                                        <div class="page-select-opt1">
-				                                            한 페이지에
-				                                            <select name="selector1" id="selector1" class="">
-				                                                <option>전체</option>
-				                                                <option>10</option>
-				                                                <option>25</option>
-				                                                <option>50</option>
-				                                                <option>100</option>
-				                                            </select>
-				                                            항목 보기
-				                                        </div>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                        </div>									
 				                    </div>
 				                </div>
 				            </div>

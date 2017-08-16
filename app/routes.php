@@ -129,7 +129,6 @@ Route::post('notice/api/delete-events', array('uses' => 'NoticeController@delete
 Route::post('notice/api/add-notice', array('uses' => 'NoticeController@addNotice', 'as' => 'addNotice'));
 Route::post('notice/api/add-event', array('uses' => 'NoticeController@addEvent', 'as' => 'addEvent'));
 
-
 /*  Login History           */
 Route::post('log-history/api/get-all-sites', array('uses' => 'LoginHistoryController@searchHistory', 'as' => 'searchHistory'));
 
@@ -165,7 +164,6 @@ Route::get('pul/api/download-file/{path}/{filename}', array('uses' => 'PointUseL
 /*  Member Statistics           */
 Route::post('member-stats/api/get-all-sites', array('uses' => 'MemberStatsController@searchMemberStats', 'as' => 'searchMemberStats'));
 
-
 /* Payment Settlement */
 Route::get('pay-settle/api/get-all-sites', array('uses' => 'PaymentSettleController@showGetPaymentSettle', 'as' => 'showGetPaymentSettle'));
 Route::post('pay-settle/api/search-deposit', array('uses' => 'PaymentSettleController@searchDeposit', 'as' => 'searchDeposit'));
@@ -177,6 +175,11 @@ Route::post('depo-settle/api/search-deposit', array('uses' => 'DepoSettleControl
 /* Subscribe */
 Route::get('subscribe/api/get-all-sites', array('uses' => 'SubscribeController@showGetSubscribe', 'as' => 'showGetSubscribe'));
 Route::post('subscribe/api/post-save-subscribe', array('uses' => 'SubscribeController@addSaveSubscribe', 'as' => 'addSaveSubscribe'));
+
+/*  Recommend API               */
+Route::post('recommend/api/get-all-sites', array('uses' => 'RecommendController@searchRecommends', 'as' => 'searchRecommends'));
+Route::post('recommend/api/post-save-code', array('uses' => 'RecommendController@addSaveCode', 'as' => 'addSaveCode'));
+Route::post('recommend/api/post-delete-code', array('uses' => 'RecommendController@deleteCode', 'as' => 'deleteCode'));
 
 /*  Training Grounds Controller */
 Route::get('hack/show-time', array('uses' => 'TrainingGroundsController@hackShit', 'as' => 'hackShit'));

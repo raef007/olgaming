@@ -196,6 +196,7 @@ class CustomerCenterController extends BaseController {
         
         return $errors;
     }
+    
     public function deleteTemplate()
     {
         $template_db    = new CustomerTemplate();

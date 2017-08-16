@@ -10,7 +10,8 @@ angular.module("vavaGaming", ['ngRoute', 'textAngular', 'ui.tinymce']).config(fu
 			templateUrl: "member/membership_structure"
 		})
 		.when('/subscrb-code', {
-			templateUrl: "member/subscription_code"
+			templateUrl: "member/subscription_code",
+            controller: 'recCode'
 		})
 		/*	Login Manage	*/
 		.when('/login-hist', {
