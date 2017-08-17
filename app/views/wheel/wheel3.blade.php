@@ -30,7 +30,7 @@
     <body>
     
         <div id="wheel">
-            <canvas id="canvas" width="400" height="400"></canvas>
+            <canvas id="canvas" width="1200" height="800"></canvas>
         </div>
     
         <br>
@@ -44,7 +44,6 @@
         var color = ['#fbc','#f88','#fbc','#f88', "#fbc", '#f88', "#fbc", '#f88', "#f67", '#fbc','#f88','#fbc','#f88', "#fbc", '#f88', "#fbc", '#f88'];
         
         var label = ['Lose', '(2x)', '(1x)', '(4x)', '(0.5x)', '(3x)', '(5x)', 'Lose', "JPOT!", 'Lose', '(2x)', '(1x)', '(4x)', '(0.5x)', '(3x)', '(5x)', 'Lose'];
-        
         var slices = color.length;
         var sliceDeg = 360/slices;
         var deg = rand(0, 360);
@@ -58,54 +57,74 @@
         var rng = "";
         var bg_off = new Image();
         var bg_on = new Image();
+        var cont = new Image();
         var lyt = 0;
         var lyt_ctr = 0;
+        var wheel_x = 780;
+        var wheel_y = 350;
+        var cont_x = 80;
+        var bglights_x = 500 ;
+        var bglights_y = 50 ;
+        var bglights_height = 570 ;
+        var bglights_width = 570 ;
         
         bg_off.src = '../assets/images/wheel/bg_off.png';
         bg_on.src = '../assets/images/wheel/bg_on.png';
+        cont.src = '../assets/images/wheel/container.png';
         
         function deg2rad(deg) {
             return deg * Math.PI/180;
         }
-        
+        function drawcont(){
+             
+        }
         function drawBg(lit) {
             if (0 == lit) {
-                ctx.drawImage(bg_off, 0, -6, width, canvas.height);
+                ctx.drawImage(bg_off, bglights_x, bglights_y, bglights_height, bglights_width);
             }
             else {
-                ctx.drawImage(bg_on, 0, -6, width, canvas.height);
+                ctx.drawImage(bg_on, bglights_x, bglights_y, bglights_height, bglights_width);
             }
         }
         
         function drawSlice(deg, color) {
             ctx.beginPath();
             ctx.fillStyle = color;
-            ctx.moveTo(center, center);
-            ctx.arc(center, center, (width-70)/2, deg2rad(deg), deg2rad(deg+sliceDeg));
-            ctx.lineTo(center, center);
+            ctx.moveTo(wheel_x, wheel_y);
+            ctx.arc(wheel_x, wheel_y, (500)/2, deg2rad(deg), deg2rad(deg+sliceDeg));
+            ctx.lineTo(wheel_x, wheel_y);
             ctx.fill();
         }
 
         function drawText(deg, text) {
             ctx.save();
-            ctx.translate(center, center);
+            ctx.translate(wheel_x, wheel_y);
             ctx.rotate(deg2rad(deg));
             ctx.textAlign = "right";
-            ctx.fillStyle = "#fff";
+            ctx.fillStyle = "black";
             ctx.font = 'bold 20px sans-serif';
             ctx.fillText(text, 140, 10);
             ctx.restore();
         }
 
         function drawImg() {
-            ctx.clearRect(0, 0, width, width);
+            ctx.clearRect(0, 0, 500, 500);
             
             for(var i=0; i<slices; i++){
                 drawSlice(deg, color[i]);
                 drawText(deg+sliceDeg/2, label[i]);
                 deg += sliceDeg;
             }
-            
+            ctx.drawImage(cont, cont_x,195, 410 , 80); 
+            ctx.drawImage(cont, cont_x,285, 300 , 80); 
+            ctx.drawImage(cont, cont_x,375, 250 , 80); 
+            ctx.fillStyle="black";
+            ctx.font = "35px Georgia";
+            ctx.fillText("Credits", 135, 250);
+            ctx.fillRect(260,215,170,40);
+            ctx.fillText("Win", 135, 335);
+            ctx.fillRect(220,305,100,40);
+            ctx.fillRect(170,395,80,40);
             drawBg(lyt);
         }
 
@@ -212,6 +231,7 @@
         
         drawImg();
         drawBg(0);
+
         
         $("#spin").click(function(){
             spinning    = true;
