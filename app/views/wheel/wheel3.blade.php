@@ -56,38 +56,57 @@
         var spinning = false;
         var lock = false;
         var rng = "";
+        var bg_off = new Image();
+        var bg_on = new Image();
+        var lyt = 0;
+        var lyt_ctr = 0;
+        
+        bg_off.src = '../assets/images/wheel/bg_off.png';
+        bg_on.src = '../assets/images/wheel/bg_on.png';
         
         function deg2rad(deg) {
             return deg * Math.PI/180;
         }
-
+        
+        function drawBg(lit) {
+            if (0 == lit) {
+                ctx.drawImage(bg_off, 0, -6, width, canvas.height);
+            }
+            else {
+                ctx.drawImage(bg_on, 0, -6, width, canvas.height);
+            }
+        }
+        
         function drawSlice(deg, color) {
-          ctx.beginPath();
-          ctx.fillStyle = color;
-          ctx.moveTo(center, center);
-          ctx.arc(center, center, width/2, deg2rad(deg), deg2rad(deg+sliceDeg));
-          ctx.lineTo(center, center);
-          ctx.fill();
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.moveTo(center, center);
+            ctx.arc(center, center, (width-70)/2, deg2rad(deg), deg2rad(deg+sliceDeg));
+            ctx.lineTo(center, center);
+            ctx.fill();
         }
 
         function drawText(deg, text) {
-          ctx.save();
-          ctx.translate(center, center);
-          ctx.rotate(deg2rad(deg));
-          ctx.textAlign = "right";
-          ctx.fillStyle = "#fff";
-          ctx.font = 'bold 30px sans-serif';
-          ctx.fillText(text, 180, 10);
-          ctx.restore();
+            ctx.save();
+            ctx.translate(center, center);
+            ctx.rotate(deg2rad(deg));
+            ctx.textAlign = "right";
+            ctx.fillStyle = "#fff";
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillText(text, 140, 10);
+            ctx.restore();
         }
 
         function drawImg() {
-          ctx.clearRect(0, 0, width, width);
-          for(var i=0; i<slices; i++){
-            drawSlice(deg, color[i]);
-            drawText(deg+sliceDeg/2, label[i]);
-            deg += sliceDeg;
-          }
+            ctx.clearRect(0, 0, width, width);
+            
+            for(var i=0; i<slices; i++){
+                drawSlice(deg, color[i]);
+                drawText(deg+sliceDeg/2, label[i]);
+                deg += sliceDeg;
+            }
+            
+            drawBg(lyt);
         }
 
         function anim() {
@@ -165,18 +184,34 @@
                 }
             }
             
+            if (lyt_ctr >= 20) {
+                if (0 == lyt) {
+                    lyt = 1;
+                }
+                else {
+                    lyt = 0;
+                }
+                
+                lyt_ctr = 0;
+            }
+            else {
+                lyt_ctr++;
+            }
+            
             /*  Stop    */
             if (0 >= speed) {
+                lyt = 0;
                 drawImg();
 
                 return console.log("You got:\n"+ label[ai2] ); // Get Array Item from end Degree
             }
-
+            
             drawImg();
             window.requestAnimationFrame( anim );
         };
-
+        
         drawImg();
+        drawBg(0);
         
         $("#spin").click(function(){
             spinning    = true;
