@@ -187,5 +187,8 @@ Route::post('hack/test-time', array('uses' => 'TrainingGroundsController@hackTes
 Route::get('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubeGetToken', 'as' => 'spinCubeGetToken'));
 Route::post('scube/connect/token', array('uses' => 'TrainingGroundsController@spinCubePostToken', 'as' => 'spinCubePostToken'));
 Route::get('wheel/play', array('uses' => 'TrainingGroundsController@getWheelGame', 'as' => 'getWheelGame'));
+Route::post('front-api/register', array('uses' => 'TrainingGroundsController@registerMember', 'as' => 'registerMember'));
+Route::post('front-api/get-member', array('uses' => 'TrainingGroundsController@getMemberDetails', 'as' => 'getMemberDetails'));
+Route::post('front-api/get-member-inf', array('uses' => 'TrainingGroundsController@getMemberInformation', 'as' => 'getMemberInformation'));
 
 

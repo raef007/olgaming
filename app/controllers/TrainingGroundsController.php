@@ -69,4 +69,56 @@ class TrainingGroundsController extends BaseController {
     {
         return View::make('wheel.wheel3');
     }
+    
+    public function registerMember()
+    {
+        $post_data  = Input::all();
+        
+        $insert_user    = array(
+            'site_id'           => 1,
+            'deposit_level'     => 0,
+            'member_level'      => 0,
+            'member_level'      => 0,
+            'pwd'               => $post_data['PinCode'],
+            'money'             => $post_data['DepositAmount'],
+            'point'             => 0,
+            'signin_cnt'        => 0,
+            'phone'             => $post_data['MobileNumber'],
+            'email'             => $post_data['Email'],
+            'sms_receive_flag'  => 0,
+            'bank_owner'        => $post_data['FirstName']." ".$post_data['LastName'],
+            'nickname'          => $post_data['FirstName'],
+            'member_stat_flag'  => 0,
+            'not_allowed_flag'  => 0,
+            'reg_date'          => date('Ymd')
+        );
+        
+        $insert_id = DB::table('MEMBER')
+            ->insertGetId($insert_user);
+        
+        return json_encode($insert_id);
+    }
+    
+    public function getMemberDetails()
+    {
+        $post_data  = Input::all();
+        
+        $data = DB::table('MEMBER')
+            ->where('username', $post_data['Username'])
+            ->where('pwd', $post_data['Password'])
+            ->first();
+        
+        return json_encode($data);
+    }
+    
+    public function getMemberInformation()
+    {
+        $post_data  = Input::all();
+        
+        $data = DB::table('MEMBER')
+            ->where('username', $post_data['Username'])
+            ->first();
+        
+        return json_encode($data);
+    }
 }
