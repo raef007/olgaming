@@ -36,7 +36,6 @@
     
         <canvas id="canvas" width="1200" height="800"></canvas>
         <br>
-        <label style="font-size: 80px"> MONEY MULTIPLIER WHEEL </label>
         
         <script type="text/javascript" charset="utf-8">
             function rand(min, max) {
@@ -48,12 +47,10 @@
             var v3          = 50000;            
             var v4          = 100000;                      
             var lose        = 0;
-            var jpot        = 100;
-            
+            var jpot        = 100;            
             var color       = ['green','red','green','orange', "grey", 'green', "red", 'grey', "indigo", 'grey','green','grey','blue', "grey", 'red', "orange", 'grey'];
             var spinr_val   = [v1, v2, v1, v3, lose, v1, v2, lose, jpot , lose , v1, lose, v4, lose, v2, v3, lose];
-            var spinr_lbl   = ['10,000', '20,000', '10,000', '50,000', 'LOSE', '10,000', '20,000', 'LOSE', 'JACKPOT', 'LOSE',  '10,000', 'LOSE', '100,000', 'LOSE', '20,000', '50,000', 'LOSE'];
-            
+            var spinr_lbl   = ['10,000', '20,000', '10,000', '50,000', 'LOSE', '10,000', '20,000', 'LOSE', 'JACKPOT', 'LOSE',  '10,000', 'LOSE', '100,000', 'LOSE', '20,000', '50,000', 'LOSE'];            
             
             var slices = color.length;
             var sliceDeg = 360/slices;
@@ -70,6 +67,7 @@
             var pin = new Image();
             var bg_off = new Image();
             var bg_on = new Image();
+            var audiobtn = new Image();
             var lyt = 0;
             var lyt_ctr = 0;
             var wheel_x = 780;
@@ -81,17 +79,18 @@
             var bglights_width = 695 ;
             var result = 0;
             var tickets = 1;
-            var total = 0;
+            var total = 0;            
+            var multiplier = 1   
+            
+            
             var audio = new Audio("../assets/sounds/reel.mp3");
             var win = new Audio("../assets/sounds/win.mp3");
             var click = new Audio("../assets/sounds/start_reel.mp3");
-            
-            
-            
             cont.src = '../assets/images/wheel/container.png';
             pin.src = '../assets/images/wheel/pin.png';
             bg_off.src = '../assets/images/wheel/bg_off.png';
             bg_on.src = '../assets/images/wheel/bg_on.png';
+            audiobtn.src = '../assets/images/wheel/audio.png';
             function deg2rad(deg) {
                 return deg * Math.PI/180;
             }
@@ -111,9 +110,9 @@
                 ctx.beginPath();
                 ctx.fillStyle = color;
                 ctx.moveTo(wheel_x, wheel_y);
+                ctx.lineWidth = 6;
                 ctx.lineTo(wheel_x, wheel_y);
-                ctx.arc(wheel_x, wheel_y, (450)/2, deg2rad(deg), deg2rad(deg+sliceDeg));
-                ctx.lineWidth = 7;
+                ctx.arc(wheel_x, wheel_y, ( 450)/2, deg2rad(deg), deg2rad(deg+sliceDeg));                
                 ctx.lineTo(wheel_x,wheel_y);
                 ctx.stroke();
                 ctx.fill();            
@@ -147,6 +146,7 @@
                 ctx.drawImage(cont, cont_x, 195, 270 , 80); 
                 ctx.drawImage(cont, cont_x, 285, 340 , 80); 
                 ctx.drawImage(cont, cont_x, 375, 340 , 80); 
+                ctx.drawImage(audiobtn, 1100, 680, 50 , 50); 
                 //ctx.drawImage(cont, cont_x, 285, 300 , 80); 
                 //ctx.drawImage(cont, cont_x, 375, 200 , 80); 
 
@@ -258,7 +258,7 @@
                     lyt = 0;                
                     
                     console.log(result+spinr_val[ai2]);
-                    result = spinr_val[ai2]
+                    result = spinr_val[ai2] * multiplier
                     audio.pause();
                     audio.currentTime = 0;
                     if (spinr_val[ai2] > 1){
@@ -304,8 +304,8 @@
                 clkbl_elems.forEach(function(element) {
                     console.log('foreach');
                     if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                        
-                        if (0 >= speed) {                            
+                             
+                            if (0 >= speed) {                            
                                 if ('spin-btn' == element.id) {
                                     if (tickets > 0){
                                         spinning    = true;
@@ -320,24 +320,40 @@
                                         click.play();
                                         audio.play();
                                     }
-                                    else {
+                                    else {  
                                         alert("NO MORE TICKETS");
                                     }
-                                }                           
+                                }  
+                            else if ('audiobtn' == element.id) {
+                                console.log("audio");
+                                audio.muted = true;
+                                win.muted = true;
+                                click.muted = true;
+
+                                drawImg();
                             }
-                        }                    
+                        }
+                     }                    
                 });
             
             }, false);            
             // Add addbet.
-            clkbl_elems.push({
                 colour: 'white',
-                width: 100,
-                height: 100,
+                clkbl_elems.push({
+                width: 110,
+                height: 110,
                 top: 290,
                 left: 730,
                 id: 'spin-btn',
-            });          
+            });
+            clkbl_elems.push({
+                colour: 'Red',
+                width: 50,
+                height: 50,
+                top: 687, 
+                left: 1100,
+                id: 'audiobtn',
+            });
         </script>
     </body>
 </html>
