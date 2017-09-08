@@ -121,4 +121,155 @@ class TrainingGroundsController extends BaseController {
         
         return json_encode($data);
     }
+    
+    public function emptyWallet()
+    {
+        $post_data  = Input::all();
+        
+        $data = DB::table('MEMBER')
+            ->where('username', $post_data['Username'])
+            ->update(
+                array(
+                    'money' => 0
+                )
+            );
+        
+        return json_encode($data);
+    }
+    
+    public function calculateTicketRng($ticket_num, $win_amt)
+    {
+        $combo_list = array();
+        $jpot_mult  = 10;
+        
+        //$ticket_num = 5;
+        //$win_amt    = 50000;
+        
+        $min_win    = $win_amt / $jpot_mult;
+        $num_lose   = floor($ticket_num / 2);
+        $num_win    = $ticket_num - $num_lose;
+        
+        $first_val  = 0;
+        $last_val   = $num_win - 1;
+        $anchor_idx = $last_val;
+        $anchor     = $last_val;
+        
+        $addends_cntr = array();
+        
+        /*  Initialize Addends Values   */
+        $addends_cntr = array_fill(0, $num_win, 1);
+        
+        while (9 > $addends_cntr[$first_val]) {
+        
+            /*  Increment the last value until 9    */
+            for ($inc_val = 1; 10 >= $inc_val; $inc_val++) {
+            
+                $addends_cntr[$last_val] = $inc_val;
+                
+                /*  When 9 has been reached */
+                if (10 <= $inc_val) {
+                    
+                    for ($anchor_idx = $last_val - 1; $anchor_idx >= 0; $anchor_idx--) {
+                        /*  Increment the previous number by 1 when 9 has been reached  */
+                        if (9 > $addends_cntr[$anchor_idx]) {
+                            if ($anchor_idx < $anchor) {
+                                $anchor     = $anchor_idx;
+                            }
+                            
+                            $pivot_temp_val = $addends_cntr[$anchor];
+                            $cur_addend     = $addends_cntr[$anchor_idx];
+                            
+                            /*  Initialize Addends Values   */
+                            $addends_cntr = array_fill(0, $num_win, 1);
+                            
+                            $addends_cntr[$anchor]      = $pivot_temp_val;
+                            $addends_cntr[$anchor_idx]  = 1 + $cur_addend;
+                            $inc_val = $pivot_temp_val;
+                            break;
+                        }
+                    }
+                }
+                else if (5 < $inc_val) {
+                    $inc_val        = 9;
+                }
+                else {
+                    $set_sum    = array_sum($addends_cntr);
+                    
+                    if (10 == $set_sum) {
+                        $combo_list[]   = $addends_cntr;
+                        $inc_val        = 9;
+                    }
+                }
+                
+                if (10 <= count($combo_list)) {
+                    $addends_cntr[$first_val]   = 9;
+                    $inc_val                    = 10;
+                }
+            }
+            
+        }
+        
+        $random_combo = rand(0, count($combo_list) - 1);
+        
+        for ($los_cnt = 0; $los_cnt < $num_lose; $los_cnt++) {
+            $combo_list[$random_combo][] = 0;
+        }
+        
+        shuffle($combo_list[$random_combo]);
+        
+        return $combo_list[$random_combo];
+    }
+    
+    public function getUserWheelDetails($user_id)
+    {
+        $ticket_num = 7;
+        $win_amt    = 250000;
+        $min_amt    = $win_amt / 10;
+        
+        $mult_ng    = 0;
+        $mult_1     = $min_amt;
+        $mult_2     = $min_amt * 2;
+        $mult_3     = $min_amt * 3;
+        $mult_4     = $min_amt * 4;
+        $mult_5     = $min_amt * 5;
+        $mult_jp    = $min_amt * 10;
+        
+        $srv_resp['sts']            = 1;
+        $srv_resp['spin_result']    = $this->calculateTicketRng($ticket_num, $win_amt);
+        $srv_resp['spinr_lbl']      = array();
+        $srv_resp['spinr_val']      = array(
+            $mult_1,
+            $mult_2,
+            $mult_5,
+            $mult_3,
+            $mult_ng,
+            $mult_1,
+            $mult_4,
+            $mult_ng,
+            $mult_jp,
+            $mult_ng,
+            $mult_5,
+            $mult_ng,
+            $mult_4,
+            $mult_ng,
+            $mult_2,
+            $mult_3,
+            $mult_ng,
+        );
+        
+        foreach ($srv_resp['spinr_val'] as $spinr) {
+            
+            if ($mult_ng == $spinr) {
+                $srv_resp['spinr_lbl'][]    = 'LOSE';
+            }
+            else if ($mult_jp == $spinr) {
+                $srv_resp['spinr_lbl'][]    = 'JACKPOT';
+            }
+            else {
+                $srv_resp['spinr_lbl'][]    = number_format($spinr, 0);
+            }
+        }
+        
+        return $srv_resp;
+    }
 }

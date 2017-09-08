@@ -190,5 +190,10 @@ Route::get('wheel/play', array('uses' => 'TrainingGroundsController@getWheelGame
 Route::post('front-api/register', array('uses' => 'TrainingGroundsController@registerMember', 'as' => 'registerMember'));
 Route::post('front-api/get-member', array('uses' => 'TrainingGroundsController@getMemberDetails', 'as' => 'getMemberDetails'));
 Route::post('front-api/get-member-inf', array('uses' => 'TrainingGroundsController@getMemberInformation', 'as' => 'getMemberInformation'));
+Route::post('front-api/empty-wallet', array('uses' => 'TrainingGroundsController@emptyWallet', 'as' => 'emptyWallet'));
+
+Route::get('front-api/calculate-spin-rng/{ticket_num}/{win_amount}', array('uses' => 'TrainingGroundsController@calculateTicketRng', 'as' => 'calculateTicketRng'));
+Route::get('front-api/get-wheel-details/{user_id}', array('uses' => 'TrainingGroundsController@getUserWheelDetails', 'as' => 'getUserWheelDetails'));
+
 
 
